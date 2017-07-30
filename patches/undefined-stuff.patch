@@ -1,0 +1,111 @@
+diff --git a/src/debug.c b/src/debug.c
+index c990c58..a7e7900 100644
+--- a/src/debug.c
++++ b/src/debug.c
+@@ -21,6 +21,34 @@
+ #define SOURCE_DIVID    (4UL)
+ #define BAUD_RATE       (115200)
+ 
++#include <nx_peridot.h>
++#include <nx_type.h>
++#include <nx_debug2.h>
++
++#include <nx_chip.h>
++
++#include <nx_gpio.h>
++
++struct NXPYROPE_GPIO_RegSet {
++        struct NX_GPIO_RegisterSet NXGPIO;
++        U8 Reserved[0x1000 - sizeof(struct NX_GPIO_RegisterSet)];
++};
++
++#if !DIRECT_IO
++static struct NXPYROPE_GPIO_RegSet (*const pBaseGPIOReg)[1] =
++    (struct NXPYROPE_GPIO_RegSet(*)[])(PHY_BASEADDR_GPIOA_MODULE);
++inline void GPIOSetAltFunction(U32 AltFunc)
++{
++        register struct NX_GPIO_RegisterSet *pGPIOReg =
++            &pBaseGPIOReg[(AltFunc >> 8) & 0x7]->NXGPIO;
++        pGPIOReg->GPIOxALTFN[(AltFunc >> 7) & 0x1] =
++            (pGPIOReg->GPIOxALTFN[(AltFunc >> 7) & 0x1] &
++             ~(0x3UL << (((AltFunc >> 3) & 0xF) * 2))) |
++            ((AltFunc & 0x3) << (((AltFunc >> 3) & 0xF) * 2));
++}
++#endif
++
++
+ extern U32  getquotient(int dividend, int divisor);
+ extern U32  getremainder(int dividend, int divisor);
+ extern void NX_CLKPWR_SetOSCFreq( U32 FreqKHz );
+diff --git a/src/subcpu.c b/src/subcpu.c
+index d63061a..3781bfa 100644
+--- a/src/subcpu.c
++++ b/src/subcpu.c
+@@ -19,6 +19,12 @@
+ 
+ extern void ResetCon(U32 devicenum, CBOOL en);
+ extern void DMC_Delay(int milisecond);
++void DMC_Delay(int msec)
++{
++	volatile U32 i;
++	for(;msec > 0; msec--);
++		for(i=0; i<1000; i++) ;
++}
+ 
+ //------------------------------------------------------------------------------
+ #if (MULTICORE_BRING_UP == 1)
+@@ -92,6 +98,54 @@ struct NX_SubCPUBringUpInfo {
+ };
+ void SwitchToEL2(void);
+ void SetGIC_All(void);
++
++
++void SetGIC_All(void)
++{
++	//	WriteIO32( &pReg_GIC400->GICC.PMR,	0x1<<7);	// all
++	//high priority
++	WriteIO32(&pReg_GIC400->GICC.PMR, 0xFF); // all high priority
++	WriteIO32(
++	    &pReg_GIC400->GICC.CTLR,
++	    0 << 10 |    // EOImodeNS
++		0 << 9 | // EOImodeS
++		1 << 8 | // IRQBypDisGrp1
++		1 << 7 | // FIQBypDisGrp1
++		1 << 6 | // IRQBypDisGrp0
++		0 << 5 | // FIQBypDisGrp0
++		0 << 4 | // CBPR 	0: to determine any preemption, use
++			 // GICC_BPR for Group0, GICC_ABPR for Group1
++		//			1: GICC_BPR for both Group 0 and 1
++		1 << 3 | // FIQEn	0: Group0 int to IRQ,	1: Group int to
++			 // FIQ,
++		0 << 2 | // AckCtl	0: If the highest priority pending int is
++			 // a Group 1, read GICC_IAR or GICC_HPPIR return 1022
++		//			1:	" return IAR
++		1 << 1 | // Group 1 int Enable
++		1 << 0   // Group 0 int Enable
++	    );		 // enable cpu interface
++	//	WriteIO32( &pReg_GIC400->GICC.CTLR, 0x1);
++	//	WriteIO8( &pReg_GIC400->GICD.ITARGETSR[0], 1<<CPUID);
++	//// sgi target to all cpu
++	WriteIO32(&pReg_GIC400->GICD.IPRIORITYR[0], 0x0);
++	WriteIO32(&pReg_GIC400->GICD.IPRIORITYR[1], 0x0);
++	WriteIO32(&pReg_GIC400->GICD.IPRIORITYR[2], 0x0);
++	WriteIO32(&pReg_GIC400->GICD.IPRIORITYR[3], 0x0);
++	WriteIO32(&pReg_GIC400->GICD.IPRIORITYR[4], 0x0);
++	WriteIO32(&pReg_GIC400->GICD.IPRIORITYR[5], 0x0);
++	WriteIO32(&pReg_GIC400->GICD.IPRIORITYR[6], 0x0);
++	WriteIO32(&pReg_GIC400->GICD.IPRIORITYR[7], 0x0);
++
++	WriteIO32(&pReg_GIC400->GICD.ICENABLER[0], 0xFFFFFFFF);
++	WriteIO32(&pReg_GIC400->GICD.ICPENDR[0], 0xFFFFFFFF);
++	WriteIO32(&pReg_GIC400->GICD.IGROUPR[0],
++		  0xFFFFFFFF); // banked, set int group to 1	// 0: to
++			       // secure FIQ, 1: to non-secure IRQ
++	//	WriteIO32( &pReg_GIC400->GICD.ISENABLER[0], 0xFF);		//
++	//enable SGI 0
++	//	WriteIO32( &pReg_GIC400->GICD.ICPENDR[0], 0xFF);		//
++	//clear pending
++}
+ #define CPU_ALIVE_FLAG_ADDR 0xC0010230
+ void SubCPUBoot(U32 CPUID)
+ {

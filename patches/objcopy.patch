@@ -1,0 +1,15 @@
+diff --git a/config.mak b/config.mak
+index 82bac5e..55242a3 100644
+--- a/config.mak
++++ b/config.mak
+@@ -114,8 +114,8 @@ CC				= $(CROSS_TOOL)gcc
+ LD 				= $(CROSS_TOOL)ld
+ AS 				= $(CROSS_TOOL)as
+ AR 				= $(CROSS_TOOL)ar
+-MAKEBIN			= $(CROSS_TOOL)objcopy
+-OBJCOPY			= $(CROSS_TOOL)objcopy
++MAKEBIN			= $(OBJCOPY)
++OBJCOPY			= $(OBJCOPY)
+ RANLIB 			= $(CROSS_TOOL)ranlib
+ 
+ GCC_LIB			= $(shell $(CC) -print-libgcc-file-name)

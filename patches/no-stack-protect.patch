@@ -1,0 +1,13 @@
+diff --git a/config.mak b/config.mak
+index 82bac5e..e5043a5 100644
+--- a/config.mak
++++ b/config.mak
+@@ -38,7 +38,7 @@ CRC_CHECK			= n
+ 
+ CHIPNAME			= S5P6818
+ 
+-CFLAGS				:=
++CFLAGS				:= -fno-stack-protector
+ 
+ SUPPORT_USB_BOOT		= y
+ SUPPORT_SDMMC_BOOT		= y

@@ -1,0 +1,53 @@
+diff --git a/configs/s5p6818_nanopim3_defconfig b/configs/s5p6818_nanopim3_defconfig
+index 0e221eb..f60ebc8 100644
+--- a/configs/s5p6818_nanopim3_defconfig
++++ b/configs/s5p6818_nanopim3_defconfig
+@@ -17,3 +17,4 @@ CONFIG_CMD_EXT4_IMG_WRITE=y
+ CONFIG_CMD_SD_RECOVERY=y
+ CONFIG_OF_CONTROL=y
+ CONFIG_OF_EMBED=y
++CONFIG_SPL=y
+diff --git a/include/configs/s5p6818_nanopim3.h b/include/configs/s5p6818_nanopim3.h
+index d899d36..027bf75 100644
+--- a/include/configs/s5p6818_nanopim3.h
++++ b/include/configs/s5p6818_nanopim3.h
+@@ -100,7 +100,6 @@
+  *	U-Boot Environments
+  */
+ /* refer to common/env_common.c	*/
+-#define CONFIG_BOOTDELAY			3
+ 
+ /*-----------------------------------------------------------------------
+  * Miscellaneous configurable options
+@@ -279,17 +278,19 @@
+ /*-----------------------------------------------------------------------
+  * ENV
+  */
+-#define CONFIG_BOOTARGS \
+-    "console=ttySAC0,115200n8 initrd=0x49000000,0x400000 root=/dev/mmcblk1p1 console=tty1"
+-
+-#define CONFIG_EXTRA_ENV_SETTINGS	\
+-			"fdt_high=0xffffffffffffffff"
+-
+-#define CONFIG_BOOTCOMMAND	\
+-	"ext4load mmc 0:1 0x48000000 boot/Image; " \
+-	"mw 0x49000000 0 0x400000; " \
+-	"ext4load mmc 0:1 0x49000000 boot/initrd.img; " \
+-	"ext4load mmc 0:1 0x4a000000 boot/s5p6818-nanopi-m3.dtb; " \
+-	"booti 0x48000000 - 0x4a000000"
++#include <config_distro_defaults.h>
++#define BOOT_TARGET_DEVICES(func) \
++	func(MMC, mmc, 1) \
++        func(MMC, mmc, 0)
++#include <config_distro_bootcmd.h>
++
++#define CONFIG_EXTRA_ENV_SETTING \
++    "ramdisk_addr_r=0x49000000\0" \
++    "kernel_addr_r=0x48000000\0" \
++    "script_addr_r=0x47000000\0" \
++    "fdtfile=nexell/s5p6818-nanopi-m3.dtb\0" \
++    "fdt_addr_r=0x4a000000\0" \
++    "fdt_high=0xffffffffffffffff" \
++    BOOTENV
+ 
+ #endif /* __CONFIG_H__ */
