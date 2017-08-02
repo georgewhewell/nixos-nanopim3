@@ -13,10 +13,11 @@ pkgs.stdenv.mkDerivation rec {
 
     hardeningDisable = [ "all" ];
     nativeBuildInputs = [ pkgs.binutils ];
+
     patches = [
-     patches/no-stack-protect.patch
-     patches/undefined-stuff.patch
-     patches/objcopy.patch
+     ../../patches/no-stack-protect.patch
+     ../../patches/undefined-stuff.patch
+     ../../patches/objcopy.patch
     ];
 
     buildPhase = ''
