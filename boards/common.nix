@@ -17,6 +17,7 @@
   services.openssh.enable = true;
 
   environment.systemPackages = with pkgs; [
+    git
     tmux
     htop
     stress
