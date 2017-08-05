@@ -28,6 +28,9 @@
     nfs-utils
   ];
 
+  environment.variables.GC_INITIAL_HEAP_SIZE = "100000";
+  boot.kernel.sysctl."vm.overcommit_memory" = "1";
+
   nixpkgs.config = {
     packageOverrides = pkgs: {
       inherit (pkgs.callPackages ../pkgs/boot/default.nix { })
