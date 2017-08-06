@@ -1,12 +1,6 @@
-# To build, use:
-# nix-build -E 'with import <nixpkgs> { }; callPackage base.nix { }'
-# nix-build nixos -I nixos-config=nixos/modules/installer/cd-dvd/sd-image-aarch64.nix -A config.system.build.sdImage
-
-# nix-build '<nixpkgs/nixos>' -I nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz -I nixos-config=/mnt/Home/src/nixos-nanopim3/minimal.nix -A config.system.build.sdImage -o nixos-unstable.img -j 4
 { config, lib, pkgs, ... }:
 
 with lib;
-
 
 {
   imports = [
@@ -25,35 +19,30 @@ with lib;
       import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
         inherit pkgs;
     };
-    uboot = pkgs.buildUBoot rec {
-      defconfig = "odroid-c2_defconfig";
-      targetPlatforms = [ "aarch64-linux" ];
-      filesToInstall = [ "u-boot.bin" ];
-    };
-    fip_create = stdenv.mkDerivation {
-      version="2015.01";
-      name = "fip_create-${version}";
-
-      src = pkgs.uboot-hardkernel.src;
-      buildPhase = ''
-        cd tools/fip_create/fip_create
-        make
-      '';
-      installPhase = ''
-        mkdir -p $out/bin;
-        cp tools/fip_create/fip_create/fip_create $out/bin/
-      '';
-    };
     in {
      populateBootCommands = ''
-      # Add AML header to u-boot
-      echo "Wrapping u-boot: \
-        $(${pkgs.meson-tools}/bin/amlbootsig \
-            -o u-boot-sig.bin \
-            ${uboot}/u-boot.bin)"
+      # Ref: http://git.denx.de/?p=u-boot.git;a=blob_plain;f=board/amlogic/odroid-c2/README;hb=HEAD
+      export HKDIR=${pkgs.fip_create.src}
+
+      echo "Creating FIP"
+      ${pkgs.fip_create}/bin/fip_create \
+        --bl30  $HKDIR/fip/gxb/bl30.bin \
+        --bl301 $HKDIR/fip/gxb/bl301.bin \
+        --bl31  $HKDIR/fip/gxb/bl31.bin \
+        --bl33  ${pkgs.uboot-odroid-c2}/u-boot.bin \
+        --dump \
+        fip.bin
+
+      echo "Inserting bl2"
+      cat $HKDIR/fip/gxb/bl2.package fip.bin > boot_new.bin
+
+      echo "Wrapping u-boot"
+      ${pkgs.meson-tools}/bin/amlbootsig boot_new.bin u-boot.img
 
       # Write bootloaders to sd image
-      dd conv=notrunc if=u-boot-nsih.bin of=$out seek=64
+      dd if=$HKDIR/sd_fuse/bl1.bin.hardkernel of=$out conv=notrunc bs=1 count=442
+      dd if=$HKDIR/sd_fuse/bl1.bin.hardkernel of=$out conv=notrunc bs=512 skip=1 seek=1
+      dd if=u-boot.img of=$out conv=notrunc bs=512 skip=96 seek=97
 
       # Populate ./boot with extlinux
       ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
@@ -66,7 +55,7 @@ with lib;
   boot.kernelPackages = pkgs.linuxPackages_amlogic;
   boot.initrd.kernelModules = [ "g_ether" "lz4" "lz4_compress" ];
   boot.initrd.availableKernelModules = [ "dwc2" ];
-  boot.kernelParams = ["earlyprintk" "console=ttySAC0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
+  boot.kernelParams = ["earlyprintk" "console=ttyAML0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
   boot.consoleLogLevel = 7;
 
   nixpkgs.config = {
@@ -96,6 +85,6 @@ with lib;
       };
    };
 
-  networking.hostName = "odroidc2";
+  networking.hostName = "odroid-c2";
 
 }

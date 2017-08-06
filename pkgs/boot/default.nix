@@ -8,6 +8,6 @@ with pkgs;
   meson-tools = callPackage ./meson-tools.nix { };
   sunxi-tools = callPackage ./sunxi-tools.nix { };
   uboot-nanopi-m3 = callPackage ./uboot-nanopi-m3.nix { };
-  uboot-hardkernel = callPackage ./uboot-hardkernel.nix { };
-  fip-create = callPackage ./fip-create.nix { };
+  uboot-odroid-c2 = callPackage ./uboot-odroid-c2.nix { };
+  fip_create = callPackage ./fip-create.nix { };
 }

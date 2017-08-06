@@ -1,15 +1,24 @@
 { config, lib, pkgs }:
 
-stdenv.mkDerivation {
+pkgs.stdenv.mkDerivation rec {
   version="2015.01";
   name = "fip_create-${version}";
-  src = pkgs.uboot-hardkernel.src;
+
+  src = pkgs.fetchFromGitHub {
+    owner = "hardkernel";
+    repo = "u-boot";
+    rev = "odroidc2-v${version}";
+    sha256 = "0yhrq52pga3abs36ij2sgpkzhs9l2wap02dh3sgf5cwrzfc9yf24";
+  };
+
   buildPhase = ''
-    cd tools/fip_create/fip_create
-    make
+    cp -rL $src/tools/fip_create ./
+    chmod -R +rw fip_create
+    cd fip_create && make
   '';
+
   installPhase = ''
-    mkdir -p $out/bin;
-    cp tools/fip_create/fip_create/fip_create $out/bin/
+    mkdir -p $out/bin
+    mv fip_create $out/bin/
   '';
 }

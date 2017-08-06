@@ -38,7 +38,8 @@
         nanopi-load
         meson-tools
         sunxi-tools
-        uboot-hardkernel
+        fip_create
+        uboot-odroid-c2
         uboot-nanopi-m3;
       inherit (pkgs.callPackages ../pkgs/kernel/default.nix { })
         linuxPackages_sunxi
