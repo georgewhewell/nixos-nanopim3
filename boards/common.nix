@@ -15,6 +15,9 @@
   sound.enable = false;
   services.openssh.enable = true;
 
+  hardware.bluetooth.enable = true;
+  hardware.enableAllFirmware = true;
+
   environment.systemPackages = with pkgs; [
     git
     tmux
