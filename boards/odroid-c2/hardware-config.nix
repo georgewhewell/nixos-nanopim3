@@ -18,6 +18,16 @@ with lib;
       import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
         inherit pkgs;
     };
+    uboot = pkgs.buildUBoot rec {
+      version = "2017.07";
+      src = pkgs.fetchurl {
+        url = "ftp://ftp.denx.de/pub/u-boot/u-boot-${version}.tar.bz2";
+        sha256 = "1zzywk0fgngm1mfnhkp8d0v57rs51zr1y6rp4p03i6nbibfbyx2k";
+      };
+      defconfig = "odroid-c2_defconfig";
+      targetPlatforms = [ "aarch64-linux" ];
+      filesToInstall = [ "u-boot.bin" ];
+    };
     in {
      populateBootCommands = ''
       # Ref: http://git.denx.de/?p=u-boot.git;a=blob_plain;f=board/amlogic/odroid-c2/README;hb=HEAD
@@ -28,7 +38,7 @@ with lib;
         --bl30  $HKDIR/fip/gxb/bl30.bin \
         --bl301 $HKDIR/fip/gxb/bl301.bin \
         --bl31  $HKDIR/fip/gxb/bl31.bin \
-        --bl33  ${pkgs.uboot-odroid-c2}/u-boot.bin \
+        --bl33  ${uboot}/u-boot.bin \
         --dump \
         fip.bin
 
@@ -39,8 +49,9 @@ with lib;
       ${pkgs.meson-tools}/bin/amlbootsig boot_new.bin u-boot.img
 
       # Write bootloaders to sd image
-      dd if=$HKDIR/sd_fuse/bl1.bin.hardkernel of=$out conv=notrunc bs=1 count=442
-      dd if=$HKDIR/sd_fuse/bl1.bin.hardkernel of=$out conv=notrunc bs=512 skip=1 seek=1
+
+      dd if=${pkgs.bl1-odroid-c2.default} of=$out conv=notrunc bs=1 count=442
+      dd if=${pkgs.bl1-odroid-c2.default} of=$out conv=notrunc bs=512 skip=1 seek=1
       dd if=u-boot.img of=$out conv=notrunc bs=512 skip=96 seek=97
 
       # Populate ./boot with extlinux
