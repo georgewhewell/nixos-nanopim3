@@ -15,7 +15,7 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
   kernelPatches = pkgs.linux_4_12.kernelPatches;
 
   features.iwlwifi = false;
-  features.efiBootStub = false;
+  features.efiBootStub = true;
   features.needsCifsUtils = true;
   features.netfilterRPFilter = true;
 } // (args.argsOverride or {}))

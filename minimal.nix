@@ -2,22 +2,15 @@
 
 {
   imports = [
-    <nixpkgs/nixos/modules/profiles/minimal.nix>
     <nixpkgs/nixos/modules/profiles/headless.nix>
-    <nixpkgs/nixos/modules/profiles/clone-config.nix>
-    <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
     <board/hardware-config.nix>
     ./users.nix
   ];
 
-  sound.enable = false;
-  services.openssh.enable = true;
+  environment.noXlibs = true;
+
   services.avahi.enable = true;
   networking.networkmanager.enable = true;
-
-  hardware.bluetooth.enable = true;
-
-  hardware.enableAllFirmware = true;
 
   users.extraUsers.root.initialHashedPassword = "";
 

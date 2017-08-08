@@ -5,7 +5,6 @@ with lib;
 {
   imports = [
     ../common.nix
-    <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
   ];
 
   assertions = lib.singleton {

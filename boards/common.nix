@@ -6,7 +6,6 @@
     <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
     <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
     <nixpkgs/nixos/modules/profiles/minimal.nix>
-    <nixpkgs/nixos/modules/profiles/headless.nix>
     <nixpkgs/nixos/modules/profiles/clone-config.nix>
   ];
 

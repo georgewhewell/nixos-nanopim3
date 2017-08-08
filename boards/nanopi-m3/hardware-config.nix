@@ -1,6 +1,3 @@
-# To build, use:
-# nix-build -E 'with import <nixpkgs> { }; callPackage base.nix { }'
-# nix-build nixos -I nixos-config=nixos/modules/installer/cd-dvd/sd-image-aarch64.nix -A config.system.build.sdImage
 { config, lib, pkgs, ... }:
 
 with lib;
@@ -8,7 +5,6 @@ with lib;
 {
   imports = [
     ../common.nix
-    <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
   ];
 
   assertions = lib.singleton {

@@ -1,8 +1,3 @@
-# To build, use:
-# nix-build -E 'with import <nixpkgs> { }; callPackage base.nix { }'
-# nix-build nixos -I nixos-config=nixos/modules/installer/cd-dvd/sd-image-aarch64.nix -A config.system.build.sdImage
-
-# nix-build '<nixpkgs/nixos>' -I nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz -I nixos-config=/mnt/Home/src/nixos-nanopim3/minimal.nix -A config.system.build.sdImage -o nixos-unstable.img -j 4
 { config, lib, pkgs, ... }:
 
 with lib;
@@ -10,7 +5,6 @@ with lib;
 {
   imports = [
     ../common.nix
-    <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
   ];
 
   assertions = lib.singleton {
@@ -81,8 +75,6 @@ with lib;
       };
    };
 
-  networking.hostName = "odroidc2";
+  networking.hostName = "nanopi-neo2";
 
-  # FIXME: this probably should be in installation-device.nix
-  users.extraUsers.root.initialHashedPassword = "";
 }
