@@ -59,6 +59,11 @@ with lib;
            Z3FOLD y
            ZSWAP y
            CRYPTO_LZ4HC m
+
+           INFINIBAND n
+           DRM_NOUVEAU n
+           DRM_AMDGPU n
+           IWLWIFI n
         '';
         uboot = null;
         kernelTarget = "Image";
