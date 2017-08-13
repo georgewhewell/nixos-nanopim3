@@ -27,6 +27,9 @@ with lib;
       defconfig = "orangepi_prime_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
       filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
+      patches = [
+        ../../patches/add-opiprime-to-u-boot-sun50i-h5.patch
+      ];
     };
     in {
      populateBootCommands = ''
