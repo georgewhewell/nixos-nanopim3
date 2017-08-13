@@ -29,4 +29,10 @@ in rec {
     type = "minimal";
     system = "aarch64-linux";
   };
+  orangepi-prime = makeSdImage {
+    module = ./boards/orangepi-prime/hardware-config.nix;
+    type = "minimal";
+    system = "aarch64-linux";
+  };
+
 }
