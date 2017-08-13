@@ -79,14 +79,20 @@ with lib;
         kernelDTB = true;
         kernelAutoModules = true;
         kernelPreferBuiltin = true;
-        /*kernelExtraConfig = ''
+        kernelExtraConfig = ''
            SND n
-           BCMDHD n
+
            ZPOOL y
            Z3FOLD y
            ZSWAP y
            CRYPTO_LZ4HC m
-        '';*/
+
+           INFINIBAND n
+           DRM_NOUVEAU n
+           DRM_AMDGPU n
+           DRM_RADEON n
+           IWLWIFI n
+        '';
         uboot = null;
         kernelTarget = "Image";
         gcc = {
