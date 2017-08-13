@@ -5,8 +5,8 @@ pkgs.buildUBoot rec {
   src = pkgs.fetchFromGitHub {
     owner = "rafaello7";
     repo = "u-boot-nanopi-m3";
-    rev = "6eec5ce01ac505e6a093d9e0b7db2284ff57a75d";
-    sha256 = "0klb3bhxv2mfqf3r1pkkrdk94s9nzlygldp1bqmhx5jg1dhkk1n6";
+    rev = "3a2619c02f82c70cd0a35949448790c237ff4677";
+    sha256 = "1f4v45n1i495waqvsdhq9vv2jx7hbbl6cbhddw1lqrf8q0fl4979";
   };
 
   patches = [ ../../patches/uboot-config.patch ];
