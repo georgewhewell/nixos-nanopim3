@@ -2,11 +2,12 @@ diff --git a/configs/orangepi_pc2_defconfig b/configs/orangepi_pc2_defconfig
 index b72514d3b9..ab823538dc 100644
 --- a/configs/orangepi_pc2_defconfig
 +++ b/configs/orangepi_pc2_defconfig
-@@ -1,6 +1,6 @@
+@@ -1,6 +2,6 @@
  CONFIG_ARM=y
  CONFIG_ARCH_SUNXI=y
 -CONFIG_SPL_SPI_FLASH_SUPPORT=y
 +CONFIG_SPL_SPI_FLASH_SUPPORT=n
++CONFIG_EFI=n
  CONFIG_MACH_SUN50I_H5=y
  CONFIG_DRAM_CLK=672
  CONFIG_DRAM_ZQ=3881977

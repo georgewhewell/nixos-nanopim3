@@ -54,7 +54,7 @@ with lib;
         name = "nanopi-neo2";
         kernelMajor = "2.6"; # Using "2.6" enables 2.6 kernel syscalls in glibc.
         kernelHeadersBaseConfig = "defconfig";
-        kernelBaseConfig = "defconfig";
+        kernelBaseConfig = "sun50i_defconfig";
         kernelArch = "arm64";
         kernelDTB = true;
         kernelAutoModules = true;
