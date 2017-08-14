@@ -4,7 +4,7 @@ let
   pkgs = import <nixpkgs> { };
   lib = pkgs.lib;
   versionModule =
-    { system.nixosVersionSuffix = "embedded";
+    { system.nixosVersionSuffix = "-unstable";
       system.nixosRevision = "git";
     };
   makeSdImage =
