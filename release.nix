@@ -19,20 +19,29 @@ let
 
 in rec {
 
+  # AArch64
   odroid-c2-minimal = makeSdImage {
     module = ./boards/odroid-c2/hardware-config.nix;
     type = "minimal";
     system = "aarch64-linux";
   };
+
   nanopi-m3-minimal = makeSdImage {
     module = ./boards/nanopi-m3/hardware-config.nix;
     type = "minimal";
     system = "aarch64-linux";
   };
+
   orangepi-prime = makeSdImage {
     module = ./boards/orangepi-prime/hardware-config.nix;
     type = "minimal";
     system = "aarch64-linux";
   };
 
+  # Armhf
+  nanopi-neo-minimal = makeSdImage {
+    module = ./boards/nanopi-neo/hardware-config.nix;
+    type = "minimal";
+    system = "armv7l-linux";
+  };
 }
