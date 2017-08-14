@@ -12,7 +12,12 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
     sha256 = "0nvzslw87qq9d95lpbgsrg0md5pv5pjhapksf1grz7ycc0f8p71c";
   };
 
-  kernelPatches = pkgs.linux_4_12.kernelPatches;
+  kernelPatches = pkgs.linux_4_12.kernelPatches ++ [
+    {
+      name = "add-orangepi-prime-defconfig";
+      patch = ../../patches/add-orangepi-prime-defconfig.patch;
+    }
+  ];
 
   features.iwlwifi = false;
   features.efiBootStub = true;
