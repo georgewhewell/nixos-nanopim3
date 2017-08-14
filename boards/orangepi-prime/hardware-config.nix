@@ -18,19 +18,20 @@ with lib;
       import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
         inherit pkgs;
     };
-    uboot = pkgs.buildUBoot rec {
-      version = "2017.07";
-      src = pkgs.fetchurl {
-        url = "ftp://ftp.denx.de/pub/u-boot/u-boot-${version}.tar.bz2";
-        sha256 = "1zzywk0fgngm1mfnhkp8d0v57rs51zr1y6rp4p03i6nbibfbyx2k";
+    uboot = pkgs.buildUBoot.overrideAttrs (old: rec {
+      version = "2017.09-rc1";
+      src = pkgs.fetchgit {
+        url = "git://git.denx.de/u-boot-sunxi.git";
+        rev = "a8df97d0da52b3a418de38db589357db82823214";
+        sha256 = "0shka7fnfj31dhd7i8g0adjlqi2zd6m678n29v96r7iw0bbjwkyr";
       };
       defconfig = "orangepi_prime_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
       filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
       patches = [
-        ../../patches/add-opiprime-to-u-boot-sun50i-h5.patch
+        ../../patches/orangepi-prime-u-boot.patch
       ];
-    };
+    });
     in {
      populateBootCommands = ''
       # Write bootloader to sd image
