@@ -14,7 +14,11 @@ let
 
     lib.hydraJob ((import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system;
-      modules = [ module versionModule { } ];
+      modules = [
+        (if type == "graphical" then ./graphical.nix else ./minimal.nix)
+        module
+        versionModule { }
+      ];
     }).config.system.build.sdImage );
 
 in rec {

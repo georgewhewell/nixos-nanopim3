@@ -3,7 +3,6 @@
 {
   imports = [
     <nixpkgs/nixos/modules/profiles/headless.nix>
-    <board/hardware-config.nix>
     ./profiles/g-ether.nix
     ./profiles/buildfarm.nix
     ./users.nix
