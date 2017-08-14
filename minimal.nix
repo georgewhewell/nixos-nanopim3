@@ -14,6 +14,4 @@
   services.avahi.enable = true;
   networking.networkmanager.enable = true;
 
-  users.extraUsers.root.initialHashedPassword = "";
-
 }
