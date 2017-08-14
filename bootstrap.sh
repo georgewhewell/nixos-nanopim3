@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # install nix build dependencies
 sudo apt-get update && sudo apt-get install -y \

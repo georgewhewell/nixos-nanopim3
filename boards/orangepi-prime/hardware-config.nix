@@ -18,7 +18,7 @@ with lib;
       import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
         inherit pkgs;
     };
-    uboot = pkgs.buildUBoot.overrideAttrs {
+    uboot = pkgs.buildUBoot {
       version = "2017.09-rc1";
       src = pkgs.fetchgit {
         url = "git://git.denx.de/u-boot-sunxi.git";
