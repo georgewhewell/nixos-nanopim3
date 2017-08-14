@@ -42,6 +42,12 @@ in rec {
     system = "aarch64-linux";
   };
 
+  orangepi-pc2 = makeSdImage {
+    module = ./boards/orangepi-pc2/hardware-config.nix;
+    type = "minimal";
+    system = "aarch64-linux";
+  };
+
   # Armhf
   nanopi-neo-minimal = makeSdImage {
     module = ./boards/nanopi-neo/hardware-config.nix;
