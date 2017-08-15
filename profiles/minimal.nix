@@ -3,9 +3,9 @@
 {
   imports = [
     <nixpkgs/nixos/modules/profiles/headless.nix>
-    ./profiles/g-ether.nix
-    ./profiles/buildfarm.nix
-    ./users.nix
+    ./g-ether.nix
+    ./buildfarm.nix
+    ../users.nix
   ];
 
   environment.noXlibs = true;

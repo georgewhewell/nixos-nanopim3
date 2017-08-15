@@ -3,7 +3,7 @@
 {
   imports = [
     <board/hardware-config.nix>
-    ./users.nix
+    ../users.nix
   ];
 
   networking.networkmanager.enable = lib.mkDefault true;

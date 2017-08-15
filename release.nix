@@ -15,7 +15,7 @@ let
     lib.hydraJob ((import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system;
       modules = [
-        (if type == "graphical" then ./graphical.nix else ./minimal.nix)
+        (if type == "graphical" then ./profiles/graphical.nix else ./profiles/minimal.nix)
         module
         versionModule { }
       ];
