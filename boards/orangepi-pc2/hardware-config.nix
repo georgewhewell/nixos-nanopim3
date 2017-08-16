@@ -24,6 +24,7 @@ with lib;
         url = "ftp://ftp.denx.de/pub/u-boot/u-boot-${version}.tar.bz2";
         sha256 = "1zzywk0fgngm1mfnhkp8d0v57rs51zr1y6rp4p03i6nbibfbyx2k";
       };
+      buildInputs = [ pkgs.gcc7 ];
       defconfig = "orangepi_pc2_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
       filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
@@ -32,7 +33,7 @@ with lib;
      populateBootCommands = ''
       # Write bootloader to sd image
       dd if=${uboot}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
-      dd if=${uboot}/u-boot.img conv=notrunc of=$out sdX bs=1024 seek=40
+      dd if=${uboot}/u-boot.img conv=notrunc of=$out bs=1024 seek=40
 
       # Populate ./boot with extlinux
       ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
