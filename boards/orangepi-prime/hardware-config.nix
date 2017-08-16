@@ -25,6 +25,7 @@ with lib;
         rev = "${version}";
         sha256 = "caf42d36570b9b013202cf42ea55705df49c4b1b8ab755afbd8f6324614b1a09";
       };
+      buildInputs = [ pkgs.gcc7 ];
       defconfig = "orangepi_prime_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
       filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
