@@ -30,6 +30,12 @@ in rec {
     system = "aarch64-linux";
   };
 
+  nanopi-neo-2 = makeSdImage {
+    module = ./boards/nanopi-neo2/hardware-config.nix;
+    type = "minimal";
+    system = "aarch64-linux";
+  };
+
   nanopi-m3-minimal = makeSdImage {
     module = ./boards/nanopi-m3/hardware-config.nix;
     type = "minimal";

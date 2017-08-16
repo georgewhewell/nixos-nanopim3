@@ -27,6 +27,7 @@ with lib;
       defconfig = "nanopi_neo2_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
       filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
+      buildInputs = [ pkgs.gcc7 ];
     };
     in {
      populateBootCommands = ''
