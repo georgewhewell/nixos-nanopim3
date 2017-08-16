@@ -22,8 +22,8 @@ with lib;
       version = "2017.09-rc1";
       src = pkgs.fetchgit {
         url = "git://git.denx.de/u-boot-sunxi.git";
-        rev = "a8df97d0da52b3a418de38db589357db82823214";
-        sha256 = "0shka7fnfj31dhd7i8g0adjlqi2zd6m678n29v96r7iw0bbjwkyr";
+        rev = "2d3c4ae350fe8c196698681ab9410733bf9017e0";
+        sha256 = "caf42d36570b9b013202cf42ea55705df49c4b1b8ab755afbd8f6324614b1a09";
       };
       defconfig = "orangepi_prime_defconfig";
       patches = [
