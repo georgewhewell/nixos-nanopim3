@@ -19,11 +19,13 @@ with lib;
         inherit pkgs;
     };
     uboot = pkgs.buildUBoot rec {
-      version = "2017.07";
-      src = pkgs.fetchurl {
-        url = "ftp://ftp.denx.de/pub/u-boot/u-boot-${version}.tar.bz2";
-        sha256 = "1zzywk0fgngm1mfnhkp8d0v57rs51zr1y6rp4p03i6nbibfbyx2k";
+      version = "2017.09-rc2";
+      src = pkgs.fetchgit {
+        url = "git://git.denx.de/u-boot.git";
+        rev = "2d3c4ae350fe8c196698681ab9410733bf9017e0";
+        sha256 = "caf42d36570b9b013202cf42ea55705df49c4b1b8ab755afbd8f6324614b1a09";
       };
+      buildInputs = [ pkgs.gcc7 ];
       defconfig = "nanopi_neo_defconfig";
       targetPlatforms = [ "armv7l-linux" ];
       filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
