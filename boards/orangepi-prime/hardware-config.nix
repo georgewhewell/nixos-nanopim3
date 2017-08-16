@@ -18,35 +18,21 @@ with lib;
       import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
         inherit pkgs;
     };
-    uboot = pkgs.buildUBoot {
-      version = "2017.09-rc1";
+    uboot = pkgs.buildUBoot rec {
+      version = "2017.09-rc2";
       src = pkgs.fetchgit {
-        url = "git://git.denx.de/u-boot-sunxi.git";
-        rev = "2d3c4ae350fe8c196698681ab9410733bf9017e0";
+        url = "git://git.denx.de/u-boot.git";
+        rev = "${version}";
         sha256 = "caf42d36570b9b013202cf42ea55705df49c4b1b8ab755afbd8f6324614b1a09";
       };
       defconfig = "orangepi_prime_defconfig";
-      patches = [
-        ../../patches/orangepi-prime-u-boot.patch
-      ];
       targetPlatforms = [ "aarch64-linux" ];
-      filesToInstall = [ "u-boot.img" ];
-    };
-    uboot-spl = pkgs.buildUBoot {
-      version = "2017.09-rc1";
-      src = pkgs.fetchgit {
-        url = "git://git.denx.de/u-boot-sunxi.git";
-        rev = "a8df97d0da52b3a418de38db589357db82823214";
-        sha256 = "0shka7fnfj31dhd7i8g0adjlqi2zd6m678n29v96r7iw0bbjwkyr";
-      };
-      defconfig = "sun50i_h5_spl32_defconfig";
-      targetPlatforms = [ "aarch64-linux" ];
-      filesToInstall = [ "spl/sunxi-spl.bin" ];
+      filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
     };
     in {
      populateBootCommands = ''
       # Write bootloader to sd image
-      dd if=${uboot-spl}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
+      dd if=${uboot}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
       dd if=${uboot}/u-boot.img conv=notrunc of=$out sdX bs=1024 seek=40
 
       # Populate ./boot with extlinux
