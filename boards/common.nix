@@ -35,6 +35,7 @@
 
   nixpkgs.config = {
     packageOverrides = super: let self = super.pkgs; in {
+      gcc = super.gcc6;
 
       openssl_1_1_0 = super.openssl_1_1_0.overrideAttrs (
         old: { configureFlags = old.configureFlags ++ ["no-afalgeng"]; });
