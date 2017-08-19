@@ -60,4 +60,10 @@ in rec {
     type = "minimal";
     system = "armv7l-linux";
   };
+
+  nanopi-air = makeSdImage {
+    module = ./boards/nanopi-air/hardware-config.nix;
+    type = "minimal";
+    system = "armv7l-linux";
+  };
 }
