@@ -2,7 +2,7 @@
 set -e
 
 # install nix build dependencies
-sudo apt-get update && sudo apt-get install -y \
+apt-get update && apt-get install -y \
   tmux build-essential openssl libssl-dev git flex bison automake autoconf \
   libsodium-dev pkg-config libgc-dev libsqlite3-dev libbz2-dev liblzma-dev \
   libcurl4-openssl-dev libseccomp-dev
