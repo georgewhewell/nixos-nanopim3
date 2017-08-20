@@ -14,8 +14,8 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
 
   kernelPatches = pkgs.linux_4_12.kernelPatches ++ [
     {
-      name = "add-orangepi-prime-defconfig";
-      patch = ../../patches/add-orangepi-prime-defconfig.patch;
+      name = "add-sun50i-defconfig";
+      patch = ../../patches/add-sun50i-defconfig.patch;
     }
   ];
 

@@ -2,7 +2,6 @@
 
 {
   imports = [
-    <board/hardware-config.nix>
     ../users.nix
   ];
 
@@ -12,10 +11,10 @@
   programs.man.enable = lib.mkDefault false;
   programs.info.enable = lib.mkDefault false;
 
-  services.avahi.enable = true;
+  services.avahi.enable = lib.mkDefault true;
 
   services.xserver = {
-    enable = true;
+    enable = lib.mkDefault true;
 
     displayManager.gdm.enable = true;
     desktopManager.gnome3 = {

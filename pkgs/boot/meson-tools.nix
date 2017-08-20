@@ -1,10 +1,10 @@
-{ config, lib, pkgs }:
+{ stdenv, binutils, openssl, fetchFromGitHub }:
 
-pkgs.stdenv.mkDerivation rec {
+stdenv.mkDerivation rec {
     version="0.1";
     name = "meson-tools-${version}";
 
-    src = pkgs.fetchFromGitHub {
+    src = fetchFromGitHub {
       owner = "afaerber";
       repo = "meson-tools";
       rev = "v${version}";
@@ -12,10 +12,16 @@ pkgs.stdenv.mkDerivation rec {
     };
 
     hardeningDisable = [ "all" ];
-    nativeBuildInputs = [ pkgs.binutils pkgs.openssl ];
+    nativeBuildInputs = [ binutils openssl ];
 
     installPhase = ''
       mkdir -p $out/bin
       cp amlinfo amlbootsig unamlbootsig $out/bin/
     '';
+
+    meta = {
+      description = "meson-tools";
+      maintainers = [ stdenv.lib.maintainers.georgewhewell ];
+    };
+
 }

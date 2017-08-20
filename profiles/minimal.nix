@@ -9,7 +9,8 @@
   ];
 
   environment.noXlibs = true;
-
+  sound.enable = false;
+  
   services.avahi.enable = true;
   networking.networkmanager.enable = false;
 

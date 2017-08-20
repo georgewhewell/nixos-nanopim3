@@ -49,7 +49,6 @@ with lib;
       ${pkgs.meson-tools}/bin/amlbootsig boot_new.bin u-boot.img
 
       # Write bootloaders to sd image
-
       dd if=${pkgs.bl1-odroid-c2.default} of=$out conv=notrunc bs=1 count=442
       dd if=${pkgs.bl1-odroid-c2.default} of=$out conv=notrunc bs=512 skip=1 seek=1
       dd if=u-boot.img of=$out conv=notrunc bs=512 skip=96 seek=97
@@ -59,14 +58,10 @@ with lib;
     '';
   };
 
-  boot.loader.grub.enable = false;
-  boot.loader.generic-extlinux-compatible.enable = true;
-
   boot.kernelPackages = pkgs.linuxPackages_amlogic;
   boot.initrd.kernelModules = [ "g_ether" "lz4" "lz4_compress" ];
   boot.initrd.availableKernelModules = [ "dwc2" ];
   boot.kernelParams = ["earlyprintk" "console=ttyAML0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
-  boot.consoleLogLevel = 7;
 
   nixpkgs.config = {
      allowUnfree = true;

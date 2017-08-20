@@ -18,4 +18,10 @@ stdenv.mkDerivation rec {
     cp $src/bcm_ampak/config/6212/nvram.txt         $out/lib/firmware/brcm/brcmfmac43430-sdio.txt
   '';
 
+  meta = {
+    description = "friendlyarm firmware files for AP6212 ";
+    maintainers = [ stdenv.lib.maintainers.georgewhewell ];
+    /*platforms = [ stdenv.lib.platforms.all ];*/
+  };
+
 }

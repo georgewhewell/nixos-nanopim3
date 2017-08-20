@@ -1,6 +1,6 @@
-{ config, lib, pkgs }:
+{ stdenv, lib, pkgs }:
 
-pkgs.stdenv.mkDerivation rec {
+stdenv.mkDerivation rec {
   version="2015.01";
   name = "fip_create-${version}";
 
@@ -21,4 +21,9 @@ pkgs.stdenv.mkDerivation rec {
     mkdir -p $out/bin
     mv fip_create $out/bin/
   '';
+
+  meta = {
+    description = "odroid-c2 fip-create tool";
+    maintainers = [ stdenv.lib.maintainers.georgewhewell ];
+  };
 }

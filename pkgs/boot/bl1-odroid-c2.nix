@@ -2,20 +2,25 @@
 
 let
   fetchBl1 = { ramSpeed, sha256 }:
+    stdenv.mkDerivation (rec {
+      name = "bl1-odroid-c2-${ramSpeed}";
+      src = fetchurl {
+        url = "https://dn.odroid.com/S905/BootLoader/ODROID-C2/bl1.bin.hardkernel.${ramSpeed}";
+        sha256 = sha256;
+      };
 
-  stdenv.mkDerivation (rec {
-    name = "bl1-odroid-c2-${ramSpeed}";
-    src = fetchurl {
-      url = "https://dn.odroid.com/S905/BootLoader/ODROID-C2/bl1.bin.hardkernel.${ramSpeed}";
-      sha256 = sha256;
-    };
-    phases = ["installPhase"];
-    installPhase = ''
-      cp $src $out
-    '';
-    dontStrip = true;
+      phases = [ "installPhase" ];
+      installPhase = ''
+        cp $src $out
+      '';
+
+      dontStrip = true;
+
+      meta = {
+        description = "odroid-c2 bl1 (${ramSpeed} MHz)";
+        maintainers = [ stdenv.lib.maintainers.georgewhewell ];
+      };
   });
-
 in rec {
   inherit fetchBl1;
   ram1104 = fetchBl1 rec {
@@ -35,4 +40,5 @@ in rec {
     sha256 = "13nfk85xnxpidbxdxcf383512bfrn34l1mh2fvch1bpwy5ir7dgk";
   };
   default = ram1104;
+
 }
