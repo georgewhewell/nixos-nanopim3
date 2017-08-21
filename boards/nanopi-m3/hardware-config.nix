@@ -76,6 +76,6 @@ with lib;
     pkgs.ap6212-firmware
   ];
 
-  networking.hostName = "nanopim3-nix";
+  networking.hostName = "nanopi-m3";
 
 }
