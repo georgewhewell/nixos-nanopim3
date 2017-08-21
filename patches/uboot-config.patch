@@ -1,40 +1,40 @@
-diff --git a/configs/nanopim3_defconfig b/configs/nanopim3_defconfig
-index 28a1cb1..82c271d 100644
---- a/configs/nanopim3_defconfig
-+++ b/configs/nanopim3_defconfig
-@@ -13,6 +13,7 @@ CONFIG_FIT=y
- # CONFIG_CMD_SETEXPR is not set
- # CONFIG_CMD_NET is not set
- # CONFIG_CMD_NFS is not set
-+CONFIG_SPL=y
- CONFIG_CMD_FDISK=y
- CONFIG_CMD_EXT4_IMG_WRITE=y
+diff --git a/configs/s5p6818_nanopim3_defconfig b/configs/s5p6818_nanopim3_defconfig
+index 0e221eb..f60ebc8 100644
+--- a/configs/s5p6818_nanopim3_defconfig
++++ b/configs/s5p6818_nanopim3_defconfig
+@@ -17,3 +17,4 @@ CONFIG_CMD_EXT4_IMG_WRITE=y
  CONFIG_CMD_SD_RECOVERY=y
+ CONFIG_OF_CONTROL=y
+ CONFIG_OF_EMBED=y
++CONFIG_SPL=y
 diff --git a/include/configs/s5p6818_nanopim3.h b/include/configs/s5p6818_nanopim3.h
-index 060f405..2923d83 100644
+index d899d36..41335cf 100644
 --- a/include/configs/s5p6818_nanopim3.h
 +++ b/include/configs/s5p6818_nanopim3.h
-@@ -286,22 +286,82 @@
- #define CONFIG_FIT_BEST_MATCH
- #define CONFIG_OF_LIBFDT
- 
--/*-----------------------------------------------------------------------
-- * ENV
-- */
--#define CONFIG_EXTRA_ENV_SETTINGS	\
--			"fdt_high=0xffffffffffffffff\0" \
--			"stdin=serial\0" \
--			"stdout=serial,vga\0" \
--			"stderr=serial,vga"
--
+@@ -100,7 +100,6 @@
+  *	U-Boot Environments
+  */
+ /* refer to common/env_common.c	*/
+-#define CONFIG_BOOTDELAY			3
+
+ /*-----------------------------------------------------------------------
+  * Miscellaneous configurable options
+@@ -279,17 +278,82 @@
+ /*-----------------------------------------------------------------------
+  * ENV
+  */
 -#define CONFIG_BOOTARGS \
--    "console=ttySAC0,115200n8 initrd=0x49000000,0x2000000"
+-    "console=ttySAC0,115200n8 initrd=0x49000000,0x400000 root=/dev/mmcblk1p1 console=tty1"
+-
+-#define CONFIG_EXTRA_ENV_SETTINGS	\
+-			"fdt_high=0xffffffffffffffff"
 -
 -#define CONFIG_BOOTCOMMAND	\
--	"echo Waiting for environment...;" \
--	"udown 0x48000000; " \
--	"env import -t -r 0x48000000; " \
--	"run bootcmd2"
+-	"ext4load mmc 0:1 0x48000000 boot/Image; " \
+-	"mw 0x49000000 0 0x400000; " \
+-	"ext4load mmc 0:1 0x49000000 boot/initrd.img; " \
+-	"ext4load mmc 0:1 0x4a000000 boot/s5p6818-nanopi-m3.dtb; " \
+-	"booti 0x48000000 - 0x4a000000"
 -
 -#endif /* __CONFIG_H__ */
 +#define ENV_DEVICE_SETTINGS \
