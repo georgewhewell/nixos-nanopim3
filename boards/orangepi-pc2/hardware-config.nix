@@ -71,7 +71,7 @@ with lib;
            IWLWIFI n
         '';
         uboot = null;
-        kernelTarget = "zImage";
+        kernelTarget = "Image";
         gcc = {
           arch = "armv8-a";
         };
