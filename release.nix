@@ -72,4 +72,5 @@ in rec {
     type = "minimal";
     system = "armv7l-linux";
   };
+
 }

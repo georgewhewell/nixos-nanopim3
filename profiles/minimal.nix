@@ -2,16 +2,15 @@
 
 {
   imports = [
+    <nixpkgs/nixos/modules/profiles/minimal.nix>
     <nixpkgs/nixos/modules/profiles/headless.nix>
+    ./base.nix
     ./g-ether.nix
     ./buildfarm.nix
     ./prometheus.nix
     ../users.nix
   ];
 
-  environment.noXlibs = true;
-  sound.enable = false;
-
-  networking.networkmanager.enable = true;
+  services.openssh.enable = true;
 
 }

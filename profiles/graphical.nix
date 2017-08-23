@@ -2,24 +2,30 @@
 
 {
   imports = [
+    <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
+    ./base.nix
+    ./dev-utils.nix
+    ./g-ether.nix
+    ./buildfarm.nix
+    ./prometheus.nix
     ../users.nix
   ];
-
-  networking.networkmanager.enable = lib.mkDefault true;
-
-  services.nixosManual.enable = lib.mkDefault false;
-  programs.man.enable = lib.mkDefault false;
-  programs.info.enable = lib.mkDefault false;
 
   services.avahi.enable = lib.mkDefault true;
 
   services.xserver = {
-    enable = lib.mkDefault true;
+    enable = true;
 
-    displayManager.gdm.enable = true;
-    desktopManager.gnome3 = {
+    # Automatically login as root.
+    displayManager.slim = {
       enable = true;
-      extraGSettingsOverridePackages = [ pkgs.gnome3.nautilus ];
+      defaultUser = "root";
+      autoLogin = true;
+    };
+
+    desktopManager.plasma5 = {
+      enable = true;
+      enableQt4Support = false;
     };
   };
 

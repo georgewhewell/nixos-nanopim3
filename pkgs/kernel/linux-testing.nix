@@ -7,7 +7,7 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
 
   src = fetchurl {
     url = "https://git.kernel.org/torvalds/t/linux-${version}.tar.gz";
-    sha256 = "00yiihmgifvl4bas861p87166nb1mf59b6nm5jsfk2zr27pszlyx";
+    sha256 = "06jdbgihdjmq84d7km43f3w6d3hwmbnv3sgzip3nhx77l14cp7f2";
   };
 
   features.iwlwifi = true;

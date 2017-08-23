@@ -1,38 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
-
-  imports = [
-    <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
-    <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
-    <nixpkgs/nixos/modules/profiles/minimal.nix>
-    <nixpkgs/nixos/modules/profiles/clone-config.nix>
-  ];
-
-  boot.loader.grub.enable = false;
-  boot.loader.generic-extlinux-compatible.enable = true;
-
-  services.openssh.enable = true;
-
-  hardware.bluetooth.enable = true;
-  hardware.enableAllFirmware = true;
-
-  environment.systemPackages = with pkgs; [
-    git
-    tmux
-    htop
-    stress
-    vim
-    ethtool
-    bluez
-    cifs-utils
-    nfs-utils
-  ];
-
   environment.variables.GC_INITIAL_HEAP_SIZE = "100000";
   boot.kernel.sysctl."vm.overcommit_memory" = "1";
-
-  nixpkgs.config.allowUnfree = true;
+  
   nixpkgs.config.packageOverrides = super: let self = super.pkgs; in {
     super.imagemagick = super.imagemagick.overrideAttrs (
       old: { arch = "aarch64"; });
