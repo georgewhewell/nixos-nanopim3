@@ -1,15 +1,15 @@
 { stdenv, hostPlatform, pkgs, perl, buildLinux, ... } @ args:
 
 import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
-  version = "4.11.6-nanopim3";
+  version = "4.11.6-4";
   modDirVersion = "4.11.6";
   extraMeta.branch = "4.11";
 
   src = pkgs.fetchFromGitHub {
     owner = "rafaello7";
     repo = "linux-nanopi-m3";
-    rev = "7b171b187a479b92a45e5869d8e6ce61b4d9487b";
-    sha256 = "017ra81cgmg86kkfj3jh9v7vya84vh6ljzh490qdhf9fhhmj8l5g";
+    rev = "v${version}";
+    sha256 = "1rfncvkcslf3c36wig9cm21nav4cf71gmdsqahnk3ccnds58qs1y";
   };
 
   kernelPatches = [
