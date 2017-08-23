@@ -47,35 +47,7 @@ with lib;
 
   nixpkgs.config = {
      allowUnfree = true;
-     platform = {
-        name = "orangepi-pc2";
-        kernelMajor = "2.6"; # Using "2.6" enables 2.6 kernel syscalls in glibc.
-        kernelHeadersBaseConfig = "defconfig";
-        kernelBaseConfig = "defconfig";
-        kernelArch = "arm64";
-        kernelDTB = true;
-        kernelAutoModules = true;
-        kernelPreferBuiltin = true;
-        kernelExtraConfig = ''
-           SND n
-
-           ZPOOL y
-           Z3FOLD y
-           ZSWAP y
-           CRYPTO_LZ4HC m
-
-           INFINIBAND n
-           DRM_NOUVEAU n
-           DRM_AMDGPU n
-           DRM_RADEON n
-           IWLWIFI n
-        '';
-        uboot = null;
-        kernelTarget = "uImage";
-        gcc = {
-          arch = "armv8-a";
-        };
-      };
+     platform = pkgs.platforms.aarch64-multiplatform;
    };
 
   networking.hostName = "orangepi-pc2";
