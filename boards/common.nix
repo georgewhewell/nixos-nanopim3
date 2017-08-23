@@ -34,6 +34,8 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.packageOverrides = super: let self = super.pkgs; in {
+    super.imagemagick = super.imagemagick.overrideAttrs (
+      old: { arch = "aarch64"; });
     super.gcc = super.gcc6;
 
     openssl_1_1_0 = super.openssl_1_1_0.overrideAttrs (
