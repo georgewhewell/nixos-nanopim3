@@ -41,35 +41,18 @@ with lib;
     '';
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_sunxi;
+  boot.loader.grub.enable = false;
+  boot.loader.generic-extlinux-compatible.enable = true;
+
+  boot.kernelPackages = pkgs.linuxPackages_testing;
   boot.initrd.kernelModules = [ "dwc2" "g_ether" "lz4" "lz4_compress" ];
   boot.initrd.availableKernelModules = [ ];
   boot.kernelParams = ["earlyprintk" "console=ttySAC0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
+  boot.consoleLogLevel = 7;
 
-  nixpkgs.config.platform = {
-     name = "nanopi-neo";
-     kernelMajor = "2.6"; # Using "2.6" enables 2.6 kernel syscalls in glibc.
-     kernelHeadersBaseConfig = "multi_v7_defconfig";
-     kernelBaseConfig = "nanopi_neo_defconfig";
-     kernelArch = "arm";
-     kernelDTB = true;
-     kernelAutoModules = true;
-     kernelPreferBuiltin = true;
-     uboot = null;
-     kernelTarget = "zImage";
-     kernelExtraConfig = ''
-       # Fix broken sunxi-sid nvmem driver.
-       TI_CPTS y
-
-       # Hangs ODROID-XU4
-       ARM_BIG_LITTLE_CPUIDLE n
-      '';
-      gcc = {
-        arch = "armv7-a";
-        fpu = "vfpv3-d16";
-        float = "hard";
-      };
-   };
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
   networking.hostName = "nanopi-neo";
 

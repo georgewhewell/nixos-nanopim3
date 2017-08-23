@@ -47,8 +47,7 @@ with lib;
 
   nixpkgs.config = {
      allowUnfree = true;
-     platform = pkgs.platforms.aarch64-multiplatform;
-   };
+  };
 
   networking.hostName = "orangepi-pc2";
 

@@ -41,40 +41,20 @@ with lib;
     '';
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_sunxi;
+  boot.loader.grub.enable = false;
+  boot.loader.generic-extlinux-compatible.enable = true;
+
+  boot.kernelPackages = pkgs.linuxPackages_testing;
   boot.initrd.kernelModules = [ "dwc2" "g_ether" "lz4" "lz4_compress" ];
+  boot.initrd.availableKernelModules = [ ];
   boot.kernelParams = ["earlyprintk" "console=ttySAC0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
+  boot.consoleLogLevel = 7;
 
   hardware.firmware = [ pkgs.ap6212-firmware ];
 
   nixpkgs.config = {
      allowUnfree = true;
-     platform = {
-        name = "odroid-c2";
-        kernelMajor = "2.6"; # Using "2.6" enables 2.6 kernel syscalls in glibc.
-        kernelHeadersBaseConfig = "multi_v7_defconfig";
-        kernelBaseConfig = "nanopi_air_defconfig";
-        kernelArch = "arm";
-        kernelDTB = true;
-        kernelAutoModules = true;
-        kernelPreferBuiltin = true;
-        /*kernelExtraConfig = ''
-           SND n
-           BCMDHD n
-           ZPOOL y
-           Z3FOLD y
-           ZSWAP y
-           CRYPTO_LZ4HC m
-        '';*/
-        uboot = null;
-        kernelTarget = "zImage";
-        gcc = {
-          arch = "armv7-a";
-          fpu = "vfpv3-d16";
-          float = "hard";
-        };
-      };
-   };
+  };
 
   networking.hostName = "nanopi-air";
 
