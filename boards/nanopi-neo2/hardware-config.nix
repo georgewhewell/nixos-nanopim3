@@ -45,8 +45,6 @@ with lib;
   boot.loader.generic-extlinux-compatible.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_testing_local;
-  boot.initrd.kernelModules = [ "dwc2" "g_ether" "lz4" "lz4_compress" ];
-  boot.initrd.availableKernelModules = [ ];
   boot.kernelParams = ["earlyprintk" "console=ttyS1,115200n8" "console=ttyS1,115200n8" "console=ttyS2,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
   boot.consoleLogLevel = 7;
 

@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
+  boot.initrd.kernelModules = [ ];
+  boot.initrd.availableKernelModules = [ "lz4" "lz4_compress" ];
+
   environment.variables.GC_INITIAL_HEAP_SIZE = "100000";
   boot.kernel.sysctl."vm.overcommit_memory" = "1";
 
