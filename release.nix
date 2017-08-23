@@ -42,6 +42,12 @@ in rec {
     system = "aarch64-linux";
   };
 
+  nanopi-m3-graphical = makeSdImage {
+    module = ./boards/nanopi-m3/hardware-config.nix;
+    type = "graphical";
+    system = "aarch64-linux";
+  };
+
   orangepi-prime = makeSdImage {
     module = ./boards/orangepi-prime/hardware-config.nix;
     type = "minimal";
