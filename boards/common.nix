@@ -58,7 +58,7 @@
       uboot-nanopi-m3;
 
     inherit (pkgs.callPackages ../pkgs/kernel/default.nix { })
-      linuxPackages_sunxi
+      linuxPackages_testing_local
       linuxPackages_amlogic
       linuxPackages_nanopi-m3;
   };
