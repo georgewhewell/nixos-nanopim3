@@ -12,6 +12,6 @@
   sound.enable = false;
   
   services.avahi.enable = true;
-  networking.networkmanager.enable = false;
+  networking.networkmanager.enable = true;
 
 }
