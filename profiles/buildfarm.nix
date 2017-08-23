@@ -20,4 +20,5 @@
     size = 1024;
   } ];
 
+  powerManagement.cpuFreqGovernor = "performance";
 }
