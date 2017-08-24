@@ -1,4 +1,4 @@
-{ config, lib, pkgs, callPackage, recurseIntoAttrs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -14,7 +14,7 @@
   powerManagement.enable = lib.mkDefault true;
   hardware.bluetooth.enable = lib.mkDefault true;
   hardware.enableAllFirmware = lib.mkDefault true;
-  networking.networkmanager.enable = lib.mkDefault true;
+  networking.networkmanager.enable = lib.mkDefault (pkgs.stdenv.system == "aarch64-linux");
 
   # dont need :)
   services.nixosManual.enable = lib.mkDefault false;

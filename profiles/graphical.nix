@@ -7,7 +7,7 @@
     ./dev-utils.nix
     ./g-ether.nix
     ./buildfarm.nix
-    ./prometheus.nix
+    /*./prometheus.nix*/
     ../users.nix
   ];
 
