@@ -11,7 +11,7 @@
     super.imagemagick = super.imagemagick.overrideAttrs (
       old: { arch = "aarch64"; });
     super.gcc = super.gcc6;
-    sudo = super.sudo.overrideAttrs (
+    sudo = if (pkgs.stdenv.system == "aarch64-linux") then super.sudo else super.sudo.overrideAttrs (
       old: { prePatch = "substituteInPlace src/Makefile.in --replace 04755 0755"; });
     spidermonkey = super.spidermonkey.overrideAttrs (
       old: { postPatch = "rm jit-test/tests/basic/bug698584.js"; });
