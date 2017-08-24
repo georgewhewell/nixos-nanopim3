@@ -2,7 +2,7 @@
 
 {
   nix.buildCores = lib.mkDefault 0;
-  nix.useSandbox = true;
+  nix.useSandbox = lib.mkDefault true;
   nix.extraOptions = "auto-optimise-store = true";
 
   nix.gc = {
