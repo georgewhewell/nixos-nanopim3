@@ -11,6 +11,8 @@
     super.imagemagick = super.imagemagick.overrideAttrs (
       old: { arch = "aarch64"; });
     super.gcc = super.gcc6;
+    sudo = super.sudo.overrideAttrs (
+      old: { prePatch = "substituteInPlace src/Makefile.in --replace 04755 0755"; });
     xorg = super.xorg // {
       xf86videovmware = self.lib.overrideDerivation super.xorg.xf86videovmware (drv: {
         hardeningDisable = [ "all" ];
