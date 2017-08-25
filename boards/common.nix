@@ -39,11 +39,12 @@
             sha256 = "1hdb2vka7p6f6jv4kkq38a37i801nba3x0jqrnn52dklw9k8d43i";
           };
         });
+      };
+
       sudo = super.sudo.overrideAttrs (
         old: { prePatch = "substituteInPlace src/Makefile.in --replace 04755 0755"; });
       spidermonkey17 = super.super.spidermonkey17.overrideAttrs (
         old: { postPatch = "rm jit-test/tests/basic/bug698584.js"; });
 
-    };
-  };
+    });
 }
