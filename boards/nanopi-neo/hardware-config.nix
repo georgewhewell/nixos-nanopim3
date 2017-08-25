@@ -25,7 +25,7 @@ with lib;
         rev = "2d3c4ae350fe8c196698681ab9410733bf9017e0";
         sha256 = "caf42d36570b9b013202cf42ea55705df49c4b1b8ab755afbd8f6324614b1a09";
       };
-      buildInputs = [ pkgs.gcc6 pkgs.swig pkgs.python ];
+      buildInputs = [ pkgs.gcc6 pkgs.swig1 pkgs.python ];
       defconfig = "nanopi_neo_defconfig";
       targetPlatforms = [ "armv7l-linux" ];
       filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
