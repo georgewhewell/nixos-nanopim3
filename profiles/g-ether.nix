@@ -1,8 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-
-  boot.initrd.availableKernelModules = [ "libcomposite" ];
+  systemd.services."serial-getty@ttyGS0".enable = true;
   systemd.services.start-g-ether = {
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
