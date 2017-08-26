@@ -26,7 +26,7 @@ with lib;
         sha256 = "caf42d36570b9b013202cf42ea55705df49c4b1b8ab755afbd8f6324614b1a09";
       };
       nativeBuildInputs = with pkgs;
-        [ gcc6 bc dtc swig1 swig2 swig3 python2 ];
+        [ gcc6 bc dtc swig1 which python2 ];
       defconfig = "nanopi_neo_defconfig";
       targetPlatforms = [ "armv7l-linux" ];
       filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
