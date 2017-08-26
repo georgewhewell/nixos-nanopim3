@@ -45,7 +45,7 @@ with lib;
   boot.loader.generic-extlinux-compatible.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_testing_local;
-  boot.kernelParams = ["earlyprintk" "console=ttySAC0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
+  boot.kernelParams = ["earlyprintk" "console=ttyS0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
   boot.consoleLogLevel = 7;
 
   nixpkgs.config = {
