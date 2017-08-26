@@ -73,4 +73,10 @@ in rec {
     system = "armv7l-linux";
   };
 
+  orangepi-zero = makeSdImage {
+    module = ./boards/orangepi-zero/hardware-config.nix;
+    type = "minimal";
+    system = "armv7l-linux";
+  };
+
 }
