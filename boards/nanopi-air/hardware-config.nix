@@ -29,13 +29,12 @@ with lib;
         [ gcc6 bc dtc swig1 which python2 ];
       defconfig = "nanopi_neo_air_defconfig";
       targetPlatforms = [ "armv7l-linux" ];
-      filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
+      filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
     };
     in {
      populateBootCommands = ''
       # Write bootloaders to sd image
-      dd if=${uboot}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
-      dd if=${uboot}/u-boot.img conv=notrunc of=$out bs=1024 seek=40
+      dd if=${uboot}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
 
       # Populate ./boot with extlinux
       ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
