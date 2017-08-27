@@ -44,7 +44,7 @@ with lib;
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_testing_local;
+  boot.kernelPackages = pkgs.linuxPackages_sun50i;
   boot.kernelParams = ["console=ttyS0,115200n8" "console=ttymxc0,115200n8" "console=ttyAMA0,115200n8" "console=ttyO0,115200n8" "console=ttySAC2,115200n8" "console=tty0"];
   boot.consoleLogLevel = 7;
 
