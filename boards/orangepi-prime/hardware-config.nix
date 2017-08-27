@@ -18,6 +18,20 @@ with lib;
       import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
         inherit pkgs;
     };
+    uboot-spl = pkgs.buildUBoot rec {
+      version = "2017.09-rc2";
+      src = pkgs.fetchgit {
+        url = "git://git.denx.de/u-boot.git";
+        rev = "2d3c4ae350fe8c196698681ab9410733bf9017e0";
+        sha256 = "caf42d36570b9b013202cf42ea55705df49c4b1b8ab755afbd8f6324614b1a09";
+      };
+      nativeBuildInputs = with pkgs;
+        [ gcc6 bc dtc swig1 which python2 ];
+      postPatch = "patchShebangs lib/libfdt/pylibfdt";
+      defconfig = "sun50i_h5_spl32_defconfig";
+      targetPlatforms = [ "aarch64-linux" ];
+      filesToInstall = [ "u-boot/spl/sunxi-spl.bin" ];
+    };
     uboot = pkgs.buildUBoot rec {
       version = "2017.09-rc2";
       src = pkgs.fetchgit {
@@ -27,6 +41,7 @@ with lib;
       };
       nativeBuildInputs = with pkgs;
         [ gcc6 bc dtc swig1 which python2 ];
+      preBuild = "cp ${uboot-spl}/sunxi-spl.bin sunxi-spl.bin";
       postPatch = "patchShebangs lib/libfdt/pylibfdt";
       defconfig = "orangepi_prime_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
