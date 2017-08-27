@@ -11,11 +11,16 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
   };
 
   kernelPatches = linux_4_12.kernelPatches ++ (if stdenv.system == "armv7l-linux" then [
-  {
-    name = "fix_tegra_gpu_build";
-    patch = ../../patches/tegra-gpu.patch;
-  }
-  ] else []);
+    {
+      name = "fix_tegra_gpu_build";
+      patch = ../../patches/tegra-gpu.patch;
+    }
+  ] else [
+    {
+      name = "add-sun50i-defconfig";
+      patch = ../../patches/add-sun50i-defconfig.patch;
+    }
+  ]);
 
   features.iwlwifi = true;
   features.efiBootStub = true;
