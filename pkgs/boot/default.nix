@@ -11,4 +11,5 @@ with pkgs;
   fip_create = callPackage ./fip-create.nix { };
   bsp-h5-lichee = callPackage ./bsp-h5-lichee.nix { };
   bl1-odroid-c2 = callPackage ./bl1-odroid-c2.nix { };
+  bl31-a64 = callPackage ./bl31-a64.nix { };
 }

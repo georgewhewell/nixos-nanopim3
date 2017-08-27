@@ -44,6 +44,7 @@
     inherit (pkgs.callPackages ../pkgs/boot/default.nix { })
       bl1-nanopi-m3
       bl1-odroid-c2
+      bl31-a64
       bsp-h5-lichee
       nanopi-load
       meson-tools
