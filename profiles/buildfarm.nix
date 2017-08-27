@@ -21,4 +21,10 @@
   } ];
 
   powerManagement.cpuFreqGovernor = "performance";
+
+  nix.requireSignedBinaryCaches = false;
+  nix.binaryCaches = [
+      https://cache.nixos.org/
+      https://hydra.satanic.link/
+  ];
 }
