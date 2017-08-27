@@ -28,13 +28,12 @@ with lib;
       buildInputs = [ pkgs.gcc6 ];
       defconfig = "nanopi_neo2_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
-      filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
+      filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
     };
     in {
      populateBootCommands = ''
-      # Write bootloader to sd image
-      dd if=${uboot}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
-      dd if=${uboot}/u-boot.img conv=notrunc of=$out bs=1024 seek=40
+      # Write bootloaders to sd image
+      dd if=${uboot}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
 
       # Populate ./boot with extlinux
       ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
