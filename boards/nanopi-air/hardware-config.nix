@@ -41,18 +41,10 @@ with lib;
     '';
   };
 
-  boot.loader.grub.enable = false;
-  boot.loader.generic-extlinux-compatible.enable = true;
-
   boot.kernelPackages = pkgs.linuxPackages_testing_local;
   boot.kernelParams = ["earlyprintk" "console=ttyS0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
-  boot.consoleLogLevel = 7;
 
   hardware.firmware = [ pkgs.ap6212-firmware ];
-
-  nixpkgs.config = {
-     allowUnfree = true;
-  };
 
   networking.hostName = "nanopi-air";
 

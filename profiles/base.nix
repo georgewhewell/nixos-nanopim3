@@ -10,6 +10,7 @@
   boot.loader.generic-extlinux-compatible.enable = true;
 
   nixpkgs.config.allowUnfree = lib.mkDefault true;
+  nixpkgs.config.allowBroken = lib.mkDefault true;
 
   powerManagement.enable = lib.mkDefault true;
   hardware.bluetooth.enable = lib.mkDefault true;

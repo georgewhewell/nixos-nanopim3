@@ -30,7 +30,7 @@ in rec {
     system = "aarch64-linux";
   };
 
-  nanopi-neo-2 = makeSdImage {
+  nanopi-neo2 = makeSdImage {
     module = ./boards/nanopi-neo2/hardware-config.nix;
     type = "minimal";
     system = "aarch64-linux";
@@ -61,7 +61,7 @@ in rec {
   };
 
   # Armhf
-  nanopi-neo-minimal = makeSdImage {
+  nanopi-neo = makeSdImage {
     module = ./boards/nanopi-neo/hardware-config.nix;
     type = "minimal";
     system = "armv7l-linux";

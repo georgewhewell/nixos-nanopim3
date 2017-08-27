@@ -61,36 +61,33 @@ with lib;
   boot.kernelPackages = pkgs.linuxPackages_amlogic;
   boot.kernelParams = ["earlyprintk" "console=ttyAML0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
 
-  nixpkgs.config = {
-     allowUnfree = true;
-     platform = {
-        name = "odroid-c2";
-        kernelMajor = "2.6"; # Using "2.6" enables 2.6 kernel syscalls in glibc.
-        kernelHeadersBaseConfig = "defconfig";
-        kernelBaseConfig = "defconfig";
-        kernelArch = "arm64";
-        kernelDTB = true;
-        kernelAutoModules = true;
-        kernelPreferBuiltin = true;
-        kernelExtraConfig = ''
-           SND n
+  nixpkgs.config.platform = {
+      name = "odroid-c2";
+      kernelMajor = "2.6"; # Using "2.6" enables 2.6 kernel syscalls in glibc.
+      kernelHeadersBaseConfig = "defconfig";
+      kernelBaseConfig = "defconfig";
+      kernelArch = "arm64";
+      kernelDTB = true;
+      kernelAutoModules = true;
+      kernelPreferBuiltin = true;
+      kernelExtraConfig = ''
+         SND n
 
-           ZPOOL y
-           Z3FOLD y
-           ZSWAP y
-           CRYPTO_LZ4HC m
+         ZPOOL y
+         Z3FOLD y
+         ZSWAP y
+         CRYPTO_LZ4HC m
 
-           INFINIBAND n
-           DRM_NOUVEAU n
-           DRM_AMDGPU n
-           DRM_RADEON n
-           IWLWIFI n
-        '';
-        uboot = null;
-        kernelTarget = "Image";
-        gcc = {
-          arch = "armv8-a";
-        };
+         INFINIBAND n
+         DRM_NOUVEAU n
+         DRM_AMDGPU n
+         DRM_RADEON n
+         IWLWIFI n
+      '';
+      uboot = null;
+      kernelTarget = "Image";
+      gcc = {
+        arch = "armv8-a";
       };
    };
 
