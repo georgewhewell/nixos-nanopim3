@@ -44,7 +44,7 @@ with lib;
     '';
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_testing_local;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi64;
   boot.kernelParams = ["console=ttyS0,115200n8" "console=ttymxc0,115200n8" "console=ttyAMA0,115200n8" "console=ttyO0,115200n8" "console=ttySAC2,115200n8" "console=tty0"];
 
   networking.hostName = "nanopi-neo2";

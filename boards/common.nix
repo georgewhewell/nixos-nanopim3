@@ -55,6 +55,7 @@
     inherit (pkgs.callPackages ../pkgs/kernel/default.nix { })
       linuxPackages_testing_local
       linuxPackages_amlogic
-      linuxPackages_nanopi-m3;
+      linuxPackages_nanopi-m3
+      linuxPackages_sunxi64;
   };
 }
