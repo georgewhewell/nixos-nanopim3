@@ -12,6 +12,7 @@ pkgs.stdenv.mkDerivation rec {
     };
 
     dontStrip = true;
+    hardeningDisable = [ "all" ];
     nativeBuildInputs = [ pkgs.gcc6 pkgs.git ];
 
     buildPhase = ''
