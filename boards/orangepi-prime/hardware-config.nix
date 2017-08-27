@@ -31,12 +31,13 @@ with lib;
       postPatch = "patchShebangs lib/libfdt/pylibfdt";
       defconfig = "orangepi_prime_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
-      filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
+      filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
     };
     in {
      populateBootCommands = ''
-      # Write bootloaders to sd image
-      dd if=${uboot}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
+      # Write bootloader to sd image
+      dd if=${uboot}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
+      dd if=${uboot}/u-boot.img conv=notrunc of=$out bs=1024 seek=40
 
       # Populate ./boot with extlinux
       ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
