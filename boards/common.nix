@@ -38,8 +38,8 @@
     qca-qt5 = super.qca-qtt.overrideAttrs (
       old: { NIX_CFLAGS_COMPILE = "-Wno-narrowing"; });
 
-    ap6212-firmware =
-      pkgs.callPackage ../pkgs/ap6212-firmware.nix { };
+    armbian = pkgs.callPackage ../pkgs/armbian.nix { };
+    ap6212-firmware = pkgs.callPackage ../pkgs/ap6212-firmware.nix { };
 
     inherit (pkgs.callPackages ../pkgs/boot/default.nix { })
       bl1-nanopi-m3
