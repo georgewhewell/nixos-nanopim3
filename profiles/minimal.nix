@@ -4,7 +4,6 @@
   imports = [
     <nixpkgs/nixos/modules/profiles/minimal.nix>
     ./base.nix
-    ./collectd.nix
     ./g-ether.nix
     ./buildfarm.nix
   ];
