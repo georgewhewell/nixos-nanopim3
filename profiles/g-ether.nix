@@ -2,6 +2,8 @@
 
 {
   systemd.services."serial-getty@ttyGS0".enable = true;
+  systemd.services."serial-getty@ttyACM0".enable = true;
+
   systemd.services.start-g-ether = {
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
@@ -13,7 +15,7 @@
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       set -e
 
-      modprobe libcomposite
+      ${pkgs.kmod}/bin/modprobe libcomposite
 
       cd /sys/kernel/config/usb_gadget/
       mkdir g && cd g
@@ -36,7 +38,7 @@
       ln -s functions/rndis.usb0 configs/c.1/
       ln -s functions/acm.usb0   configs/c.1/
 
-      udevadm settle -t 5 || :
+      ${pkgs.udev}/bin/udevadm settle -t 5 || :
       ls /sys/class/udc/ > UDC
     '';
   };

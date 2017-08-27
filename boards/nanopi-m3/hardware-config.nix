@@ -36,7 +36,7 @@ with lib;
   };
 
   boot.kernelPackages = pkgs.linuxPackages_nanopi-m3;
-  boot.kernelParams = ["earlyprintk" "console=ttySAC0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
+  boot.kernelParams = [ "earlyprintk" "console=ttySAC0,115200n8" "console=ttyACM0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
 
   nixpkgs.config.platform = {
       name = "nanopi-m3";
