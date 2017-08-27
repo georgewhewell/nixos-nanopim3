@@ -13,7 +13,7 @@ pkgs.stdenv.mkDerivation rec {
 
     dontStrip = true;
     hardeningDisable = [ "all" ];
-    nativeBuildInputs = [ pkgs.gcc6 pkgs.git ];
+    nativeBuildInputs = [ pkgs.gcc6 ];
 
     buildPhase = ''
       make PLAT=sun50iw1p1 DEBUG=1 bl31

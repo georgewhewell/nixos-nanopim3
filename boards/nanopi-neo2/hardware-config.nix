@@ -25,15 +25,19 @@ with lib;
         rev = "2d3c4ae350fe8c196698681ab9410733bf9017e0";
         sha256 = "caf42d36570b9b013202cf42ea55705df49c4b1b8ab755afbd8f6324614b1a09";
       };
-      buildInputs = [ pkgs.gcc6 ];
+      nativeBuildInputs = with pkgs;
+        [ gcc6 bc dtc swig1 which python2 ];
+      preBuild = "cp ${pkgs.bl31-a64} bl31.bin";
+      postPatch = "patchShebangs lib/libfdt/pylibfdt";
       defconfig = "nanopi_neo2_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
-      filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
+      filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
     };
     in {
      populateBootCommands = ''
-      # Write bootloaders to sd image
-      dd if=${uboot}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
+      # Write bootloader to sd image
+      dd if=${uboot}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
+      dd if=${uboot}/u-boot.img conv=notrunc of=$out bs=1024 seek=40
 
       # Populate ./boot with extlinux
       ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
