@@ -19,11 +19,12 @@ with lib;
         inherit pkgs;
     };
     uboot = pkgs.buildUBoot rec {
-      version = "2017.09-rc2";
-      src = pkgs.fetchgit {
-        url = "git://git.denx.de/u-boot.git";
-        rev = "2d3c4ae350fe8c196698681ab9410733bf9017e0";
-        sha256 = "caf42d36570b9b013202cf42ea55705df49c4b1b8ab755afbd8f6324614b1a09";
+      version = "master";
+      src = pkgs.fetchFromGitHub {
+        owner = "apritzel";
+        repo = "u-boot";
+        rev = "2d7cb5b426e7e0cdf684d7f8029ad132d7a8d383";
+        sha256 = "18dvbmapijq59gaz418pz939r3vwaz6a29m5jlxfacywiggjgyrw";
       };
       nativeBuildInputs = with pkgs;
         [ gcc6 bc dtc swig1 which python2 ];
