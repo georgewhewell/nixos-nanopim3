@@ -27,6 +27,7 @@ with lib;
       };
       nativeBuildInputs = with pkgs;
         [ gcc6 bc dtc swig1 which python2 ];
+      postPatch = "patchShebangs lib/libfdt/pylibfdt";
       defconfig = "orangepi_prime_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
       filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
