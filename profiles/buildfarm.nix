@@ -7,7 +7,7 @@
 
   nix.gc = {
     automatic = true;
-    dates = "04:00";
+    dates = "hourly";
     options = ''--max-freed "$((10 * 1024**3 - 1024 * $(df -P -k /nix/store | tail -n 1 | ${pkgs.gawk}/bin/awk '{ print $4 }')))"'';
   };
 
