@@ -17,7 +17,10 @@
       old: { prePatch = "substituteInPlace src/Makefile.in --replace 04755 0755"; });
 
     spidermonkey = super.spidermonkey.overrideAttrs (
-      old: { postPatch = "rm jit-test/tests/basic/bug698584.js"; });
+      old: {
+        checkPhase = "";
+        postPatch = "rm jit-test/tests/basic/bug698584.js";
+      });
 
     xorg = super.xorg // {
       xf86videovmware = self.lib.overrideDerivation super.xorg.xf86videovmware (drv: {
