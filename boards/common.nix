@@ -8,13 +8,17 @@
   boot.kernel.sysctl."vm.overcommit_memory" = "1";
 
   nixpkgs.config.packageOverrides = super: let self = super.pkgs; in {
-    super.imagemagick = super.imagemagick.overrideAttrs (
+    imagemagick = super.imagemagick.overrideAttrs (
       old: { arch = "aarch64"; });
-    super.gcc = super.gcc6;
+
+    gcc = super.gcc6;
+
     sudo = if (pkgs.stdenv.system == "aarch64-linux") then super.sudo else super.sudo.overrideAttrs (
       old: { prePatch = "substituteInPlace src/Makefile.in --replace 04755 0755"; });
+
     spidermonkey = super.spidermonkey.overrideAttrs (
       old: { postPatch = "rm jit-test/tests/basic/bug698584.js"; });
+
     xorg = super.xorg // {
       xf86videovmware = self.lib.overrideDerivation super.xorg.xf86videovmware (drv: {
         hardeningDisable = [ "all" ];

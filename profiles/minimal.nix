@@ -6,7 +6,6 @@
     ./base.nix
     ./g-ether.nix
     ./buildfarm.nix
-    ../users.nix
   ];
 
   sound.enable = false;
