@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub }:
+{ stdenv, pkgs, fetchFromGitHub }:
 
 stdenv.mkDerivation rec {
   name = "armbian-${version}";
