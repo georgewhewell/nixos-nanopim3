@@ -7,6 +7,8 @@ in
 {
   imports = [
     ./include/common.nix
+    ./include/bluetooth.nix
+    ./include/wireless.nix
   ];
 
   nixpkgs.config.writeBootloader = let

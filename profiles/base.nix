@@ -5,7 +5,7 @@
     <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
     <nixpkgs/nixos/modules/profiles/clone-config.nix>
   ];
-  
+
   boot.initrd.kernelModules = [ ];
   boot.initrd.availableKernelModules = [ "lz4" "lz4_compress" ];
 
@@ -19,8 +19,6 @@
   nixpkgs.config.allowBroken = true;
 
   powerManagement.enable = lib.mkDefault true;
-  hardware.bluetooth.enable = lib.mkDefault true;
-  hardware.enableAllFirmware = lib.mkDefault true;
 
   # dont need :)
   services.nixosManual.enable = lib.mkDefault false;
