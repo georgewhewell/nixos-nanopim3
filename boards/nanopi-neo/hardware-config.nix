@@ -27,6 +27,10 @@ with lib;
       };
       nativeBuildInputs = with pkgs;
         [ gcc6 bc dtc swig1 which python2 ];
+      postPatch = ''
+        patchShebangs tools/binman
+        patchShebangs lib/libfdt
+      '';
       defconfig = "nanopi_neo_defconfig";
       targetPlatforms = [ "armv7l-linux" ];
       filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
