@@ -1,4 +1,10 @@
 let
+  wantedModules = ''
+    ZPOOL y
+    Z3FOLD y
+    ZSWAP y
+    CRYPTO_LZ4HC m
+  '';
   excludeModules = ''
      SND n
      INFINIBAND n
@@ -16,13 +22,11 @@ let
     kernelDTB = true;
     kernelAutoModules = true;
     kernelPreferBuiltin = true;
-    uboot = null;
-    kernelTarget = "zImage";
+    uboot = "upstream";
+    kernelTarget = "Image";
     kernelExtraConfig = ''
-      # Fix broken sunxi-sid nvmem driver.
-      TI_CPTS y
-      # Hangs ODROID-XU4
-      ARM_BIG_LITTLE_CPUIDLE n
+      ${wantedModules}
+      ${excludeModules}
     '';
     gcc = {
       # Some table about fpu flags:
@@ -54,9 +58,12 @@ let
     kernelBaseConfig = "defconfig";
     kernelArch = "arm64";
     kernelDTB = true;
-    kernelAutoModules = false;
+    kernelAutoModules = true;
     kernelPreferBuiltin = true;
-    kernelExtraConfig = excludeModules;
+    kernelExtraConfig = ''
+      ${wantedModules}
+      ${excludeModules}
+    '';
     uboot = "upstream";
     kernelTarget = "Image";
     gcc = {
@@ -66,5 +73,5 @@ let
 in {
   inherit aarch64-multiplatform;
   inherit armv7l-hf-multiplatform;
-  aarch64-odroid-c2 = aarch64-multiplatform // {};
+  aarch64-nanopi-m3 = aarch64-multiplatform // { kernelBaseConfig = "nanopim3_defconfig"; };
 }

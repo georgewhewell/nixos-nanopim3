@@ -13,6 +13,9 @@
     meson-tools
     sunxi-tools
     fip_create
+    uboot-nanopi-air
+    uboot-orangepi-zero
+    uboot-nanopi-neo
     uboot-nanopi-m3
     uboot-orangepi-pc2
     uboot-orangepi-prime

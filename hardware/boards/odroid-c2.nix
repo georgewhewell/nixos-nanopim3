@@ -46,9 +46,9 @@ in
   '';
 
   boot.kernelPackages = pkgs.linuxPackages_amlogic;
-  boot.kernelParams = ["earlyprintk" "console=ttyAML0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
+  boot.kernelParams = [ "earlyprintk" "console=ttyAML0,115200n8" "console=tty0" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
 
-  nixpkgs.config.platform = platforms.aarch64-odroid-c2;
+  nixpkgs.config.platform = platforms.aarch64-multiplatform;
   networking.hostName = "odroid-c2";
 
 }

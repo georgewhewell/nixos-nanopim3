@@ -7,6 +7,9 @@ with pkgs;
   nanopi-load = callPackage ./nanopi-load.nix { };
   meson-tools = callPackage ./meson-tools.nix { };
   sunxi-tools = callPackage ./sunxi-tools.nix { };
+  uboot-orangepi-zero = callPackage ./uboot-mainline.nix { defconfig = "orangepi_zero_defconfig"; };
+  uboot-nanopi-neo = callPackage ./uboot-mainline.nix { defconfig = "nanopi_neo_defconfig"; };
+  uboot-nanopi-air = callPackage ./uboot-mainline.nix { defconfig = "nanopi_neo_air_defconfig"; };
   uboot-nanopi-m3 = callPackage ./uboot-nanopi-m3.nix { };
   uboot-orangepi-pc2 = callPackage ./uboot-sunxi64.nix {
     defconfig = "orangepi_pc2_defconfig"; };
