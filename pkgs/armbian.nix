@@ -11,8 +11,8 @@ stdenv.mkDerivation rec {
     sha256 = "1wh2x5c66ibi6dvafdmg06zjsb3wdvnp5x8kdd9mj4ig6m4mik3j";
   };
 
-  phases = [ "unpackPhase" ];
-  outputs = [ "src" ];
+  phases = [ "unpackPhase" "installPhase" ];
+  installPhase = "cp -r $src $out";
 
   meta = {
     description = "armbian source";
