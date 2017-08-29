@@ -1,10 +1,12 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
+let
+  platforms = (import ../platforms.nix);
+in
 {
   imports = [
-    ../common.nix
+    ./include/common.nix
   ];
 
   nixpkgs.config.writeBootloader = let
@@ -36,6 +38,7 @@ with lib;
   boot.initrd.kernelModules = [ "w1-sunxi" "w1-gpio" "w1-therm" "sunxi-cir" "xradio_wlan" "xradio_wlan" ];
   boot.kernelParams = ["earlyprintk" "console=ttyS0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
   boot.consoleLogLevel = 7;
+  nixpkgs.config.platform = platforms.armv7l-hf-multiplatform;
 
   networking.hostName = "orangepi-zero";
 

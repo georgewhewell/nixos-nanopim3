@@ -6,7 +6,6 @@
       import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
         inherit pkgs;
     };
-
     in {
      populateBootCommands = ''
       # Write bootloaders to sd image

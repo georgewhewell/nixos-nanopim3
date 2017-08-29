@@ -1,82 +1,50 @@
-{ supportedSystems ? [ "aarch64-linux" ] }:
+{ supportedSystems ? [ "aarch64-linux" "armv7l-linux" ] }:
 
 let
   pkgs = import <nixpkgs> { };
+  mypkgs = import ./pkgs/top-level.nix { };
+  hardware = import ./hardware { inherit pkgs; };
   lib = pkgs.lib;
   versionModule =
     { system.nixosVersionSuffix = "-unstable";
       system.nixosRevision = "git";
     };
   makeSdImage =
-    { module, type, system }:
+    { board, profile, system }:
 
-    with import <nixpkgs> { inherit system; };
+    with
+      import <nixpkgs> { inherit system; };
 
     lib.hydraJob ((import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system;
       modules = [
-        (if type == "graphical" then ./profiles/graphical.nix else ./profiles/minimal.nix)
-        module
+        board
+        profile
         versionModule { }
       ];
     }).config.system.build.sdImage );
-
+  armv7l-linux = board: makeSdImage {
+    system = "armv7l-linux";
+    profile = ./profiles/minimal.nix;
+    inherit board;
+  };
+  aarch64-linux = board: makeSdImage {
+    system = "aarch64-linux";
+    profile = ./profiles/minimal.nix;
+    inherit board;
+  };
 in rec {
 
-  # AArch64
-  odroid-c2 = makeSdImage {
-    module = ./boards/odroid-c2/hardware-config.nix;
-    type = "minimal";
-    system = "aarch64-linux";
-  };
+  # armv7l
+  nanopi-neo = armv7l-linux hardware.boards.nanopi-neo;
+  nanopi-air = armv7l-linux hardware.boards.nanopi-air;
+  orangepi-zero = armv7l-linux hardware.boards.orangepi-zero;
 
-  nanopi-neo2 = makeSdImage {
-    module = ./boards/nanopi-neo2/hardware-config.nix;
-    type = "minimal";
-    system = "aarch64-linux";
-  };
-
-  nanopi-m3-minimal = makeSdImage {
-    module = ./boards/nanopi-m3/hardware-config.nix;
-    type = "minimal";
-    system = "aarch64-linux";
-  };
-
-  nanopi-m3-graphical = makeSdImage {
-    module = ./boards/nanopi-m3/hardware-config.nix;
-    type = "graphical";
-    system = "aarch64-linux";
-  };
-
-  orangepi-prime = makeSdImage {
-    module = ./boards/orangepi-prime/hardware-config.nix;
-    type = "minimal";
-    system = "aarch64-linux";
-  };
-
-  orangepi-pc2 = makeSdImage {
-    module = ./boards/orangepi-pc2/hardware-config.nix;
-    type = "minimal";
-    system = "aarch64-linux";
-  };
-
-  # Armhf
-  nanopi-neo = makeSdImage {
-    module = ./boards/nanopi-neo/hardware-config.nix;
-    type = "minimal";
-    system = "armv7l-linux";
-  };
-
-  nanopi-air = makeSdImage {
-    module = ./boards/nanopi-air/hardware-config.nix;
-    type = "minimal";
-    system = "armv7l-linux";
-  };
-
-  orangepi-zero = makeSdImage {
-    module = ./boards/orangepi-zero/hardware-config.nix;
-    type = "minimal";
-    system = "armv7l-linux";
-  };
+  # aarch64
+  odroid-c2 = aarch64-linux hardware.boards.odroid-c2;
+  nanopi-neo2 = aarch64-linux hardware.boards.nanopi-neo2;
+  nanopi-m3 = aarch64-linux hardware.boards.nanopi-m3;
+  orangepi-prime = aarch64-linux hardware.boards.orangepi-prime;
+  orangepi-pc2 = aarch64-linux hardware.boards.orangepi-pc2;
 
 }

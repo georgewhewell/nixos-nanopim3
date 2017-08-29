@@ -1,10 +1,12 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
+let
+  platforms = (import ../platforms.nix);
+in
 {
   imports = [
-    ../common.nix
+    ./include/common.nix
   ];
 
   nixpkgs.config.writeBootloader = ''

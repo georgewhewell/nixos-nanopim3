@@ -5,7 +5,7 @@
     extraGroups = ["wheel" "libvirtd" "docker" "transmission" "audio" "dialout" "plugdev" "wireshark"];
     isNormalUser = true;
     openssh.authorizedKeys.keys = [
-      /* Put kets here */
+      /* Put keys here */
     ];
   };
 

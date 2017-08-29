@@ -5,6 +5,12 @@
     <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
     <nixpkgs/nixos/modules/profiles/clone-config.nix>
   ];
+  
+  boot.initrd.kernelModules = [ ];
+  boot.initrd.availableKernelModules = [ "lz4" "lz4_compress" ];
+
+  environment.variables.GC_INITIAL_HEAP_SIZE = "100000";
+  boot.kernel.sysctl."vm.overcommit_memory" = "1";
 
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
