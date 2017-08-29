@@ -11,6 +11,9 @@
   environment.variables.GC_INITIAL_HEAP_SIZE = "100000";
   boot.kernel.sysctl."vm.overcommit_memory" = "1";
 
+  # make uboot available buring kernel build
+  nixpkgs.config.platform.uboot = "upstream";
+
   nixpkgs.config.packageOverrides = super: let self = super.pkgs; in {
     imagemagick = super.imagemagick.overrideAttrs (
       old: { arch = "aarch64"; });

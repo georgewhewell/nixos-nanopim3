@@ -25,7 +25,6 @@ in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
   modDirVersion = "4.13.0-rc6";
   extraMeta.branch = "4.13";
 
-  nativeBuildInputs = args.nativeBuildInputs ++ [ pkgs.ubootTools ];
   src = pkgs.fetchFromGitHub {
     owner = "Icenowy";
     repo = "linux";
