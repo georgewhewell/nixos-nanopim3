@@ -7,17 +7,7 @@ with lib;
     ../common.nix
   ];
 
-  assertions = lib.singleton {
-    assertion = pkgs.stdenv.system == "armv7l-linux";
-    message = "package can be only built natively on armhf-linux; " +
-      "it cannot be cross compiled on ${pkgs.stdenv.system}";
-  };
-
-  sdImage =   let
-    extlinux-conf-builder =
-      import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
-        inherit pkgs;
-    };
+  nixpkgs.config.writeBootloader = let
     uboot = pkgs.buildUBoot rec {
       version = "2017.09-rc2";
       src = pkgs.fetchgit {
@@ -35,15 +25,10 @@ with lib;
       targetPlatforms = [ "armv7l-linux" ];
       filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
     };
-    in {
-     populateBootCommands = ''
+    in ''
       # Write bootloaders to sd image
       dd if=${uboot}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
-
-      # Populate ./boot with extlinux
-      ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
     '';
-  };
 
   boot.kernelPackages = pkgs.linuxPackages_testing_local;
   boot.kernelParams = ["earlyprintk" "console=ttyS0,115200n8" "console=tty0" "brcmfmac.debug=30" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];

@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [
+    ./sd-image.nix
+  ];
+
   boot.initrd.kernelModules = [ ];
   boot.initrd.availableKernelModules = [ "lz4" "lz4_compress" ];
 

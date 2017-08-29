@@ -24,7 +24,7 @@ let
 in rec {
 
   # AArch64
-  odroid-c2-minimal = makeSdImage {
+  odroid-c2 = makeSdImage {
     module = ./boards/odroid-c2/hardware-config.nix;
     type = "minimal";
     system = "aarch64-linux";
