@@ -50,7 +50,10 @@
       meson-tools
       sunxi-tools
       fip_create
-      uboot-nanopi-m3;
+      uboot-nanopi-m3
+      uboot-orangepi-pc2
+      uboot-orangepi-prime
+      uboot-nanopi-neo2;
 
     inherit (pkgs.callPackages ../pkgs/kernel/default.nix { })
       linuxPackages_testing_local

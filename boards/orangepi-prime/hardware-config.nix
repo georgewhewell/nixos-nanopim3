@@ -18,37 +18,11 @@ with lib;
       import <nixpkgs/nixos/modules/system/boot/loader/generic-extlinux-compatible/extlinux-conf-builder.nix> {
         inherit pkgs;
     };
-    uboot = pkgs.buildUBoot rec {
-      version = "master";
-      src = pkgs.fetchFromGitHub {
-        owner = "apritzel";
-        repo = "u-boot";
-        rev = "2d7cb5b426e7e0cdf684d7f8029ad132d7a8d383";
-        sha256 = "18dvbmapijq59gaz418pz939r3vwaz6a29m5jlxfacywiggjgyrw";
-      };
-      patches = [
-        "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/add-missing-gpio-compatibles.patch"
-        "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/add-nanopineoplus2.patch"
-        "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/add-pinebook-defconfig.patch"
-        "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/disable-usb-keyboards.patch"
-        "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/enable-DT-overlays-support.patch"
-        "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/fix-sopine-defconfig.patch"
-        "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/pll1-clock-fix-h5.patch"
-        "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/sunxi-boot-splash.patch"
-      ];
-      nativeBuildInputs = with pkgs;
-        [ gcc6 bc dtc swig1 which python2 ];
-      preBuild = "cp ${pkgs.bl31-a64} bl31.bin";
-      postPatch = "patchShebangs lib/libfdt/pylibfdt";
-      defconfig = "orangepi_prime_defconfig";
-      targetPlatforms = [ "aarch64-linux" ];
-      filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
-    };
     in {
      populateBootCommands = ''
       # Write bootloader to sd image
-      dd if=${uboot}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
-      dd if=${uboot}/u-boot.img conv=notrunc of=$out bs=1024 seek=40
+      dd if=${pkgs.uboot-orangepi-prime}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
+      dd if=${pkgs.uboot-orangepi-prime}/u-boot.img conv=notrunc of=$out bs=1024 seek=40
 
       # Populate ./boot with extlinux
       ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
