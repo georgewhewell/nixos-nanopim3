@@ -11,4 +11,8 @@
   sound.enable = false;
   services.openssh.enable = true;
 
+  networking.useNetworkd = true;
+
+  # https://github.com/NixOS/nixpkgs/issues/18962
+  systemd.network.networks."99-main".enable = false;
 }

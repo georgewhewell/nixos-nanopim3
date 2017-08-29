@@ -16,8 +16,6 @@
   hardware.bluetooth.enable = lib.mkDefault true;
   hardware.enableAllFirmware = lib.mkDefault true;
 
-  networking.networkmanager.enable = lib.mkDefault (pkgs.stdenv.system == "aarch64-linux");
-
   # dont need :)
   services.nixosManual.enable = lib.mkDefault false;
   programs.man.enable = lib.mkDefault false;
