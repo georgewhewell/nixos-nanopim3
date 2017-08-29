@@ -5,10 +5,10 @@ pkgs.stdenv.mkDerivation rec {
     name = "bl31-a64-${version}";
 
     src = pkgs.fetchFromGitHub {
-      owner = "longsleep";
+      owner = "apritzel";
       repo = "arm-trusted-firmware";
-      rev = "3cdc5c3afebeb2f91634f9f90572c202c1ea85f3"; #"allwinner-a64-bsp";
-      sha256 = "1zqg3lx97dlmlfp35c2ygv8gy2y85kdnv0y3dac2kvj1vzrm8hbm";
+      rev = "87e8aedd80e6448a55b2328768d956fcb5f5d410";
+      sha256 = "1hnr1123ik840ihvnck8agqm9r79x8hbaq4d4bvn1q9ayd2d5sy0";
     };
 
     patches = [
