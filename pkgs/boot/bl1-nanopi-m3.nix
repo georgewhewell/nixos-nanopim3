@@ -21,7 +21,7 @@ pkgs.stdenv.mkDerivation rec {
     ];
 
     buildPhase = ''
-      make CROSS_TOOL=${pkgs.gcc}/bin/ OBJCOPY=${pkgs.binutils}/bin/objcopy
+      make CROSS_TOOL=${pkgs.gcc6}/bin/ OBJCOPY=${pkgs.binutils}/bin/objcopy
     '';
 
     installPhase = ''
