@@ -1,6 +1,6 @@
 { pkgs }:
 
-{
+rec {
   boards = {
     nanopi-air = ./boards/nanopi-air.nix;
     nanopi-m3  = ./boards/nanopi-m3.nix;
@@ -14,4 +14,5 @@
   };
 
   platforms = (import ./platforms.nix { });
+  systems = (import ./systems.nix { inherit platforms; });
 }
