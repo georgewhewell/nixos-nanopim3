@@ -13,7 +13,7 @@ in {
   '';
 
   boot.kernelPackages = pkgs.linuxPackages_testing_local;
-  boot.kernelParams = [ "earlyprintk" "console=ttyS0,115200n8" "console=tty0" "zswap.enabled=1" "zswap.compressor=lz4" "zswap.max_pool_percent=80" ];
+  boot.extraTTYs = [ "ttyS0" ];
   nixpkgs.config.platform = platforms.armv7l-hf-multiplatform;
 
   networking.hostName = "nanopi-neo";
