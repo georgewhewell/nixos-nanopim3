@@ -39,6 +39,7 @@ in rec {
   nanopi-neo = armv7l-linux hardware.boards.nanopi-neo;
   nanopi-air = armv7l-linux hardware.boards.nanopi-air;
   orangepi-zero = armv7l-linux hardware.boards.orangepi-zero;
+  raspberrypi-2b = armv7l-linux hardware.boards.raspberrypi-2b;
 
   # aarch64
   odroid-c2 = aarch64-linux hardware.boards.odroid-c2;

@@ -10,6 +10,7 @@
     orangepi-pc2  = ./boards/orangepi-pc2.nix;
     orangepi-prime = ./boards/orangepi-prime.nix;
     orangepi-zero  = ./boards/orangepi-zero.nix;
+    raspberrypi-2b = ./boards/raspberrypi-2b.nix;
   };
 
   platforms = (import ./platforms.nix { });
