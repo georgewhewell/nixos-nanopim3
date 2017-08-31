@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
     '';
 
     meta = {
-      description = "odroid-c2 bl1 (${ramSpeed} MHz)";
+      description = "bsp-h5-lichee";
       maintainers = [ stdenv.lib.maintainers.georgewhewell ];
     };
 

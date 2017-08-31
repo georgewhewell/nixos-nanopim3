@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   armbian = pkgs.callPackage ./armbian.nix { };
