@@ -6,4 +6,4 @@ let
   hardware = import ./hardware { inherit pkgs; };
   forAllSystems = pkgs.lib.genAttrs supportedSystems;
   buildPackages = pkg: forAllSystems (system: pkgs.lib.hydraJob (pkg system));
-in buildPackages mypkgs
+in mypkgs

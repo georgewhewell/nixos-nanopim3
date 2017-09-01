@@ -28,4 +28,5 @@
     linuxPackages_nanopi-m3
     linuxPackages_sunxi64;
 
-}
+
+} // (pkgs.callPackage ./overrides.nix  pkgs)
