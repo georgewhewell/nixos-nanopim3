@@ -10,17 +10,17 @@ stdenv.mkDerivation rec {
     sha256 = "0vq7frcb8dq3f10rpc2ybj9fc82lnbvpc81cnsd41bqgpx61v2wr";
   };
 
-  outputs = [ "out" "uboot" "kernel" ];
+  outputs = [ "bin" "uboot" "kernel" ];
 
   installPhase = ''
     mkdir -p $out/bin
     cp -r tools/upgrade_tool $out/bin/upgrade_tools
-    mv $src/u-boot $uboot
-    mv $src/kernel $kernel
+    cp -r $src/u-boot $uboot
+    cp -r $src/kernel $kernel
   '';
 
   meta = {
-    description = "armbian source";
+    description = "x3399 sdk";
     maintainers = [ stdenv.lib.maintainers.georgewhewell ];
   };
 
