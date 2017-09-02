@@ -20,7 +20,7 @@ let
     kernelBaseConfig = "multi_v7_defconfig";
     kernelArch = "arm";
     kernelDTB = true;
-    kernelAutoModules = true;
+    kernelAutoModules = false;
     kernelPreferBuiltin = true;
     uboot = "upstream";
     kernelTarget = "Image";
@@ -58,7 +58,7 @@ let
     kernelBaseConfig = "defconfig";
     kernelArch = "arm64";
     kernelDTB = true;
-    kernelAutoModules = true;
+    kernelAutoModules = false;
     kernelPreferBuiltin = true;
     kernelExtraConfig = ''
       ${wantedModules}
