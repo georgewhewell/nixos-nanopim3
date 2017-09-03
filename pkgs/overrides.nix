@@ -10,7 +10,8 @@
       };
     });
   };*/
-
+  llvm = pkgs.llvm.overrideAttrs (
+    old: { doCheck = false; });
   qca-qt5 = pkgs.qca-qtt.overrideAttrs (
     old: { hardeningDisable = [ "all" ]; });
 }
