@@ -9,6 +9,7 @@ in
     ./include/common.nix
     ./include/bluetooth.nix
     ./include/wireless.nix
+    ./include/otg-role.nix
   ];
 
   nixpkgs.config.writeBootloader = ''

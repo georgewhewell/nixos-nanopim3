@@ -7,6 +7,7 @@ in
 {
   imports = [
     ./include/common.nix
+    ./include/otg-role.nix
   ];
 
   nixpkgs.config.writeBootloader = ''
