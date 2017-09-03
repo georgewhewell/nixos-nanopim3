@@ -12,7 +12,7 @@ pkgs.buildUBoot rec {
     patchShebangs tools/binman
     patchShebangs lib/libfdt
   '';
-  preBuild = "cp ${pkgs.bl31-a64} bl31.bin";
+  preBuild = lib.optional pkgs.stdenv.isAarch64 "cp ${pkgs.bl31-a64} bl31.bin";
   targetPlatforms = [ "armv7l-linux" "aarch64-linux" ];
   inherit defconfig filesToInstall;
 }
