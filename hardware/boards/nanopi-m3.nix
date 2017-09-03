@@ -24,7 +24,7 @@ in
   '';
 
   boot.kernelPackages = pkgs.linuxPackages_nanopi-m3;
-  boot.extraTTYs = [ "ttyACM0" ];
+  boot.extraTTYs = [ "ttySAC0" ];
 
   nixpkgs.config.platform = platforms.aarch64-nanopi-m3;
   hardware.firmware = [
