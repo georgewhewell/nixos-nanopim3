@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-    networking.networkmanager.enable = lib.mkDefault true;
+    networking.wireless.enable = true;
+    networking.networkmanager.enable = lib.mkDefault false;
 }
