@@ -5,7 +5,7 @@ set -e
 apt-get update && apt-get install -y \
   tmux build-essential openssl libssl-dev git flex bison automake autoconf \
   libsodium-dev pkg-config libgc-dev libsqlite3-dev libbz2-dev liblzma-dev \
-  libcurl4-openssl-dev libseccomp-dev
+  libcurl4-openssl-dev libseccomp-dev nlohmann-json-dev
 
 # installer does not support aarch64, so compile nix from source
 git clone https://github.com/NixOS/nix.git
