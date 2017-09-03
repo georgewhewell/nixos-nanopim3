@@ -40,6 +40,8 @@
 
       ${pkgs.udev}/bin/udevadm settle -t 5 || :
       ls /sys/class/udc/ > UDC
+
+      ${pkgs.nettools}/bin/ifconfig usb0 up
     '';
   };
 
