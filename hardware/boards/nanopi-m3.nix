@@ -25,36 +25,8 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_nanopi-m3;
   boot.extraTTYs = [ "ttyACM0" ];
-  
-  nixpkgs.config.platform = {
-      name = "nanopi-m3";
-      kernelMajor = "2.6"; # Using "2.6" enables 2.6 kernel syscalls in glibc.
-      kernelHeadersBaseConfig = "defconfig";
-      kernelBaseConfig = "nanopim3_defconfig";
-      kernelArch = "arm64";
-      kernelDTB = true;
-      kernelAutoModules = true;
-      kernelPreferBuiltin = true;
-      kernelExtraConfig = ''
-         SND n
-         BCMDHD n
-         ZPOOL y
-         Z3FOLD y
-         ZSWAP y
-         CRYPTO_LZ4HC m
 
-         INFINIBAND n
-         DRM_NOUVEAU n
-         DRM_AMDGPU n
-         IWLWIFI n
-      '';
-      uboot = null;
-      kernelTarget = "Image";
-      gcc = {
-        arch = "armv8-a";
-      };
-   };
-
+  nixpkgs.config.platform = platforms.aarch64-nanopi-m3;
   hardware.firmware = [
     pkgs.ap6212-firmware
   ];

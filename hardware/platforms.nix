@@ -3,6 +3,7 @@ let
     ZPOOL y
     Z3FOLD y
     ZSWAP y
+    BCMDHD n
     CRYPTO_LZ4HC m
   '';
   excludeModules = ''
