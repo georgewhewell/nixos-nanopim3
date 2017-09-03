@@ -1,8 +1,10 @@
 { pkgs, ... }:
 
 {
+
   armbian = pkgs.callPackage ./armbian.nix { };
   x3399-sdk = pkgs.callPackage ./x3399-sdk.nix { };
+  cpuminer-multi = pkgs.callPackage ./cpuminer-multi.nix { };
   ap6212-firmware = pkgs.callPackage ./ap6212-firmware.nix { };
 
   inherit (pkgs.callPackages ./boot/default.nix { })
