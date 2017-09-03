@@ -26,6 +26,7 @@
     linuxPackages_testing_local
     linuxPackages_amlogic
     linuxPackages_nanopi-m3
+    linuxPackages_sunxi32
     linuxPackages_sunxi64;
 
 } // (import ./overrides.nix { inherit pkgs; })

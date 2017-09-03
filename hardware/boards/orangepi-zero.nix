@@ -18,7 +18,7 @@ in
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_testing_local;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi32;
   boot.initrd.kernelModules = [ "w1-sunxi" "w1-gpio" "w1-therm" "sunxi-cir" "xradio_wlan" "xradio_wlan" ];
   boot.extraTTYs = [ "ttyS0" ];
 
