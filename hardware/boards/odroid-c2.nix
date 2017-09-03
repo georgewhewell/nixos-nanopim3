@@ -11,10 +11,10 @@ in
 
   nixpkgs.config.writeBootloader = let
     uboot = pkgs.buildUBoot rec {
-      version = "2017.07";
+      version = "2017.09-rc3";
       src = pkgs.fetchurl {
         url = "ftp://ftp.denx.de/pub/u-boot/u-boot-${version}.tar.bz2";
-        sha256 = "1zzywk0fgngm1mfnhkp8d0v57rs51zr1y6rp4p03i6nbibfbyx2k";
+        sha256 = "0k9r64lx9xajv3zmxassai7l8nxrbcxb5ml6cfghip056a59s9mm";
       };
       defconfig = "odroid-c2_defconfig";
       targetPlatforms = [ "aarch64-linux" ];
