@@ -26,6 +26,6 @@ pkgs.buildUBoot {
   '';
   preBuild = "cp ${pkgs.bl31-a64} bl31.bin";
   targetPlatforms = [ "aarch64-linux" ];
-  filesToInstall = [ "u-boot.img" "spl/sunxi-spl.bin" ];
+  filesToInstall = [ "u-boot.itb" "spl/sunxi-spl.bin" ];
   inherit defconfig;
 }

@@ -13,9 +13,8 @@ in
   ];
 
   nixpkgs.config.writeBootloader = ''
-    # Write bootloader to sd image
-    dd if=${pkgs.uboot-orangepi-prime}/sunxi-spl.bin conv=notrunc of=$out bs=1024 seek=8
-    dd if=${pkgs.uboot-orangepi-prime}/u-boot.img conv=notrunc of=$out bs=1024 seek=40
+    dd if=${pkgs.uboot-orangepi-prime}/sunxi-spl.bin of=$out bs=8k seek=1 conv=notrunc
+    dd if=${pkgs.uboot-orangepi-prime}/u-boot.itb of=$out bs=8k seek=5 conv=notrunc
   '';
 
   boot.kernelPackages = pkgs.linuxPackages_sunxi64;
