@@ -1,5 +1,7 @@
 let
   wantedModules = ''
+    CLEANCACHE y
+    FRONTSWAP y
     ZPOOL y
     Z3FOLD y
     ZSWAP y
