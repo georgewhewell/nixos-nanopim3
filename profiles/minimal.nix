@@ -6,6 +6,7 @@
     ./base.nix
     ./g-ether.nix
     ./buildfarm.nix
+    ./prometheus.nix
   ];
 
   sound.enable = false;
