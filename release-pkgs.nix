@@ -3,7 +3,11 @@
 let
   pkgs = import <nixpkgs> { };
   mypkgs = import ./pkgs/top-level.nix { inherit pkgs; inherit supportedSystems; };
+  overrides = import ./pkgs/overrides.nix { inherit pkgs; inherit supportedSystems; };
   hardware = import ./hardware { inherit pkgs; };
   forAllSystems = pkgs.lib.genAttrs supportedSystems;
   buildPackages = pkg: forAllSystems (system: pkgs.lib.hydraJob (pkg system));
-in mypkgs
+in {
+  inherit overrides;
+  inherit mypkgs;
+}

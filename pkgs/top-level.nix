@@ -31,4 +31,4 @@
     linuxPackages_sunxi32
     linuxPackages_sunxi64;
 
-} // (import ./overrides.nix { inherit pkgs; })
+}
