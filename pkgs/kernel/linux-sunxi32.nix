@@ -39,14 +39,14 @@ let
    armbianKernelPatches = map (n: mkArmbianPatch n) armbianPatches;
  in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
   version = "4.13";
-  modDirVersion = "4.13.0-rc7";
+  modDirVersion = "4.13.0";
   extraMeta.branch = "4.13";
 
   src = pkgs.fetchFromGitHub {
     owner = "megous";
     repo = "linux";
-    rev = "601a3e793535243a3b07f5fe5c8423f8643c480f";
-    sha256 = "1dg4x6vimn556mh1k2wdpqri43dpdxpaps1jih889v4bp5h5zfwb";
+    rev = "c173fe35989ed23e9f14379550a056969ef6140c";
+    sha256 = "0ak6r9yvzmg0j3yh7fnm72f1h3k57gjrxy2cs0bvhi1h7lirxqcd";
   };
 
   kernelPatches = pkgs.linux_4_12.kernelPatches;
