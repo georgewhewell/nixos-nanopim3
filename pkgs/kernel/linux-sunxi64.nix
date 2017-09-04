@@ -21,15 +21,15 @@ let
  ];
  armbianKernelPatches = map (n: mkArmbianPatch n) armbianPatches;
 in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
-  version = "4.13-rc6";
-  modDirVersion = "4.13.0-rc6";
+  version = "4.13.y";
+  modDirVersion = "4.13.0";
   extraMeta.branch = "4.13";
 
   src = pkgs.fetchFromGitHub {
     owner = "Icenowy";
     repo = "linux";
     rev = "sunxi64-${version}";
-    sha256 = "1rzha4bp5sq0d0vkq0af25vyazs24y3gg8zbf1znwbj331b409mq";
+    sha256 = "0nwdl12hcj2368hlwaax555mjz0w9vj5qrwik5bwkvffbxn2xrpa";
   };
 
   kernelPatches = pkgs.linux_4_12.kernelPatches ++ armbianKernelPatches ++ [
