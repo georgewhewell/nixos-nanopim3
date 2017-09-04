@@ -7,7 +7,7 @@ pkgs.buildUBoot rec {
     sha256 = "0k9r64lx9xajv3zmxassai7l8nxrbcxb5ml6cfghip056a59s9mm";
   };
   nativeBuildInputs = with pkgs;
-    [ gcc6 bc dtc swig1 which python2 ];
+    [ gcc bc dtc swig1 which python2 ];
   postPatch = ''
     patchShebangs tools/binman
     patchShebangs lib/libfdt

@@ -19,7 +19,7 @@ pkgs.buildUBoot {
     "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/sunxi-boot-splash.patch"
   ];
   nativeBuildInputs = with pkgs;
-    [ gcc6 bc dtc swig1 which python2 ];
+    [ gcc bc dtc swig1 which python2 ];
   postPatch = ''
     patchShebangs tools/binman
     patchShebangs lib/libfdt
