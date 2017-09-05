@@ -9,7 +9,6 @@ let
      "sun8i-dev/add-configfs-overlay-for-v4.11.x.patch"
      "sun8i-dev/add-fix-dts-for-opi-zero-emac.patch"
      "sun8i-dev/add-h3-simplefb.patch"
-     "sun8i-dev/add-orangepi-zeroplus.patch"
      "sun8i-dev/add-realtek-8189fs-driver.patch"
      "sun8i-dev/add-spi-aliases.patch"
      "sun8i-dev/add-spi-flash-opi-zero.patch"
