@@ -1,6 +1,9 @@
 { pkgs }:
 
 {
+  pythonPackages = pkgs.pythonPackages // {
+    cffi = pkgs.python27Packages.cffi.overrideAttrs (oldAttrs: {
+      doCheck = false; doInstallCheck = false; }); };
 
   networkmanager_iodine = pkgs.networkmanager_iodine.overrideAttrs (
     old: { buildInputs = old.buildInputs ++ [ pkgs.pkgconfig ]; });
