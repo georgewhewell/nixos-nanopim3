@@ -8,6 +8,7 @@ let
 in {
   imports = [
     ./sd-image.nix
+    ../../../pkgs/modules/networkmanager-small.nix
   ];
 
   nixpkgs.config.packageOverrides = super: let self = super.pkgs; in
