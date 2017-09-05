@@ -6,7 +6,7 @@ let
       doCheck = false;
     };
   };
-{
+in rec {
   /*xorg = pkgs.xorg // {
     xf86videovmware = pkgs.lib.overrideDerivation pkgs.xorg.xf86videovmware (drv: {
       hardeningDisable = [ "all" ];
@@ -16,7 +16,10 @@ let
       };
     });
   };*/
-
+  networkmanager_iodine = pkgs.networkmanager_iodine.overrideAttrs (
+    old: {
+      buildInputs = old.buildInputs ++ [ pkgs.pkgconfig ];
+  });
   llvm = pkgs.llvm.overrideAttrs (
     old: { doCheck = false; });
 

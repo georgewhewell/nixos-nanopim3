@@ -31,4 +31,7 @@
     linuxPackages_sunxi32
     linuxPackages_sunxi64;
 
+  inherit (pkgs.callPackages ./overrides.nix { })
+    networkmanager_iodine;
+
 }
