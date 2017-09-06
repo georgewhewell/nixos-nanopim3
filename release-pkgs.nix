@@ -8,6 +8,7 @@ let
   forAllSystems = pkgs.lib.genAttrs supportedSystems;
   buildPackages = pkg: forAllSystems (system: pkgs.lib.hydraJob (pkg system));
 in {
+  inherit pkgs;
   inherit overrides;
   inherit mypkgs;
 }

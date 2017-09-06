@@ -8,7 +8,6 @@
     stress
     vim
     ethtool
-    bluez
     cifs-utils
     nfs-utils
   ];

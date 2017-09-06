@@ -6,16 +6,18 @@ let
     "armv7l-linux" = ../../../pkgs/overrides-armv7l.nix;
   };
 in {
+
   imports = [
     ./sd-image.nix
     ../../../pkgs/modules/networkmanager-small.nix
   ];
 
   nixpkgs.config.packageOverrides = super: let self = super.pkgs; in
-    # call overrides with original package set
-    import ../../../pkgs/overrides.nix { pkgs = super; } //
 
-    # call custom packages with overridden set
-    import ../../../pkgs/top-level.nix { pkgs = self; };
+    import ../../../pkgs/top-level.nix {
+      # call custom packages with overridden set
+      pkgs = self // import ../../../pkgs/overrides.nix {
+        # call overrides with original package set
+        pkgs = self; }; };
 
 }
