@@ -13,8 +13,7 @@ in
   ];
 
   nixpkgs.config.writeBootloader = ''
-    dd if=${pkgs.uboot-orangepi-zero}/sunxi-spl.bin of=$out bs=8k seek=1 conv=notrunc
-    dd if=${pkgs.uboot-orangepi-zero}/u-boot.itb of=$out bs=8k seek=5 conv=notrunc
+    dd if=${pkgs.uboot-orangepi-zero}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
   '';
 
   boot.kernelPackages = pkgs.linuxPackages_latest;

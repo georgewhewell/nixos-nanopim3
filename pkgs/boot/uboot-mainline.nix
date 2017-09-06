@@ -1,4 +1,4 @@
-{ config, lib, pkgs, defconfig, filesToInstall ? [ "spl/sunxi-spl.bin" "u-boot.itb" ] }:
+{ config, lib, pkgs, defconfig, filesToInstall ? [ "u-boot-sunxi-with-spl.bin" ] }:
 
 pkgs.buildUBoot rec {
   version = "2017.09-rc4";
