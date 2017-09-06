@@ -23,11 +23,11 @@
   powerManagement.cpuFreqGovernor = "performance";
 
   nix.binaryCaches = [
-      https://cache.nixos.org/
       https://hydra.satanic.link/
+      https://cache.nixos.org/
   ];
   nix.binaryCachePublicKeys = [
-    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "hydra.satanic.link-1:U4ZvldOwA3GWLmFTqdXwUu9oS0Qzh4+H/HSl8O6ew5o="
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
   ];
 }
