@@ -12,12 +12,9 @@ in {
     ../../../pkgs/modules/networkmanager-small.nix
   ];
 
-  nixpkgs.config.packageOverrides = super: let self = super.pkgs; in
-
-    import ../../../pkgs/top-level.nix {
-      # call custom packages with overridden set
-      pkgs = self // import ../../../pkgs/overrides.nix {
-        # call overrides with original package set
-        pkgs = self; }; };
+  nixpkgs.overlays = [
+    (self: super: import ../../../pkgs/overlay.nix { inherit self super; })
+    (self: super: import ../../../pkgs/top-level.nix { pkgs = self; })
+  ];
 
 }
