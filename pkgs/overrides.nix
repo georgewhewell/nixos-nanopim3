@@ -1,12 +1,19 @@
 { pkgs }:
 
-{
-  python2Packages = pkgs.python2Packages // {
-    cffi = pkgs.python2Packages.cffi.overrideAttrs (oldAttrs: {
-      doCheck = false; doInstallCheck = false; }); };
+let
+  pythonOverrides = super: super // {
+    cffi = super.cffi.overrideAttrs (oldAttrs: {
+      doCheck = false; doInstallCheck = false; checkPhase = "";
+    });
+  };
+in {
+  pythonPackages = pythonOverrides pkgs.pythonPackages;
+  python2Packages = pythonOverrides pkgs.python2Packages;
 
-  networkmanager_iodine = pkgs.networkmanager_iodine.overrideAttrs (
-    old: { buildInputs = old.buildInputs ++ [ pkgs.pkgconfig ]; });
+  gnome3 = pkgs.gnome3 // {
+      networkmanager_iodine = pkgs.networkmanager_iodine.overrideAttrs (
+        old: { buildInputs = old.buildInputs ++ [ pkgs.pkgconfig ]; });
+  };
 
   llvm_4 = pkgs.llvm_4.overrideAttrs (
     old: { doCheck = false; });
