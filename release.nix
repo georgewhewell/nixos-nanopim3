@@ -3,6 +3,7 @@
 let
   pkgs = import <nixpkgs> { };
   mypkgs = import ./pkgs/top-level.nix { };
+  forAllSystems = pkgs.lib.genAttrs supportedSystems;
   hardware = import ./hardware { inherit pkgs; };
   lib = pkgs.lib;
   versionModule =
@@ -34,6 +35,16 @@ let
     inherit board;
   };
 in rec {
+
+  # Ensure that all packages used by the minimal NixOS config end up in the channel.
+  dummy = forAllSystems (system: pkgs.runCommand "dummy"
+    { toplevel = (import <nixpkgs/nixos/lib/eval-config.nix> {
+        inherit system;
+        modules = [ ./profiles/minimal.nix ];
+      }).config.system.build.toplevel;
+      preferLocalBuild = true;
+    }
+    "mkdir $out; ln -s $toplevel $out/dummy");
 
   # armv7l
   nanopi-neo = armv7l-linux hardware.boards.nanopi-neo;
