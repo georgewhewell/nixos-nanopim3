@@ -14,7 +14,10 @@ let
     { board, profile, system }:
 
     with
-      import <nixpkgs> { inherit system; };
+      import <nixpkgs> { inherit system; overlays = [
+        (self: super: import pkgs/overlay.nix { inherit self super; })
+        (self: super: import pkgs/top-level.nix { pkgs = self; })
+      ];};
 
     lib.hydraJob ((import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system;
