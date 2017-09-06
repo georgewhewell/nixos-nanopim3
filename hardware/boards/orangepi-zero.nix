@@ -17,9 +17,6 @@ in
     dd if=${pkgs.uboot-orangepi-zero}/u-boot.itb of=$out bs=8k seek=5 conv=notrunc
   '';
 
-  boot.loader.grub.enable = false;
-  boot.loader.generic-extlinux-compatible.enable = true;
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.kernelModules = [ "w1-sunxi" "w1-gpio" "w1-therm" "sunxi-cir" "xradio_wlan" "xradio_wlan" ];
   boot.extraTTYs = [ "ttyS0" ];
