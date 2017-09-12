@@ -4,37 +4,21 @@ let
   pkgs = import <nixpkgs> { };
   hardware = import ./hardware { inherit pkgs; };
   lib = pkgs.lib;
-  versionModule =
-    { system.nixosVersionSuffix = "-unstable";
-      system.nixosRevision = "git";
-    };
-  makeSdCross =
-    { board, profile, system, crossSystem }:
-
-    with
-      import <nixpkgs> { inherit crossSystem; };
-      lib.hydraJob ((import <nixpkgs/nixos/lib/eval-config.nix> {
-        inherit system;
-        modules = [
-          board
-          profile
-          versionModule { }
-        ];
-      }).config.system.build.sdImage );
-  armv7l-linux = board: makeSdCross {
-    crossSystem = hardware.systems.armv7l-hf-multiplatform;
-    system = "armv7l-linux";
-    profile = ./profiles/minimal.nix;
-    inherit board;
-  };
-  aarch64-linux = board: makeSdCross {
-    crossSystem = hardware.systems.aarch64-multiplatform;
-    system = "aarch64-linux";
-    profile = ./profiles/minimal.nix;
-    inherit board;
-  };
 in rec {
-
+  aarch64Pkgs =
+      with import pkgs.path {
+        crossSystem = hardware.systems.aarch64-multiplatform;
+        overlays = [
+          (self: super: import pkgs/overlay.nix { inherit self super; })
+          (self: super: import pkgs/top-level.nix { pkgs = self; })
+        ];
+      };
+      with import ./pkgs/top-level.nix { inherit pkgs; }; {
+        inherit
+          linux-amlogic
+          linux-sunxi64
+          linux-nanopi-m3;
+      };
   # armv7l
   nanopi-neo = armv7l-linux hardware.boards.nanopi-neo;
   /*nanopi-air = armv7l-linux hardware.boards.nanopi-air;

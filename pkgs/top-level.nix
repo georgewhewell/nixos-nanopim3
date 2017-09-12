@@ -29,6 +29,10 @@
     linuxPackages_amlogic
     linuxPackages_nanopi-m3
     linuxPackages_sunxi32
-    linuxPackages_sunxi64;
+    linuxPackages_sunxi64
+    linux-nanopi-m3
+    linux-amlogic
+    linux-sunxi32
+    linux-sunxi64;
 
 }
