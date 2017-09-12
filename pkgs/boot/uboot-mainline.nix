@@ -1,10 +1,10 @@
 { config, lib, pkgs, defconfig, filesToInstall ? [ "u-boot-sunxi-with-spl.bin" ] }:
 
 pkgs.buildUBoot rec {
-  version = "2017.09-rc4";
+  version = "2017.09";
   src = pkgs.fetchurl {
     url = "ftp://ftp.denx.de/pub/u-boot/u-boot-${version}.tar.bz2";
-    sha256 = "0vn55bnzdn9wdjacclvg3pz2lw3s39a5r8s7q2ld1f67di127qpk";
+    sha256 = "0i4p12ar0zgyxs8hiqgp6p6shvbw4ikkvryd4mh70bppyln5zldj";
   };
   nativeBuildInputs = with pkgs;
     [ gcc bc dtc swig1 which python2 ];
