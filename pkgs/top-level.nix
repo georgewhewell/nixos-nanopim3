@@ -18,6 +18,7 @@
     fip_create
     uboot-nanopi-air
     uboot-orangepi-zero
+    uboot-orangepi-plus2e
     uboot-nanopi-neo
     uboot-nanopi-m3
     uboot-orangepi-pc2
