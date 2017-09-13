@@ -20,8 +20,11 @@
     size = 2048;
   } ];
 
-  boot.cleanTmpDir = true;
-  boot.tmpOnTmpfs = true;
+  fileSystems."/tmp" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [ "size=1G" ];
+  };
 
   powerManagement.cpuFreqGovernor = "ondemand";
 
