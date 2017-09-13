@@ -20,6 +20,10 @@
     size = 2048;
   } ];
 
+  filesystems."/".options = [
+    "noatime" "commit=1800"
+  ];
+
   fileSystems."/tmp" = {
     device = "tmpfs";
     fsType = "tmpfs";
