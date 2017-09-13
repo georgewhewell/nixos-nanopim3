@@ -20,6 +20,9 @@
     size = 2048;
   } ];
 
+  boot.cleanTmpDir = true;
+  boot.tmpOnTmpfs = true;
+
   powerManagement.cpuFreqGovernor = "performance";
 
   nix.binaryCaches = [
