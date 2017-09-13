@@ -3,33 +3,16 @@
 let
   pkgs = import <nixpkgs> { };
   hardware = import ./hardware { inherit pkgs; };
-  lib = pkgs.lib;
+  crossBuild = crossSystem: let
+    crossPkgs = import pkgs.path {
+      inherit crossSystem;
+      overlays = [
+        (self: super: import pkgs/overlay.nix { inherit self super; })
+        (self: super: import pkgs/top-level.nix { pkgs = self; })
+      ];
+    };
+    in import ./pkgs/top-level.nix { pkgs = crossPkgs; };
 in rec {
-  aarch64Pkgs =
-      with import pkgs.path {
-        crossSystem = hardware.systems.aarch64-multiplatform;
-        overlays = [
-          (self: super: import pkgs/overlay.nix { inherit self super; })
-          (self: super: import pkgs/top-level.nix { pkgs = self; })
-        ];
-      };
-      with import ./pkgs/top-level.nix { inherit pkgs; }; {
-        inherit
-          linux-amlogic
-          linux-sunxi64
-          linux-nanopi-m3;
-      };
-  # armv7l
-  nanopi-neo = armv7l-linux hardware.boards.nanopi-neo;
-  /*nanopi-air = armv7l-linux hardware.boards.nanopi-air;
-  orangepi-zero = armv7l-linux hardware.boards.orangepi-zero;
-  raspberrypi-2b = armv7l-linux hardware.boards.raspberrypi-2b;
-
-  # aarch64
-  odroid-c2 = aarch64-linux hardware.boards.odroid-c2;
-  nanopi-neo2 = aarch64-linux hardware.boards.nanopi-neo2;
-  nanopi-m3 = aarch64-linux hardware.boards.nanopi-m3;
-  orangepi-prime = aarch64-linux hardware.boards.orangepi-prime;
-  orangepi-pc2 = aarch64-linux hardware.boards.orangepi-pc2;*/
-
+  aarch64Pkgs = (crossBuild hardware.systems.aarch64-multiplatform);
+  armv7l-linux = (crossBuild hardware.systems.armv7l-hf-multiplatform);
 }
