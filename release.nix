@@ -1,42 +1,44 @@
-{ supportedSystems ? [ "aarch64-linux" "armv7l-linux" ] }:
+{ supportedSystems ? [ "aarch64-linux" "armv7l-linux" "x86_64-linux" ] }:
 
 let
   pkgs = import <nixpkgs> { };
+  overlays = import ./pkgs/overlay.nix { };
   mypkgs = import ./pkgs/top-level.nix { };
   forAllSystems = pkgs.lib.genAttrs supportedSystems;
   hardware = import ./hardware { inherit pkgs; };
   lib = pkgs.lib;
+
   versionModule =
     { system.nixosVersionSuffix = "-unstable";
       system.nixosRevision = "git";
     };
-  makeSdImage =
-    { board, profile, system }:
 
-    with
-      import <nixpkgs> { inherit system; overlays = [
-        (self: super: import pkgs/overlay.nix { inherit self super; })
-        (self: super: import pkgs/top-level.nix { pkgs = self; })
-      ];};
-
-    lib.hydraJob ((import <nixpkgs/nixos/lib/eval-config.nix> {
-      inherit system;
-      modules = [
-        board
-        profile
-        versionModule { }
+  exportIso = build:
+    pkgs.symlinkJoin {
+      name="sd-image";
+      paths=[
+        build.sdImage
       ];
-    }).config.system.build.sdImage );
-  armv7l-linux = board: makeSdImage {
+    postBuild = ''
+      mkdir -p $out/nix-support
+      echo "file sd-image.img $out" >> $out/nix-support/hydra-build-products
+    '';
+  };
+
+  buildSystem = { system, modules }:
+    (import <nixpkgs/nixos/lib/eval-config.nix> {
+      inherit system modules;
+    }).config.system.build;
+
+  armv7l-linux = board: exportIso (buildSystem {
     system = "armv7l-linux";
-    profile = ./profiles/minimal.nix;
-    inherit board;
-  };
-  aarch64-linux = board: makeSdImage {
+    modules = [ board ./profiles/minimal.nix versionModule ];
+  });
+
+  aarch64-linux = board: exportIso (buildSystem {
     system = "aarch64-linux";
-    profile = ./profiles/minimal.nix;
-    inherit board;
-  };
+    modules = [ board ./profiles/minimal.nix versionModule ];
+  });
 in rec {
 
   # Ensure that all packages used by the minimal NixOS config end up in the channel.

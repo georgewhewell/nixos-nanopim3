@@ -20,7 +20,7 @@
     size = 2048;
   } ];
 
-  filesystems."/".options = [
+  fileSystems."/".options = [
     "noatime" "commit=1800"
   ];
 

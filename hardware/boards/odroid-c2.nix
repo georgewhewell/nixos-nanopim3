@@ -18,7 +18,7 @@ in
       --bl30  $HKDIR/fip/gxb/bl30.bin \
       --bl301 $HKDIR/fip/gxb/bl301.bin \
       --bl31  $HKDIR/fip/gxb/bl31.bin \
-      --bl33  ${uboot-odroid-c2}/u-boot.bin \
+      --bl33  ${pkgs.uboot-odroid-c2}/u-boot.bin \
       --dump \
       fip.bin
 
