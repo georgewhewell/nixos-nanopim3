@@ -23,7 +23,7 @@
   boot.cleanTmpDir = true;
   boot.tmpOnTmpfs = true;
 
-  powerManagement.cpuFreqGovernor = "performance";
+  powerManagement.cpuFreqGovernor = "ondemand";
 
   nix.binaryCaches = [
       https://hydra.satanic.link/
