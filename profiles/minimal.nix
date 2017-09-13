@@ -6,7 +6,6 @@
     ./base.nix
     ./g-ether.nix
     ./buildfarm.nix
-    ./prometheus.nix
     ./dev-utils.nix
   ];
 

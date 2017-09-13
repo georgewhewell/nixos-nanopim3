@@ -2,5 +2,6 @@
 
 {
     networking.networkmanager.enable = false;
-    networking.networkmanager-small.enable = lib.mkDefault true;
+    networking.networkmanager-small.enable = false;
+    networking.wireless.enable = true;
 }
