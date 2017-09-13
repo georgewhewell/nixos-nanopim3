@@ -9,18 +9,7 @@ in
     include/common.nix
   ];
 
-  nixpkgs.config.writeBootloader = let
-    uboot = pkgs.buildUBoot rec {
-      version = "2017.09-rc3";
-      src = pkgs.fetchurl {
-        url = "ftp://ftp.denx.de/pub/u-boot/u-boot-${version}.tar.bz2";
-        sha256 = "0k9r64lx9xajv3zmxassai7l8nxrbcxb5ml6cfghip056a59s9mm";
-      };
-      defconfig = "odroid-c2_defconfig";
-      targetPlatforms = [ "aarch64-linux" ];
-      filesToInstall = [ "u-boot.bin" ];
-    };
-    in ''
+  nixpkgs.config.writeBootloader = ''
     # Ref: http://git.denx.de/?p=u-boot.git;a=blob_plain;f=board/amlogic/odroid-c2/README;hb=HEAD
     export HKDIR=${pkgs.fip_create.src}
 
@@ -29,7 +18,7 @@ in
       --bl30  $HKDIR/fip/gxb/bl30.bin \
       --bl301 $HKDIR/fip/gxb/bl301.bin \
       --bl31  $HKDIR/fip/gxb/bl31.bin \
-      --bl33  ${uboot}/u-boot.bin \
+      --bl33  ${uboot-odroid-c2}/u-boot.bin \
       --dump \
       fip.bin
 

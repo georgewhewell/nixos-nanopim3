@@ -17,6 +17,7 @@
     sunxi-tools
     fip_create
     uboot-nanopi-air
+    uboot-odroid-c2
     uboot-orangepi-zero
     uboot-orangepi-plus2e
     uboot-nanopi-neo

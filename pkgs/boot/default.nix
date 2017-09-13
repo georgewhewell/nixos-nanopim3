@@ -7,6 +7,8 @@ with pkgs;
   nanopi-load = callPackage ./nanopi-load.nix { };
   meson-tools = callPackage ./meson-tools.nix { };
   sunxi-tools = callPackage ./sunxi-tools.nix { };
+  uboot-odroid-c2 = callPackage ./uboot-mainline.nix {
+    defconfig = "odroid-c2_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
   uboot-orangepi-zero = callPackage ./uboot-mainline.nix { defconfig = "orangepi_zero_defconfig"; };
   uboot-orangepi-plus2e = callPackage ./uboot-mainline.nix { defconfig = "orangepi_plus2e_defconfig"; };
   uboot-nanopi-neo = callPackage ./uboot-mainline.nix { defconfig = "nanopi_neo_defconfig"; };
