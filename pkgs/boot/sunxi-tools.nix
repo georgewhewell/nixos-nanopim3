@@ -12,6 +12,15 @@ pkgs.stdenv.mkDerivation rec {
     };
 
     hardeningDisable = [ "all" ];
-    nativeBuildInputs = [ pkgs.binutils pkgs.openssl pkgs.libusb ];
+    nativeBuildInputs = [ pkgs.binutils pkgs.openssl pkgs.libusb pkgs.pkgconfig ];
+
+    buildPhase = ''
+      make all misc
+    '';
+
+    installPhase = ''
+      mkdir -p $out/bin
+      cp bin2fex fex2bin phoenix_info sunxi-bootinfo sunxi-fel sunxi-fexc sunxi-nand-part sunxi-pio $out/bin
+    '';
 
 }
