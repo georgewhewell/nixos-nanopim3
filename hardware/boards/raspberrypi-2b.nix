@@ -17,7 +17,7 @@ in
 
   nixpkgs.config.writeBootloader = ''
     (cd ${pkgs.raspberrypifw}/share/raspberrypi/boot && cp bootcode.bin fixup*.dat start*.elf $NIX_BUILD_TOP/boot/)
-    cp ${pkgs.ubootRaspberryPi}/u-boot.bin boot/u-boot-rpi.bin
+    cp ${pkgs.uboot-raspberrypi-2b}/u-boot.bin boot/
     echo 'kernel u-boot-rpi.bin' > boot/config.txt
   '';
 

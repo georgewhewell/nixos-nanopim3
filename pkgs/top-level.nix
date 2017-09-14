@@ -24,7 +24,8 @@
     uboot-nanopi-m3
     uboot-orangepi-pc2
     uboot-orangepi-prime
-    uboot-nanopi-neo2;
+    uboot-nanopi-neo2
+    uboot-raspberrypi-2b;
 
   inherit (pkgs.callPackages ./kernel/default.nix { })
     linuxPackages_testing_local

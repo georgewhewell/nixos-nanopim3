@@ -1,4 +1,7 @@
-{ supportedSystems ? [ "aarch64-linux" "armv7l-linux" "x86_64-linux" ] }:
+{ stableBranch ? false,
+  supportedSystems ? [ "aarch64-linux" "armv7l-linux" "x86_64-linux" ],
+  nixpkgs ? { outPath = ./..; revCount = 56789; shortRev = "gfedcba"; }
+}:
 
 let
   pkgs = import <nixpkgs> { };
@@ -7,18 +10,14 @@ let
   forAllSystems = pkgs.lib.genAttrs supportedSystems;
   hardware = import ./hardware { inherit pkgs; };
   lib = pkgs.lib;
-
+  versionSuffix =
+    (if stableBranch then "." else "pre") + "${toString nixpkgs.revCount}.${nixpkgs.shortRev}";
   versionModule =
-    { system.nixosVersionSuffix = "-unstable";
-      system.nixosRevision = "git";
+    { system.nixosVersionSuffix = versionSuffix;
+      system.nixosRevision = nixpkgs.rev or nixpkgs.shortRev;
     };
 
-  exportIso = build:
-    pkgs.symlinkJoin {
-      name="sd-image";
-      paths=[
-        build.sdImage
-      ];
+  exportIso = build: build // {
     postBuild = ''
       mkdir -p $out/nix-support
       echo "file sd-image.img $out" >> $out/nix-support/hydra-build-products
@@ -33,12 +32,12 @@ let
   armv7l-linux = board: exportIso (buildSystem {
     system = "armv7l-linux";
     modules = [ board ./profiles/minimal.nix versionModule ];
-  });
+  }).sdImage;
 
   aarch64-linux = board: exportIso (buildSystem {
     system = "aarch64-linux";
     modules = [ board ./profiles/minimal.nix versionModule ];
-  });
+  }).sdImage;
 in rec {
 
   # Ensure that all packages used by the minimal NixOS config end up in the channel.

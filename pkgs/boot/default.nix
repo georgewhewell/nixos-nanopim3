@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-with pkgs;
+{ pkgs, callPackage, ... }:
 
 {
   bl1-nanopi-m3 = callPackage ./bl1-nanopi-m3.nix { };
@@ -13,6 +11,8 @@ with pkgs;
   uboot-orangepi-plus2e = callPackage ./uboot-mainline.nix { defconfig = "orangepi_plus2e_defconfig"; };
   uboot-nanopi-neo = callPackage ./uboot-mainline.nix { defconfig = "nanopi_neo_defconfig"; };
   uboot-nanopi-air = callPackage ./uboot-mainline.nix { defconfig = "nanopi_neo_air_defconfig"; };
+  uboot-raspberrypi-2b = callPackage ./uboot-mainline.nix {
+    defconfig = "rpi_2_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
   uboot-nanopi-m3 = callPackage ./uboot-nanopi-m3.nix { };
   uboot-orangepi-pc2 = callPackage ./uboot-mainline.nix {
     defconfig = "orangepi_pc2_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
