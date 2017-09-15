@@ -15,7 +15,7 @@ in {
   '';
 
   boot.extraTTYs = [ "ttyS0" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_testing_local;
 
   nixpkgs.config.platform = platforms.armv7l-hf-multiplatform;
   hardware.firmware = [ pkgs.ap6212-firmware ];
