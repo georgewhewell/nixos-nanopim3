@@ -8,8 +8,8 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
   src = pkgs.fetchFromGitHub {
     owner = "rafaello7";
     repo = "linux-nanopi-m3";
-    rev = "951d07d7592855be7ba8d31bbf6889c1e4c0efaf";
-    sha256 = "19460hqc959ggfnrfgbivdsbba3kj9nr7qb72g486sc53k8x15wg";
+    rev = "2f1317556a415cb2e5354c39532014252b37ea41";
+    sha256 = "169pc4k677nrlpq46p2gcjbjng7lgl5xa7l4kfy2wk2vrmksh15l";
   };
 
   kernelPatches = [
