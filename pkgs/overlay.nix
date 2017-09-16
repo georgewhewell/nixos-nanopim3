@@ -15,4 +15,8 @@ rec {
       old: { buildInputs = old.buildInputs ++ [ super.pkgconfig ]; });
   };
 
+  collectd = pkgs.collectd.override {
+    libvirt = null;
+  };
+
 }
