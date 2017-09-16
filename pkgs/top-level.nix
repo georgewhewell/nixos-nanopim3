@@ -24,6 +24,7 @@
     uboot-nanopi-m3
     uboot-orangepi-pc2
     uboot-orangepi-prime
+    uboot-pine64
     uboot-nanopi-neo2
     uboot-raspberrypi-2b
     uboot-rock64

@@ -41,6 +41,8 @@ let
     defconfig = "rpi_2_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
   uboot-rock64 = callPackage ./uboot-rock64.nix { };
   uboot-nanopi-m3 = callPackage ./uboot-nanopi-m3.nix { };
+  uboot-pine64 = uboot-64 {
+    defconfig = "pine64_plus_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
   uboot-orangepi-pc2 = uboot-64 {
     defconfig = "orangepi_pc2_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
   uboot-orangepi-prime = uboot-64 {

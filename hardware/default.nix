@@ -11,6 +11,7 @@ rec {
     orangepi-plus2e = ./boards/orangepi-plus2e.nix;
     orangepi-prime = ./boards/orangepi-prime.nix;
     orangepi-zero  = ./boards/orangepi-zero.nix;
+    pine64-pine64 = ./boards/pine64-pine64.nix;
     pine64-rock64 = ./boards/pine64-rock64.nix;
     raspberrypi-2b = ./boards/raspberrypi-2b.nix;
   };

@@ -63,5 +63,6 @@ in rec {
   nanopi-m3 = aarch64-linux hardware.boards.nanopi-m3;
   orangepi-prime = aarch64-linux hardware.boards.orangepi-prime;
   orangepi-pc2 = aarch64-linux hardware.boards.orangepi-pc2;
+  pine64-pine64 = aarch64-linux hardware.boards.pine64-pine64;
   pine64-rock64 = aarch64-linux hardware.boards.pine64-rock64;
 }
