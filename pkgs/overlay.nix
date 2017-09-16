@@ -3,12 +3,12 @@
 rec {
   python = super.python.override {
      packageOverrides = python-self: python-super: {
-       cffi = super.pythonPackages.cffi.overrideAttrs (oldAttrs: {
-         doCheck = false; doInstallCheck = false; checkPhase = "";
+       cffi = super.python2Packages.cffi.overrideAttrs (oldAttrs: {
+         doCheck = false; doInstallCheck = false;
        });
      };
   };
-  pythonPackages = python.pkgs;
+  python2Packages = python.pkgs;
 
   gnome3 = super.gnome3 // {
     networkmanager_iodine = super.gnome3.networkmanager_iodine.overrideAttrs (
@@ -21,6 +21,7 @@ rec {
     rabbitmq-c = null;
     libgcrypt = null;
     jdk = null;
+    riemann = null;
   };
 
 }
