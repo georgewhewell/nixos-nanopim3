@@ -19,6 +19,7 @@
   nixpkgs.config.allowBroken = true;
 
   powerManagement.enable = lib.mkDefault true;
+  powerManagement.cpuFreqGovernor = "ondemand";
 
   # dont need :)
   services.nixosManual.enable = lib.mkDefault false;

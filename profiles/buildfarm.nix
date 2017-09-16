@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [
+    ./prometheus.nix
+  ];
+
   nix.buildCores = lib.mkDefault 0;
   nix.useSandbox = lib.mkDefault true;
   nix.extraOptions = "auto-optimise-store = true";
@@ -29,10 +33,6 @@
     fsType = "tmpfs";
     options = [ "size=1G" ];
   };
-
-  services.collectd.enable = true;
-
-  powerManagement.cpuFreqGovernor = "ondemand";
 
   nix.binaryCaches = [
       https://hydra.satanic.link/
