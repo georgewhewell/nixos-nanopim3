@@ -4,9 +4,11 @@
 }:
 
 let
-  pkgs = import <nixpkgs> { };
+  pkgs = import <nixpkgs> { overlays = [
+    (self: super: import pkgs/overlay.nix { inherit self super; })
+    (self: super: import pkgs/top-level.nix { pkgs = self; })
+  ];};
   overlays = import ./pkgs/overlay.nix { };
-  mypkgs = import ./pkgs/top-level.nix { };
   forAllSystems = pkgs.lib.genAttrs supportedSystems;
   hardware = import ./hardware { inherit pkgs; };
   lib = pkgs.lib;

@@ -3,7 +3,7 @@
 rec {
   python = super.python.override {
      packageOverrides = python-self: python-super: {
-       cffi = super.python2Packages.cffi.overrideAttrs (oldAttrs: {
+       cffi = super.pythonPackages.cffi.overrideAttrs (oldAttrs: {
          doCheck = false; doInstallCheck = false; checkPhase = "";
        });
      };
@@ -15,8 +15,12 @@ rec {
       old: { buildInputs = old.buildInputs ++ [ super.pkgconfig ]; });
   };
 
-  collectd = pkgs.collectd.override {
+  collectd = super.collectd.override {
     libvirt = null;
+    protobufc = null;
+    rabbitmq-c = null;
+    libgcrypt = null;
+    jdk = null;
   };
 
 }
