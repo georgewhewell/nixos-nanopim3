@@ -12,6 +12,8 @@ in {
     ../../../pkgs/modules/networkmanager-small.nix
   ];
 
+  networking.networkmanager.enable = true;
+
   nixpkgs.overlays = [
     (self: super: import ../../../pkgs/overlay.nix { inherit self super; })
     (self: super: import ../../../pkgs/top-level.nix { pkgs = self; })
