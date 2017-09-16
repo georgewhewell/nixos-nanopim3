@@ -23,7 +23,6 @@ in
   '';
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  nixpkgs.config.platform = platforms.armv7l-hf-multiplatform;
 
   networking.hostName = "rasbperrypi-2b";
 

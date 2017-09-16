@@ -15,7 +15,6 @@ in {
 
   boot.kernelPackages = pkgs.linuxPackages_testing_local;
   boot.extraTTYs = [ "ttyS0" ];
-  nixpkgs.config.platform = platforms.armv7l-hf-multiplatform;
   boot.initrd.kernelModules = [ "w1-sunxi" "w1-gpio" "w1-therm" "sunxi-cir" "xradio_wlan" "xradio_wlan" ];
 
   networking.hostName = "nanopi-neo";

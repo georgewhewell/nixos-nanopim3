@@ -20,8 +20,6 @@ in
   boot.initrd.kernelModules = [ "w1-sunxi" "w1-gpio" "w1-therm" "sunxi-cir" "xradio_wlan" "xradio_wlan" ];
   boot.extraTTYs = [ "ttyS0" ];
 
-  nixpkgs.config.platform = platforms.armv7l-hf-multiplatform;
-
   networking.hostName = "orangepi-zero";
 
 }
