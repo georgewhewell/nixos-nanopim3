@@ -40,4 +40,5 @@ in
   nixpkgs.config.platform = platforms.aarch64-multiplatform;
   networking.hostName = "odroid-c2";
 
+  hardware.enableAllFirmware = true;
 }
