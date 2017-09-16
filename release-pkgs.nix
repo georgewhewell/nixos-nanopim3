@@ -2,13 +2,10 @@
 
 let
   pkgs = import <nixpkgs> { };
-  mypkgs = import ./pkgs/top-level.nix { inherit pkgs; };
-  overrides = import ./pkgs/overrides.nix { inherit pkgs; };
   hardware = import ./hardware { inherit pkgs; };
   forAllSystems = pkgs.lib.genAttrs supportedSystems;
   buildPackages = pkg: forAllSystems (system: pkgs.lib.hydraJob (pkg system));
-in {
-  inherit pkgs;
-  inherit overrides;
-  inherit mypkgs;
-}
+in (
+  (import ./pkgs/overlay.nix { self = pkgs; super = pkgs; }) //
+  (import ./pkgs/top-level.nix { inherit pkgs; })
+)
