@@ -26,6 +26,7 @@ let
   };
   in
 {
+  atf-rockchip = callPackage ./atf-rockchip.nix { };
   bl1-nanopi-m3 = callPackage ./bl1-nanopi-m3.nix { };
   nanopi-load = callPackage ./nanopi-load.nix { };
   meson-tools = callPackage ./meson-tools.nix { };
@@ -38,6 +39,7 @@ let
   uboot-nanopi-air = uboot-32 { defconfig = "nanopi_neo_air_defconfig"; };
   uboot-raspberrypi-2b = uboot-32 {
     defconfig = "rpi_2_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
+  uboot-rock64 = callPackage ./uboot-rock64.nix { };
   uboot-nanopi-m3 = callPackage ./uboot-nanopi-m3.nix { };
   uboot-orangepi-pc2 = uboot-64 {
     defconfig = "orangepi_pc2_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };

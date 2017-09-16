@@ -25,7 +25,9 @@
     uboot-orangepi-pc2
     uboot-orangepi-prime
     uboot-nanopi-neo2
-    uboot-raspberrypi-2b;
+    uboot-raspberrypi-2b
+    uboot-rock64
+    atf-rockchip;
 
   inherit (pkgs.callPackages ./kernel/default.nix { })
     linuxPackages_testing_local
@@ -33,6 +35,7 @@
     linuxPackages_nanopi-m3
     linuxPackages_sunxi32
     linuxPackages_sunxi64
+    linuxPackages_rock64
     linux-nanopi-m3
     linux-amlogic
     linux-sunxi32
