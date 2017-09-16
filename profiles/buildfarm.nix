@@ -30,6 +30,8 @@
     options = [ "size=1G" ];
   };
 
+  services.collectd.enable = true;
+
   powerManagement.cpuFreqGovernor = "ondemand";
 
   nix.binaryCaches = [
