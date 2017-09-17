@@ -12,7 +12,8 @@ in {
     ../../../pkgs/modules/networkmanager-small.nix
   ];
 
-  networking.networkmanager.enable = true;
+  networking.connman.enable = true;
+  networking.connman.enableVPN = false;
 
   nixpkgs.overlays = [
     (self: super: import ../../../pkgs/overlay.nix { inherit self super; })
