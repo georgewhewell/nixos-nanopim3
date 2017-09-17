@@ -15,6 +15,10 @@ rec {
       old: { buildInputs = old.buildInputs ++ [ super.pkgconfig ]; });
   };
 
+  jemalloc = if super.stdenv.system == "armv7l-linux" then super.jemalloc.overrideAttrs (
+    old: { configureFlags = "--disable-thp"; }
+  ) else super.jemalloc;
+
   collectd = super.collectd.override {
     libvirt = null;
     protobufc = null;
