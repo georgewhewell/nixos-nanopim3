@@ -5,6 +5,8 @@
     ./prometheus.nix
   ];
 
+  services.disnix.enable = true;
+
   nix.buildCores = lib.mkDefault 0;
   nix.useSandbox = lib.mkDefault true;
   nix.extraOptions = "auto-optimise-store = true";
