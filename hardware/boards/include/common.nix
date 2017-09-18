@@ -10,6 +10,7 @@ in {
   imports = [
     ./sd-image.nix
     ../../../pkgs/modules/networkmanager-small.nix
+    ../../../pkgs/modules/disnix-small.nix
   ];
 
   nixpkgs.overlays = [

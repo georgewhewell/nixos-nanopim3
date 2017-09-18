@@ -5,7 +5,7 @@
     ./prometheus.nix
   ];
 
-  services.disnix.enable = true;
+  services.disnix-small.enable = true;
 
   nix.buildCores = lib.mkDefault 0;
   nix.useSandbox = lib.mkDefault true;
