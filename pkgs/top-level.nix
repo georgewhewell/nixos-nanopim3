@@ -28,6 +28,7 @@
     uboot-nanopi-neo2
     uboot-raspberrypi-2b
     uboot-rock64
+    rkbin
     atf-rockchip;
 
   inherit (pkgs.callPackages ./kernel/default.nix { })

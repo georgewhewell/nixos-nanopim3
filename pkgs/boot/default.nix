@@ -27,6 +27,7 @@ let
   in
 {
   atf-rockchip = callPackage ./atf-rockchip.nix { };
+  rkbin = callPackage ./rkbin.nix { };
   bl1-nanopi-m3 = callPackage ./bl1-nanopi-m3.nix { };
   nanopi-load = callPackage ./nanopi-load.nix { };
   meson-tools = callPackage ./meson-tools.nix { };

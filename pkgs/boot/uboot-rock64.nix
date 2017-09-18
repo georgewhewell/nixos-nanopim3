@@ -18,7 +18,7 @@ pkgs.buildUBoot rec {
 
   defconfig = "rock64-rk3328_defconfig";
 
-  preBuild = "cp ${pkgs.atf-rockchip} bl31.bin";
+  preBuild = "cp ${pkgs.rkbin}/rk33/rk3328_bl31_v1.34.bin bl31.bin";
   targetPlatforms = [ "aarch64-linux" ];
   filesToInstall = [ "idbloader.bin" "uboot.img" "trust.bin" ];
 }
