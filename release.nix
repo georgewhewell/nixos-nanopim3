@@ -52,6 +52,9 @@ in rec {
     }
     "mkdir $out; ln -s $toplevel $out/dummy");
 
+  qemu-armv7l = armv7l-linux hardware.boards.qemu;
+  qemu-aarch64 = aarch64-linux hardware.boards.qemu;
+
   # armv7l
   nanopi-neo = armv7l-linux hardware.boards.nanopi-neo;
   nanopi-air = armv7l-linux hardware.boards.nanopi-air;

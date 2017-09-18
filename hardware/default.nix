@@ -14,6 +14,7 @@ rec {
     pine64-pine64 = ./boards/pine64-pine64.nix;
     pine64-rock64 = ./boards/pine64-rock64.nix;
     raspberrypi-2b = ./boards/raspberrypi-2b.nix;
+    qemu = ./boards/qemu.nix;
   };
 
   platforms = (import ./platforms.nix { });
