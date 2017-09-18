@@ -19,6 +19,10 @@ pkgs.buildUBoot rec {
   defconfig = "rock64-rk3328_defconfig";
 
   preBuild = "cp ${pkgs.rkbin}/rk33/rk3328_bl31_v1.34.bin bl31.bin";
+  postBuild = ''
+    tools/mkimage -n rk3328 -T rksd -d spl/u-boot-spl.bin idbloader.img
+    cat ${pkgs.rkbin}/rk33/rk3328_miniloader_v2.43.bin >> idbloader.img
+  '';
   targetPlatforms = [ "aarch64-linux" ];
   filesToInstall = [ "idbloader.bin" "uboot.img" "trust.bin" ];
 }
