@@ -2,11 +2,10 @@
 
 pkgs.buildUBoot {
   version = "master";
-  src = pkgs.fetchFromGitHub {
-    owner = "apritzel";
-    repo = "u-boot";
-    rev = "2d7cb5b426e7e0cdf684d7f8029ad132d7a8d383";
-    sha256 = "18dvbmapijq59gaz418pz939r3vwaz6a29m5jlxfacywiggjgyrw";
+  src = pkgs.fetchgit {
+    url = "git://git.denx.de/u-boot-sunxi.git";
+    rev = "a438f105241615d756c480015b213ee8859ee7bc";
+    sha256 = "ecf54f241cb825490de957d2a10503978176b4023196fc33f8cb88bd14454e58";
   };
   patches = [
     "${pkgs.armbian}/patch/u-boot/u-boot-sun50i-dev/add-missing-gpio-compatibles.patch"

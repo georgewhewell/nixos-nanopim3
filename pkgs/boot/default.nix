@@ -25,6 +25,7 @@ let
     targetPlatforms = [ "armv7l-linux" ];
   };
   in
+with pkgs;
 {
   atf-rockchip = callPackage ./atf-rockchip.nix { };
   rkbin = callPackage ./rkbin.nix { };
@@ -42,10 +43,8 @@ let
     defconfig = "rpi_2_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
   uboot-rock64 = callPackage ./uboot-rock64.nix { };
   uboot-nanopi-m3 = callPackage ./uboot-nanopi-m3.nix { };
-  uboot-pine64 = uboot-64 {
-    defconfig = "pine64_plus_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
-  uboot-orangepi-pc2 = uboot-64 {
-    defconfig = "orangepi_pc2_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
+  uboot-pine64 = callPackage ./uboot-sunxi64.nix { defconfig = "pine64_plus_defconfig"; };
+  uboot-orangepi-pc2 = callPackages ./uboot-sunxi64.nix { defconfig = "orangepi_pc2_defconfig"; }; 
   uboot-orangepi-prime = uboot-64 {
     defconfig = "orangepi_prime_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
   uboot-nanopi-neo2 = uboot-64 {
