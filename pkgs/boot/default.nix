@@ -49,6 +49,8 @@ with pkgs;
     defconfig = "orangepi_prime_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
   uboot-nanopi-neo2 = uboot-64 {
     defconfig = "nanopi_neo2_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
+  uboot-jetson-tx1 = uboot-64 {
+    defconfig = "p2371-2180_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
 
   fip_create = callPackage ./fip-create.nix { };
   bsp-h5-lichee = callPackage ./bsp-h5-lichee.nix { };

@@ -63,6 +63,7 @@ in rec {
   orangepi-plus2e = armv7l-linux hardware.boards.orangepi-plus2e;
 
   # aarch64
+  jetson-tx1 = aarch64-linux hardware.boards.jetson-tx1;
   odroid-c2 = aarch64-linux hardware.boards.odroid-c2;
   nanopi-neo2 = aarch64-linux hardware.boards.nanopi-neo2;
   nanopi-m3 = aarch64-linux hardware.boards.nanopi-m3;

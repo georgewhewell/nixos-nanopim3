@@ -16,6 +16,7 @@
     meson-tools
     sunxi-tools
     fip_create
+    uboot-jetson-tx1
     uboot-nanopi-air
     uboot-odroid-c2
     uboot-orangepi-zero
