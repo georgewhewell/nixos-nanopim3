@@ -6,7 +6,6 @@ let
     Z3FOLD y
     ZSWAP y
     BCMDHD n
-    USB_FUNCTIONFS y
     CRYPTO_LZ4HC m
   '';
   excludeModules = ''
