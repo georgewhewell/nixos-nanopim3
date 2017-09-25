@@ -2,13 +2,13 @@
 
 stdenv.mkDerivation rec {
   name = "armbian-${version}";
-  version = "2017-07";
+  version = "git";
 
   src = pkgs.fetchFromGitHub {
     owner = "armbian";
     repo = "build";
-    rev = "506fa69515c6de4ac0a811d4d986001da61aad13";
-    sha256 = "1bmibnhy5b63lwla7h4apdkbfx4rnr9dgaq978gd38p34d4j6dlw";
+    rev = "e868c5ddfb611cc15cfe0168db4d83666e4537d9";
+    sha256 = "0c205hn3vrr146dd1bi6il6rckzxjs99jsngqx8wghv86xkd439x";
   };
 
   phases = [ "unpackPhase" "installPhase" ];
