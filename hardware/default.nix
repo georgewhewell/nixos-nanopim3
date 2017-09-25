@@ -18,6 +18,6 @@ rec {
     qemu = ./boards/qemu.nix;
   };
 
-  platforms = (import ./platforms.nix { });
+  platforms = (import ./platforms.nix);
   systems = (import ./systems.nix { inherit platforms; });
 }
