@@ -23,18 +23,12 @@
 
   swapDevices = [ {
     device = "/swapfile";
-    size = 2048;
+    size = 1024;
   } ];
 
   fileSystems."/".options = [
     "noatime" "commit=1800"
   ];
-
-  fileSystems."/tmp" = {
-    device = "tmpfs";
-    fsType = "tmpfs";
-    options = [ "size=1G" ];
-  };
 
   nix.binaryCaches = [
       https://hydra.satanic.link/
