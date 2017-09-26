@@ -36,14 +36,12 @@
     linuxPackages_testing_local
     linuxPackages_amlogic
     linuxPackages_nanopi-m3
-    linuxPackages_sunxi32
-    linuxPackages_sunxi64
+    linuxPackages_sunxi
     linuxPackages_rock64
     linuxPackages_xu4
     linuxPackages_meson
     linux-nanopi-m3
     linux-amlogic
-    linux-sunxi32
-    linux-sunxi64;
+    linux-sunxi;
 
 }

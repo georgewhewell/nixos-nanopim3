@@ -15,7 +15,7 @@ in {
   '';
 
   boot.extraTTYs = [ "ttyS0" ];
-  boot.kernelPackages = pkgs.linuxPackages_testing_local;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi;
   hardware.firmware = [ pkgs.ap6212-firmware ];
 
   networking.hostName = "nanopi-air";
