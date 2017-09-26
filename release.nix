@@ -19,11 +19,13 @@ let
       system.nixosRevision = nixpkgs.rev or nixpkgs.shortRev;
     };
 
-  exportXzImg = build: pkgs.runCommand "${build.name}.xz" { }
+  exportXzImg = build: pkgs.runCommand "releases" { }
     ''
-      mkdir -p $out/{img,nix-support}
-      ${pkgs.xz}/bin/xz -c -9 ${build} > $out/img/${build.name}.xz
-      echo "file sd-image $out/img/${build.name}.xz" >> $out/nix-support/hydra-build-products
+      mkdir -p $out/{img,closure,nix-support}
+      ${pkgs.xz}/bin/xz -c -9 ${build.sdImage} > $out/img/${build.sdImage.name}.xz
+      ln -s ${build.toplevel} $out/nix-support/top-level.closure
+      echo "file sd-image $out/img/${build.sdImage.name}.xz" >> $out/nix-support/hydra-build-products
+      echo "file closure $out/closure/top-level.closure" >> $out/nix-support/hydra-build-products
     '';
 
   buildSystem = { system, modules }:
@@ -34,12 +36,12 @@ let
   armv7l-linux = board: exportXzImg (buildSystem {
     system = "armv7l-linux";
     modules = [ board ./profiles/minimal.nix versionModule ];
-  }).sdImage;
+  });
 
   aarch64-linux = board: exportXzImg (buildSystem {
     system = "aarch64-linux";
     modules = [ board ./profiles/minimal.nix versionModule ];
-  }).sdImage;
+  });
 
 in rec {
   # Ensure that all packages used by the minimal NixOS config end up in the channel.
