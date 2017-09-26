@@ -40,6 +40,7 @@
     linuxPackages_sunxi64
     linuxPackages_rock64
     linuxPackages_xu4
+    linuxPackages_meson
     linux-nanopi-m3
     linux-amlogic
     linux-sunxi32

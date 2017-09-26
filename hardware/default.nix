@@ -2,6 +2,7 @@
 
 rec {
   boards = {
+    alfawise-h96proplus = ./boards/alfawise-h96proplus.nix;
     jetson-tx1 = ./boards/jetson-tx1.nix;
     nanopi-air = ./boards/nanopi-air.nix;
     nanopi-m3  = ./boards/nanopi-m3.nix;
