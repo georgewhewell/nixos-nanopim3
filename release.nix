@@ -19,29 +19,29 @@ let
       system.nixosRevision = nixpkgs.rev or nixpkgs.shortRev;
     };
 
-  exportIso = build: build // {
-    postBuild = ''
-      mkdir -p $out/nix-support
-      echo "file sd-image.img $out" >> $out/nix-support/hydra-build-products
+  exportXzImg = build: pkgs.runCommand "${build.name}.xz" { }
+    ''
+      mkdir -p $out/{img,nix-support}
+      ${pkgs.xz}/bin/xz -c -9 ${build} > $out/img/${build.name}.xz
+      echo "file sd-image $out/img/${build.name}.xz" >> $out/nix-support/hydra-build-products
     '';
-  };
 
   buildSystem = { system, modules }:
     (import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system modules;
     }).config.system.build;
 
-  armv7l-linux = board: exportIso (buildSystem {
+  armv7l-linux = board: exportXzImg (buildSystem {
     system = "armv7l-linux";
     modules = [ board ./profiles/minimal.nix versionModule ];
   }).sdImage;
 
-  aarch64-linux = board: exportIso (buildSystem {
+  aarch64-linux = board: exportXzImg (buildSystem {
     system = "aarch64-linux";
     modules = [ board ./profiles/minimal.nix versionModule ];
   }).sdImage;
-in rec {
 
+in rec {
   # Ensure that all packages used by the minimal NixOS config end up in the channel.
   dummy = forAllSystems (system: pkgs.runCommand "dummy"
     { toplevel = (import <nixpkgs/nixos/lib/eval-config.nix> {
