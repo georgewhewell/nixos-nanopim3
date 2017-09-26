@@ -11,8 +11,8 @@ in
 
   nixpkgs.config.writeBootloader = ''
     dd if=${pkgs.uboot-rock64}/idbloader.bin of=$out seek=64 conv=notrunc
-  	dd if=${pkgs.uboot-rock64}/uboot.img of=$out seek=16384 conv=notrunc
-  	dd if=${pkgs.uboot-rock64}/trust.bin of=$out seek=24576 conv=notrunc
+    dd if=${pkgs.rkbin}/img/uboot.img of=$out seek=16384 conv=notrunc
+    dd if=${pkgs.rkbin}/img/trust.bin of=$out seek=24576 conv=notrunc
   '';
 
   boot.kernelPackages = pkgs.linuxPackages_rock64;

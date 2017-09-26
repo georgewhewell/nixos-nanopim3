@@ -24,5 +24,5 @@ pkgs.buildUBoot rec {
     cat ${pkgs.rkbin}/rk33/rk3328_miniloader_v2.43.bin >> idbloader.img
   '';
   targetPlatforms = [ "aarch64-linux" ];
-  filesToInstall = [ "idbloader.bin" "uboot.img" "trust.bin" ];
+  filesToInstall = [ "idbloader.bin" ];
 }
