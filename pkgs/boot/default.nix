@@ -51,7 +51,7 @@ with pkgs;
     defconfig = "nanopi_neo2_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
   uboot-jetson-tx1 = uboot-64 {
     defconfig = "p2371-2180_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
-
+  uboot-odroid-xu4 = callPackage ./uboot-hardkernel.nix { };
   fip_create = callPackage ./fip-create.nix { };
   bsp-h5-lichee = callPackage ./bsp-h5-lichee.nix { };
   bl1-odroid-c2 = callPackage ./bl1-odroid-c2.nix { };

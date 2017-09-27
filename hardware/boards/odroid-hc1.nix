@@ -11,14 +11,13 @@ in
   ];
 
   nixpkgs.config.writeBootloader = ''
-		dd if=${pkgs.uboot-xu4}/bl1.bin.hardkernel of=$out seek=1 conv=notrunc
-		dd if=${pkgs.uboot-xu4}/bl2.bin.hardkernel.720k_uboot of=$out seek=31 conv=notrunc
-		dd if=${pkgs.uboot-xu4}/u-boot-dtb.bin of=$out bs=512 seek=63 conv=notrunc
-		dd if=${pkgs.uboot-xu4}/tzsw.bin.hardkernel of=$out seek=1503 conv=notrunc
+		dd if=${pkgs.uboot-odroid-xu4}/bl1.bin.hardkernel of=$out seek=1 conv=notrunc
+		dd if=${pkgs.uboot-odroid-xu4}/bl2.bin.hardkernel.720k_uboot of=$out seek=31 conv=notrunc
+		dd if=${pkgs.uboot-odroid-xu4}/u-boot-dtb.bin of=$out bs=512 seek=63 conv=notrunc
+		dd if=${pkgs.uboot-odroid-xu4}/tzsw.bin.hardkernel of=$out seek=1503 conv=notrunc
   '';
 
   boot.kernelPackages = pkgs.linuxPackages_xu4;
-  boot.initrd.kernelModules = [ ];
   boot.extraTTYs = [ "ttySAC2" ];
 
   networking.hostName = "odroid-hc1";
