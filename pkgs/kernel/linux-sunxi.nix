@@ -8,9 +8,9 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
   src = pkgs.fetchFromGitHub {
     owner = "linux-sunxi";
     repo  = "linux-sunxi";
-    # latest HEAD of branch mirror/master @ 25-09-17
-    rev = "e19b205be43d11bff638cad4487008c48d21c103";
-    sha256 = "0qvk30wymq2rgm21hzj6kkbglinv5d3sd9navda0hsw1mdjlzgkc";
+    # latest HEAD of branch mirror/master @ 27-09-17
+    rev = "dc972a67cc54585bd83ad811c4e9b6ab3dcd427e";
+    sha256 = "05q55hb86j802ch3nbq8z1mggnbrpvxd8rpkqzmpm7qhyy2wyxpw";
   };
 
   kernelPatches = pkgs.linux_4_13.kernelPatches;
