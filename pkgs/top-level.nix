@@ -21,6 +21,7 @@
     uboot-odroid-c2
     uboot-orangepi-zero
     uboot-orangepi-plus2e
+    uboot-nanopi-duo
     uboot-nanopi-neo
     uboot-nanopi-m3
     uboot-orangepi-pc2
@@ -39,6 +40,7 @@
     linuxPackages_sunxi
     linuxPackages_rock64
     linuxPackages_xu4
+    linuxPackages_fa
     linuxPackages_meson
     linux-nanopi-m3
     linux-amlogic

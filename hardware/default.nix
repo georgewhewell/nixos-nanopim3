@@ -6,6 +6,7 @@ rec {
     jetson-tx1 = ./boards/jetson-tx1.nix;
     nanopi-air = ./boards/nanopi-air.nix;
     nanopi-m3  = ./boards/nanopi-m3.nix;
+    nanopi-duo = ./boards/nanopi-neo.nix;
     nanopi-neo = ./boards/nanopi-neo.nix;
     nanopi-neo2 = ./boards/nanopi-neo2.nix;
     odroid-c2 = ./boards/odroid-c2.nix;

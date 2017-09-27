@@ -58,6 +58,7 @@ in rec {
   qemu-aarch64 = aarch64-linux hardware.boards.qemu;
 
   # armv7l
+  nanopi-duo = armv7l-linux hardware.boards.nanopi-duo;
   nanopi-neo = armv7l-linux hardware.boards.nanopi-neo;
   nanopi-air = armv7l-linux hardware.boards.nanopi-air;
   orangepi-zero = armv7l-linux hardware.boards.orangepi-zero;
