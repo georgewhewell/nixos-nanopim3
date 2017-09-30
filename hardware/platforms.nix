@@ -54,6 +54,7 @@ let
       #   fpu = "neon-vfpv4";
     };
   };
+
   aarch64-multiplatform = {
     name = "aarch64-multiplatform";
     kernelMajor = "2.6"; # Using "2.6" enables 2.6 kernel syscalls in glibc.
@@ -76,5 +77,6 @@ let
 in {
   inherit aarch64-multiplatform;
   inherit armv7l-hf-multiplatform;
+  aarch64-sunxi = aarch64-multiplatform // { kernelBaseConfig = "sunxi_defconfig"; kernelTarget = "zImage"; };
   aarch64-nanopi-m3 = aarch64-multiplatform // { kernelBaseConfig = "nanopim3_defconfig"; };
 }

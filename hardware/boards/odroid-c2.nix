@@ -6,7 +6,7 @@ let
 in
 {
   imports = [
-    include/common.nix
+     ./include/common.nix
   ];
 
   nixpkgs.config.writeBootloader = ''

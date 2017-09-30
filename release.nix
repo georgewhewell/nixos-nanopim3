@@ -19,6 +19,32 @@ let
       system.nixosRevision = nixpkgs.rev or nixpkgs.shortRev;
     };
 
+  export-armv7-netboot = board:
+  let build = (import <nixpkgs/nixos/lib/eval-config.nix> {
+      system = "armv7l-linux";
+      modules = [
+        ./profiles/netboot.nix
+        ./profiles/minimal.nix
+        board
+        versionModule
+      ];
+    }).config.system.build;
+  in
+    pkgs.symlinkJoin {
+      name="netboot";
+      paths=[
+        build.netbootRamdisk
+        build.kernel
+        build.netbootIpxeScript
+      ];
+      postBuild = ''
+        mkdir -p $out/nix-support
+        echo "file bzImage $out/bzImage" >> $out/nix-support/hydra-build-products
+        echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
+        echo "file ipxe $out/netboot.ipxe" >> $out/nix-support/hydra-build-products
+      '';
+    };
+
   exportXzImg = build: pkgs.runCommand "releases" { }
     ''
       mkdir -p $out/{img,closure,nix-support}
@@ -35,12 +61,12 @@ let
 
   armv7l-linux = board: exportXzImg (buildSystem {
     system = "armv7l-linux";
-    modules = [ board ./profiles/minimal.nix versionModule ];
+    modules = [ board ./profiles/minimal.nix ./pkgs/modules/sd-image.nix versionModule ];
   });
 
   aarch64-linux = board: exportXzImg (buildSystem {
     system = "aarch64-linux";
-    modules = [ board ./profiles/minimal.nix versionModule ];
+    modules = [ board ./profiles/minimal.nix ./pkgs/modules/sd-image.nix versionModule ];
   });
 
 in rec {
@@ -54,8 +80,10 @@ in rec {
     }
     "mkdir $out; ln -s $toplevel $out/dummy");
 
-  qemu-armv7l = armv7l-linux hardware.boards.qemu;
+  qemu-armv7l-netboot = export-armv7-netboot hardware.boards.qemu;
   qemu-aarch64 = aarch64-linux hardware.boards.qemu;
+
+  nanopi-duo-netboot = export-armv7-netboot hardware.boards.nanopi-duo;
 
   # armv7l
   nanopi-duo = armv7l-linux hardware.boards.nanopi-duo;

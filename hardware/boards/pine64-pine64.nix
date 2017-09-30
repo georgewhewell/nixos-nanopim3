@@ -17,7 +17,7 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_sunxi;
   boot.extraTTYs = [ "ttyS0" ];
-  nixpkgs.config.platform = platforms.aarch64-multiplatform;
+  nixpkgs.config.platform = platforms.aarch64-sunxi;
 
   networking.hostName = "pine64-pine64";
 

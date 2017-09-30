@@ -2,7 +2,6 @@
 
 {
   imports = [
-    <nixpkgs/nixos/modules/installer/cd-dvd/sd-image.nix>
     <nixpkgs/nixos/modules/profiles/clone-config.nix>
   ];
 
