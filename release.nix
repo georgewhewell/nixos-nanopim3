@@ -7,7 +7,7 @@ let
   pkgs = import <nixpkgs> { overlays = [
     (self: super: import pkgs/overlay.nix { inherit self super; })
     (self: super: import pkgs/top-level.nix { pkgs = self; })
-  ];};
+  ]; };
   overlays = import ./pkgs/overlay.nix { };
   forAllSystems = pkgs.lib.genAttrs supportedSystems;
   hardware = import ./hardware { inherit pkgs; };
@@ -19,12 +19,11 @@ let
       system.nixosRevision = nixpkgs.rev or nixpkgs.shortRev;
     };
 
-  export-armv7-netboot = board:
+  export-netboot = system: board:
   let build = (import <nixpkgs/nixos/lib/eval-config.nix> {
-      system = "armv7l-linux";
+      inherit system;
       modules = [
         ./profiles/netboot.nix
-        ./profiles/minimal.nix
         board
         versionModule
       ];
@@ -71,10 +70,11 @@ let
 
 in rec {
 
-  qemu-armv7l-netboot = export-armv7-netboot hardware.boards.qemu;
-  qemu-aarch64 = aarch64-linux hardware.boards.qemu;
+  qemu-armv7l-netboot = export-netboot "armv7l-linux" hardware.boards.qemu;
+  qemu-aarch64 = export-netboot "aarch64-linux" hardware.boards.qemu;
 
-  nanopi-duo-netboot = export-armv7-netboot hardware.boards.nanopi-duo;
+  nanopi-duo-netboot = export-netboot "armv7l-linux" hardware.boards.nanopi-duo;
+  nanopi-neo2-netboot = export-netboot "aarch64-linux" hardware.boards.nanopi-neo2;
 
   # armv7l
   nanopi-duo = armv7l-linux hardware.boards.nanopi-duo;

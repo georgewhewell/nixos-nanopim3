@@ -28,7 +28,7 @@ with lib;
 
     # !!! Hack - attributes expected by other modules.
     system.boot.loader.kernelFile = "bzImage";
-    environment.systemPackages = [ pkgs.syslinux ];
+    environment.systemPackages = [ ];
 
     fileSystems."/" =
       { fsType = "tmpfs";
