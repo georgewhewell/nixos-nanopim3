@@ -21,7 +21,7 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
       name = "export-func";
       patch = ../../patches/export-func.patch;
     }
-  ] ++ pkgs.linux_4_12.kernelPatches;
+  ] ++ pkgs.linux_4_13.kernelPatches;
 
   features.iwlwifi = false;
   features.efiBootStub = true;
