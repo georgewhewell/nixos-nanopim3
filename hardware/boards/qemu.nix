@@ -11,7 +11,6 @@ in
     ./include/bluetooth.nix
     ./include/wireless.nix
     ./include/otg-role.nix
-    ./include/sd-image.nix
   ];
 
   nixpkgs.config.writeBootloader = "echo fake bootloader!";
