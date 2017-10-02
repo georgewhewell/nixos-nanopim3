@@ -1,4 +1,4 @@
-{ config, lib, pkgs, defconfig }:
+{ config, lib, pkgs }:
 
 pkgs.buildUBoot {
   version = "master";

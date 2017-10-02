@@ -20,6 +20,7 @@
     uboot-jetson-tx1
     uboot-nanopi-air
     uboot-odroid-c2
+    uboot-odroid-xu4
     uboot-orangepi-zero
     uboot-orangepi-plus2e
     uboot-nanopi-duo
