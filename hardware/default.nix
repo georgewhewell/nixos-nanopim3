@@ -10,7 +10,7 @@ rec {
     nanopi-neo = ./boards/nanopi-neo.nix;
     nanopi-neo2 = ./boards/nanopi-neo2.nix;
     odroid-c2 = ./boards/odroid-c2.nix;
-    odroid-hc1 = ./boards/odroid-c2.nix;
+    odroid-hc1 = ./boards/odroid-hc1.nix;
     orangepi-pc2  = ./boards/orangepi-pc2.nix;
     orangepi-plus2e = ./boards/orangepi-plus2e.nix;
     orangepi-prime = ./boards/orangepi-prime.nix;
