@@ -23,7 +23,7 @@ let
   let build = (import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system;
       modules = [
-        ./profiles/netboot.nix
+        ./pkgs/modules/netboot.nix
         board
         versionModule
       ];
@@ -38,7 +38,7 @@ let
       ];
       postBuild = ''
         mkdir -p $out/nix-support
-        echo "file bzImage $out/bzImage" >> $out/nix-support/hydra-build-products
+        echo "file bzImage $out/Image" >> $out/nix-support/hydra-build-products
         echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
         echo "file ipxe $out/netboot.ipxe" >> $out/nix-support/hydra-build-products
       '';
