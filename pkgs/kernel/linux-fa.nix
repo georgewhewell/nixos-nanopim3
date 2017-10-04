@@ -1,8 +1,8 @@
 { stdenv, hostPlatform, pkgs, perl, buildLinux, ... } @ args:
 
 import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
-  version = "4.11.0";
-  modDirVersion = "4.11.0";
+  version = "4.11.2";
+  modDirVersion = "4.11.2";
   extraMeta.branch = "4.11";
 
   src = pkgs.fetchFromGitHub {
@@ -13,7 +13,7 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
     sha256 = "004y974778k51p4s96dpv5qwiq510g7i15lh92hr9ygg9r2rawz5";
   };
 
-  kernelPatches = pkgs.linux_4_12.kernelPatches;
+  kernelPatches = pkgs.linux_4_13.kernelPatches;
 
   features.iwlwifi = false;
   features.efiBootStub = true;
