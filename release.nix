@@ -38,7 +38,7 @@ let
       ];
       postBuild = ''
         mkdir -p $out/nix-support
-        echo "file bzImage $out/Image" >> $out/nix-support/hydra-build-products
+        echo "file zImage $out/zImage" >> $out/nix-support/hydra-build-products
         echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
         echo "file ipxe $out/netboot.ipxe" >> $out/nix-support/hydra-build-products
       '';
