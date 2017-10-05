@@ -40,11 +40,11 @@ let
       postBuild = ''
         mkdir -p $out/nix-support
         echo "file squashfs.img $out/squashfs.img" >> $out/nix-support/hydra-build-products
-        echo "file u-boot.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
+        echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
         echo "file zImage $out/zImage" >> $out/nix-support/hydra-build-products
         echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
         echo "file ipxe $out/netboot.ipxe" >> $out/nix-support/hydra-build-products
-        find $out/dtbs -name 'sun8i-h3-nanopi*.dtb' -exec echo "file {} $out/{}" >> $out/nix-support/hydra-build-products \;
+        find $outdtbs -name 'sun8i-h3-nanopi*.dtb' -exec echo "file $(basename {}) $out/$(basename {})" >> $out/nix-support/hydra-build-products \;
       '';
     };
 
