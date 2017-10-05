@@ -1,6 +1,26 @@
 { pkgs, callPackage, ... }:
 
 let
+  uboot-nanopi-duo = pkgs.buildUBoot rec {
+    version = "2017.05-dirty";
+    src = pkgs.fetchFromGitHub {
+      owner = "mirsys";
+      repo  = "allwinner_uboot";
+      # i guess this is some BSP found somewhere..
+      # http://www.ickey.cc/community/thread-97564-1-1.html
+      rev = "e1450896034a13861439d81934d535994a1c62b9";
+      sha256 = "d442913e430266e712c3e6bdc07475c6b20507c23795a686212ca61734d7f537";
+    };
+    nativeBuildInputs = with pkgs;
+      [ gcc bc dtc swig1 which python2 ];
+    postPatch = ''
+      patchShebangs tools/binman
+      patchShebangs lib/libfdt
+    '';
+    targetPlatforms = [ "armv7l-linux" ];
+    filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
+    defconfig = "nanopi_duo_defconfig";
+  };
   uboot = { defconfig, filesToInstall, targetPlatforms }: pkgs.buildUBoot rec {
     version = "2017.09";
     src = pkgs.fetchurl {
@@ -38,7 +58,6 @@ with pkgs;
   uboot-orangepi-zero = uboot-32 { defconfig = "orangepi_zero_defconfig"; };
   uboot-orangepi-plus2e = uboot-32 { defconfig = "orangepi_plus2e_defconfig"; };
   uboot-nanopi-neo = uboot-32 { defconfig = "nanopi_neo_defconfig"; };
-  uboot-nanopi-duo = callPackage ./uboot-fa.nix { defconfig = "nanopi_neo_defconfig"; };
   uboot-nanopi-air = uboot-32 { defconfig = "nanopi_neo_air_defconfig"; };
   uboot-raspberrypi-2b = uboot-32 {
     defconfig = "rpi_2_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
@@ -57,4 +76,5 @@ with pkgs;
   bsp-h5-lichee = callPackage ./bsp-h5-lichee.nix { };
   bl1-odroid-c2 = callPackage ./bl1-odroid-c2.nix { };
   bl31-a64 = callPackage ./bl31-a64.nix { };
+  inherit uboot-nanopi-duo;
 }
