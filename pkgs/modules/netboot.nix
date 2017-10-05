@@ -84,7 +84,9 @@ with lib;
         ];
     };
 
-    system.build.netbootIpxeScript = pkgs.writeTextDir "netboot.ipxe" "#!ipxe\nkernel bzImage init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}\ninitrd initrd\nboot";
+    system.build.bootloader = pkgs.uboot-nanopi-duo;
+
+    system.build.netbootIpxeScript = pkgs.writeTextDir "netboot.ipxe" "#!ipxe\nkernel zImage init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}\ninitrd initrd\nboot";
 
     boot.loader.timeout = 10;
 

@@ -35,9 +35,12 @@ let
         build.netbootRamdisk
         build.kernel
         build.netbootIpxeScript
+        build.bootloader
       ];
       postBuild = ''
         mkdir -p $out/nix-support
+        echo "file squashfs.img $out/squashfs.img" >> $out/nix-support/hydra-build-products
+        echo "file u-boot.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
         echo "file zImage $out/zImage" >> $out/nix-support/hydra-build-products
         echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
         echo "file ipxe $out/netboot.ipxe" >> $out/nix-support/hydra-build-products
