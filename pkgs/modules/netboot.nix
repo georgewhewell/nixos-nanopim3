@@ -28,6 +28,8 @@ with lib;
 
     # !!! Hack - attributes expected by other modules.
     system.boot.loader.kernelFile = "zImage";
+    boot.initrd.network.enable = true;
+
     environment.systemPackages = [ ];
 
     fileSystems."/" =
