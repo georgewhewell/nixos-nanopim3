@@ -44,6 +44,7 @@ let
         echo "file zImage $out/zImage" >> $out/nix-support/hydra-build-products
         echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
         echo "file ipxe $out/netboot.ipxe" >> $out/nix-support/hydra-build-products
+        find dtbs -name 'sun8i-h3-nanopi*.dtb' -exec echo "file {} $out/{}" >> $out/nix-support/hydra-build-products \;
       '';
     };
 
