@@ -10,17 +10,11 @@ pkgs.stdenv.mkDerivation rec {
       rev = "d9b1d7e7dff1e70fea91a3f259e9e8ac9508de35";
       sha256 = "073s7psjqgvpv8lybjfqicmbwlq9kkznkyivsd0m25v099la5fy0";
     };
-
+    buildPhase = "make";
     hardeningDisable = [ "all" ];
     nativeBuildInputs = [ pkgs.binutils pkgs.openssl pkgs.libusb pkgs.pkgconfig ];
-
-    buildPhase = ''
-      make all misc
-    '';
-
     installPhase = ''
       mkdir -p $out/bin
-      cp bin2fex fex2bin phoenix_info sunxi-bootinfo sunxi-fel sunxi-fexc sunxi-nand-part sunxi-pio $out/bin
+      cp bin2fex fex2bin sunxi-bootinfo sunxi-fel sunxi-fexc sunxi-nand-part sunxi-pio $out/bin
     '';
-
 }
