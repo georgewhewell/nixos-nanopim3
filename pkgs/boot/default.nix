@@ -58,7 +58,7 @@ with pkgs;
   uboot-orangepi-zero = uboot-32 { defconfig = "orangepi_zero_defconfig"; };
   uboot-orangepi-plus2e = uboot-32 { defconfig = "orangepi_plus2e_defconfig"; };
   uboot-nanopi-neo = uboot-32 { defconfig = "nanopi_neo_defconfig"; };
-  uboot-nanopi-air = uboot-32 { defconfig = "nanopi_neo_air_defconfig"; };
+  uboot-nanopi-air = callPackage ./uboot-fa.nix { defconfig = "nanopi_neo_air_defconfig"; };
   uboot-raspberrypi-2b = uboot-32 {
     defconfig = "rpi_2_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
   uboot-rock64 = callPackage ./uboot-rock64.nix { };
