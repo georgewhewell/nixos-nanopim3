@@ -25,6 +25,7 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_nanopi-m3;
   boot.extraTTYs = [ "ttySAC0" ];
+  system.build.bootloader = pkgs.uboot-nanopi-m3;
 
   nixpkgs.config.platform = platforms.aarch64-nanopi-m3;
   hardware.firmware = [

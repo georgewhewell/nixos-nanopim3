@@ -66,6 +66,7 @@ let
       mkdir -p $out/{img,closure,nix-support}
       ${pkgs.xz}/bin/xz -c -9 ${build.sdImage} > $out/img/${build.sdImage.name}.xz
       ln -s ${build.toplevel} $out/closure/top-level.closure
+      cp ${build.bootloader} $out/
       echo "file sd-image $out/img/${build.sdImage.name}.xz" >> $out/nix-support/hydra-build-products
       echo "file closure $out/closure/top-level.closure" >> $out/nix-support/hydra-build-products
     '';
@@ -91,7 +92,7 @@ in rec {
   qemu-aarch64 = export-netboot "aarch64-linux" hardware.boards.qemu;
 
   nanopi-duo-netboot = export-netboot "armv7l-linux" hardware.boards.nanopi-duo;
-  nanopi-neo2-netboot = export-netboot "aarch64-linux" hardware.boards.nanopi-neo2;
+  nanopi-m3-netboot = export-netboot "aarch64-linux" hardware.boards.nanopi-m3;
 
   # armv7l
   nanopi-duo = armv7l-linux hardware.boards.nanopi-duo;

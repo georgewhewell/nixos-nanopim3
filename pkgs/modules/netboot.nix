@@ -73,7 +73,6 @@ with lib;
       storeContents = config.netboot.storeContents;
     };
 
-    system.build.bootloader = pkgs.uboot-nanopi-duo;
     system.build.bootcmd = pkgs.writeTextDir "boot.cmd" ''
       setenv bootargs init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
       bootm 0x42000000 - 0x43000000

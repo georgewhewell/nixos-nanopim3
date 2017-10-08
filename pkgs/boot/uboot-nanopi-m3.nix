@@ -5,12 +5,12 @@ pkgs.buildUBoot rec {
   src = pkgs.fetchFromGitHub {
     owner = "rafaello7";
     repo = "u-boot-nanopi-m3";
-    rev = "bec6d06d29da2dfe20541d88795adb5d707c2a17";
-    sha256 = "08phny3g9q8zv0782a8idc75i8cr4kx9asl636lfz2ipjfjxq52i";
+    rev = "078a36d65df40ab876a3030d1db8274426576e4f";
+    sha256 = "0mlq1ndvyncy48rhlpik972lp1za7715v0kkik99l6x3i8l7gxay";
   };
 
-  patches = [ ../../patches/uboot-config.patch ];
-  defconfig = "s5p6818_nanopim3_defconfig";
+  patches = [ ];
+  defconfig = "nanopim3_defconfig";
   targetPlatforms = [ "aarch64-linux" ];
   filesToInstall = [ "u-boot.bin" ];
 
