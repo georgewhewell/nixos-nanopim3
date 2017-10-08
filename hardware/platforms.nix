@@ -83,6 +83,8 @@ in {
   aarch64-pine64 = aarch64-multiplatform // {
     kernelExtraConfig = ''
       NR_CPUS 4
+      RTL_BT_LPM n
+      BCM_BT_LPM n
     '';
     kernelBaseConfig = "sun50iw1p1smp_linux_defconfig";
   };
