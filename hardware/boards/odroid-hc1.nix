@@ -19,6 +19,7 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_xu4;
   boot.extraTTYs = [ "ttySAC2" ];
+  nixpkgs.config.platform = platforms.armv7l-hf-base;
 
   networking.hostName = "odroid-hc1";
 
