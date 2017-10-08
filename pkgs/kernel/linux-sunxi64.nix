@@ -21,7 +21,7 @@ let
  ];
 in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
   version = "4.13.y";
-  modDirVersion = "4.13.0";
+  modDirVersion = "4.13.2";
   extraMeta.branch = "4.13";
 
   src = pkgs.fetchFromGitHub {
