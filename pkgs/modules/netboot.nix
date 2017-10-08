@@ -18,7 +18,7 @@ with lib;
 
   };
 
-  config = {
+  config = rec {
 
     boot.loader.grub.version = 2;
 
@@ -40,9 +40,9 @@ with lib;
     # In stage 1, mount a tmpfs on top of /nix/store (the squashfs
     # image) to make this a live CD.
     fileSystems."/nix/.ro-store" =
-      { fsType = "squashfs";
-        device = "../nix-store.squashfs";
-        options = [ "loop" ];
+      { fsType = "nfs";
+        device = "hydra.4a:/store";
+        options = [ "ro" ];
         neededForBoot = true;
       };
 
@@ -73,22 +73,18 @@ with lib;
       storeContents = config.netboot.storeContents;
     };
 
-
     # Create the initrd
     system.build.netbootRamdisk = pkgs.makeInitrd {
       inherit (config.boot.initrd) compressor;
       prepend = [ "${config.system.build.initialRamdisk}/initrd" ];
-
-      contents =
-        [ { object = config.system.build.squashfsStore;
-            symlink = "/nix-store.squashfs";
-          }
-        ];
+      contents = [ ];
     };
 
     system.build.bootloader = pkgs.uboot-nanopi-duo;
-
-    system.build.netbootIpxeScript = pkgs.writeTextDir "netboot.ipxe" "#!ipxe\nkernel zImage init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}\ninitrd initrd\nboot";
+    system.build.bootcmd = pkgs.writeText "boot.cmd" ''
+      setenv bootargs init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
+      bootm 0x42000000 - 0x43000000
+    '';
 
     boot.loader.timeout = 10;
 
