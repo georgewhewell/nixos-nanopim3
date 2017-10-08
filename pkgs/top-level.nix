@@ -40,6 +40,7 @@
     linuxPackages_amlogic
     linuxPackages_nanopi-m3
     linuxPackages_sunxi
+    linuxPackages_sunxi64
     linuxPackages_rock64
     linuxPackages_xu4
     linuxPackages_fa
