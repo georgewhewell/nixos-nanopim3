@@ -1,9 +1,9 @@
 { stdenv, hostPlatform, pkgs, perl, buildLinux, ... } @ args:
 
 import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
-  version = "4.13.y";
-  modDirVersion = "4.13.0";
-  extraMeta.branch = "4.13";
+  version = "3.10.105";
+  modDirVersion = "3.10.105";
+  extraMeta.branch = "3.10.105";
 
   src = pkgs.fetchFromGitHub {
     owner = "longsleep";
@@ -12,7 +12,9 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
     sha256 = "11syppd9kg59g703ksr2m135bgn740k4syc6nznka0qsxw43gv60";
   };
 
-  kernelPatches = pkgs.linux_4_13.kernelPatches;
+  kernelPatches = [
+    pkgs.kernelPatches.modinst_arg_list_too_long
+  ];
 
   features.iwlwifi = false;
   features.efiBootStub = true;
