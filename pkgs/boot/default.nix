@@ -51,6 +51,7 @@ with pkgs;
   rkbin = callPackage ./rkbin.nix { };
   bl1-nanopi-m3 = callPackage ./bl1-nanopi-m3.nix { };
   nanopi-load = callPackage ./nanopi-load.nix { };
+  nanopi-boot-tools = callPackage ./nanopi-boot-tools.nix { };
   meson-tools = callPackage ./meson-tools.nix { };
   sunxi-tools = callPackage ./sunxi-tools.nix { };
   uboot-odroid-c2 = uboot-64 {

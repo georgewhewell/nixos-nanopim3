@@ -14,6 +14,7 @@
     bl31-a64
     bsp-h5-lichee
     nanopi-load
+    nanopi-boot-tools
     meson-tools
     sunxi-tools
     fip_create

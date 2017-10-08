@@ -17,8 +17,6 @@ pkgs.stdenv.mkDerivation rec {
   installPhase = ''
      mkdir -p $out/bin
      mv nanopi-load $out/bin/
-     echo "testing: $($out/bin/nanopi-load)"
   '';
 
  }
-
