@@ -5,18 +5,19 @@ let
     name = "armbian-${path}";
     patch = "${pkgs.armbian}/patch/kernel/${path}";
   }) [
-    "sun50i-dev/arm64_increasing_DMA_block_memory_allocation_to_2048.patch"
-    "sun50i-dev/add-h3-h5-THS.patch"
-    "sun50i-dev/add-overlay-compilation-support.patch"
-    "sun50i-dev/add-spi-flash-pc2.patch"
-    "sun50i-dev/add-sunxi64-overlays.patch"
-    "sun50i-dev/add-sy8106a-driver.patch"
-    "sun50i-dev/add-ths-DT-h5.patch"
-    "sun50i-dev/add_sun50i_a64_spi.patch"
-    "sun50i-dev/enable-fsl-timer-errata.patch"
-    "sun50i-dev/fix-i2c2-reg-property.patch"
-    "sun50i-dev/scripts-dtc-import-updates.patch"
-    "sun50i-dev/spidev-remove-warnings.patch"
+    "sunxi64-dev/a64-DT-DVFS.patch"
+    "sunxi64-dev/a64-DVFS-cpu-supply.patch"
+    "sunxi64-dev/a64-pll_cpux-test.patch"
+    "sunxi64-dev/add-sun50i-ths.patch"
+    "sunxi64-dev/add-sunxi64-overlays.patch"
+    "sunxi64-dev/add-sy8106a-driver.patch"
+    "sunxi64-dev/add-ths-DT-h5.patch"
+    "sunxi64-dev/arm64_increasing_DMA_block_memory_allocation_to_2048.patch"
+    "sunxi64-dev/cpufreq-dt-platdev-Automatically-create-cpufreq-device-with-OPP-v2.patch"
+    "sunxi64-dev/enable-fsl-timer-errata.patch"
+    "sunxi64-dev/fix-i2c2-reg-property.patch"
+    "sunxi64-dev/scripts-dtc-import-updates.patch"
+    "sunxi64-dev/spidev-remove-warnings.patch"
  ];
 in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
   version = "4.13.y";

@@ -45,8 +45,10 @@
     linuxPackages_xu4
     linuxPackages_fa
     linuxPackages_meson
+    linuxPackages_pine64
     linux-nanopi-m3
     linux-amlogic
+    linux-sunxi64
     linux-sunxi;
 
 }
