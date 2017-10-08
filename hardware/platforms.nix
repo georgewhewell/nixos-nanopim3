@@ -80,6 +80,11 @@ in {
   armv7l-hf-base = armv7l-hf-multiplatform // { kernelBaseConfig = "defconfig"; };
   armv7l-sunxi = armv7l-hf-multiplatform // { kernelBaseConfig = "sunxi_defconfig"; kernelTarget = "zImage"; };
   aarch64-sunxi = aarch64-multiplatform // { kernelBaseConfig = "defconfig"; };
-  aarch64-pine64 = aarch64-multiplatform // { kernelBaseConfig = "sun50iw1p1smp_linux_defconfig"; };
+  aarch64-pine64 = aarch64-multiplatform // {
+    kernelExtraConfig = ''
+      NR_CPUS 4
+    '';
+    kernelBaseConfig = "sun50iw1p1smp_linux_defconfig";
+  };
   aarch64-nanopi-m3 = aarch64-multiplatform // { kernelBaseConfig = "nanopim3_defconfig"; };
 }
