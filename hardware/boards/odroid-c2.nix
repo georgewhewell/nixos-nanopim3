@@ -34,10 +34,10 @@ in
     dd if=u-boot.img of=$out conv=notrunc bs=512 skip=96 seek=97
   '';
 
-  boot.kernelPackages = pkgs.linuxPackages_testing;
+  boot.kernelPackages = pkgs.linuxPackages_amlogic;
   boot.extraTTYs = [ "ttyAML0" ];
 
-  nixpkgs.config.platform = platforms.aarch64-multiplatform;
+  nixpkgs.config.platform = platforms.aarch64-sunxi;
   networking.hostName = "odroid-c2";
 
   hardware.enableAllFirmware = true;
