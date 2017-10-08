@@ -67,7 +67,7 @@ let
     ''
       mkdir -p $out/{img,closure,nix-support}
       ${pkgs.xz}/bin/xz -c -9 ${build.sdImage} > $out/img/${build.sdImage.name}.xz
-      ln -s ${build.toplevel} $out/nix-support/top-level.closure
+      ln -s ${build.toplevel} $out/closure/top-level.closure
       echo "file sd-image $out/img/${build.sdImage.name}.xz" >> $out/nix-support/hydra-build-products
       echo "file closure $out/closure/top-level.closure" >> $out/nix-support/hydra-build-products
     '';
