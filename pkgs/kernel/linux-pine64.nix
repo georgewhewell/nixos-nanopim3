@@ -7,7 +7,7 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
 
   src = pkgs.fetchFromGitHub {
     owner = "longsleep";
-    repo = "linux";
+    repo = "linux-pine64";
     rev = "a08f5219d240ae0edf93d090ff1fda0a82a6cb3a";
     sha256 = "11syppd9kg59g703ksr2m135bgn740k4syc6nznka0qsxw43gv60";
   };
