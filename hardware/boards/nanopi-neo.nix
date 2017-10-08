@@ -16,6 +16,7 @@ in {
   boot.kernelPackages = pkgs.linuxPackages_fa;
   boot.extraTTYs = [ "ttyS0" ];
   boot.initrd.kernelModules = [ "w1-sunxi" "w1-gpio" "w1-therm" "sunxi-cir" "xradio_wlan" "xradio_wlan" ];
+  system.build.bootloader = pkgs.uboot-nanopi-neo;
 
   networking.hostName = "nanopi-neo";
 

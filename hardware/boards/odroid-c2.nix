@@ -39,6 +39,7 @@ in
 
   nixpkgs.config.platform = platforms.aarch64-sunxi;
   networking.hostName = "odroid-c2";
+  system.build.bootloader = pkgs.uboot-odroid-c2;
 
   hardware.enableAllFirmware = true;
 }

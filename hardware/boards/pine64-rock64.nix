@@ -18,6 +18,7 @@ in
   boot.kernelPackages = pkgs.linuxPackages_rock64;
   boot.extraTTYs = [ "ttyS0" "ttyS1" "ttyS2" "ttyFIQ0" ];
   nixpkgs.config.platform = platforms.aarch64-multiplatform;
+  system.build.bootloader = pkgs.uboot-pine64-rock64;
 
   networking.hostName = "pine64-rock64";
 

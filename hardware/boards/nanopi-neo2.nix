@@ -19,5 +19,6 @@ in
   boot.extraTTYs = [ "ttyS0" ];
   nixpkgs.config.platform = platforms.aarch64-multiplatform;
   networking.hostName = "nanopi-neo2";
+  system.build.bootloader = pkgs.uboot-nanopi-neo2;
 
 }

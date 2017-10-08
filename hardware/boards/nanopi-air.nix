@@ -17,6 +17,7 @@ in {
   boot.extraTTYs = [ "ttyS0" ];
   boot.kernelPackages = pkgs.linuxPackages_sunxi;
   hardware.firmware = [ pkgs.ap6212-firmware ];
+  system.build.bootloader = pkgs.uboot-nanopi-air;
 
   networking.hostName = "nanopi-air";
 

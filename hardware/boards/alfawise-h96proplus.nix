@@ -39,6 +39,7 @@ in
 
   nixpkgs.config.platform = platforms.aarch64-multiplatform;
   networking.hostName = "alfawise-h96proplus";
+  system.build.bootloader = pkgs.uboot-odroid-c2;
 
   hardware.enableAllFirmware = true;
 }

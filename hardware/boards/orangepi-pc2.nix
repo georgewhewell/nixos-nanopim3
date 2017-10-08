@@ -18,6 +18,7 @@ in
   boot.kernelPackages = pkgs.linuxPackages_sunxi64;
   boot.extraTTYs = [ "ttyS0" ];
   nixpkgs.config.platform = platforms.aarch64-multiplatform;
+  system.build.bootloader = pkgs.uboot-orangepi-pc2;
 
   networking.hostName = "orangepi-pc2";
 

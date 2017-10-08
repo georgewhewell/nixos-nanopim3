@@ -18,6 +18,7 @@ in
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.extraTTYs = [ "ttyS0" ];
   nixpkgs.config.platform = platforms.aarch64-multiplatform;
+  system.build.bootloader = pkgs.uboot-jetson-tx1;
 
   networking.hostName = "jetson-tx1";
 

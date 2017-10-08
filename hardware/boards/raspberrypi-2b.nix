@@ -23,6 +23,7 @@ in
   '';
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  system.build.bootloader = pkgs.ubootRaspberrypi;
 
   networking.hostName = "rasbperrypi-2b";
 
