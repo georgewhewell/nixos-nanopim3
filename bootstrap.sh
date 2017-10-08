@@ -5,12 +5,14 @@ set -e
 apt-get update && apt-get install -y \
   tmux build-essential openssl libssl-dev git flex bison automake autoconf \
   libsodium-dev pkg-config libgc-dev libsqlite3-dev libbz2-dev liblzma-dev \
-  libcurl4-openssl-dev libseccomp-dev nlohmann-json-dev
+  libcurl4-openssl-dev libseccomp-dev
 
 # installer does not support aarch64, so compile nix from source
 git clone https://github.com/NixOS/nix.git
-mkdir nix/nlohmann && curl -o nix/nlohmann/json.hpp https://raw.githubusercontent.com/nlohmann/json/develop/src/json.hpp
-$(cd nix && ./bootstrap.sh && ./configure --enable-gc --disable-doc-gen && make install -j96)
+
+$(mkdir nix/nlohmann && cd nix/nlohmann && wget https://raw.githubusercontent.com/nlohmann/json/develop/src/json.hpp)
+
+$(cd nix && make clean && ./bootstrap.sh && ./configure --enable-gc --disable-doc-gen && make install -j4)
 
 # create nixbld users
 groupadd -r nixbld
