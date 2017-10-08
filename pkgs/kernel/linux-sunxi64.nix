@@ -27,7 +27,7 @@ in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
     owner = "Icenowy";
     repo = "linux";
     rev = "sunxi64-${version}";
-    sha256 = "0nwdl12hcj2368hlwaax555mjz0w9vj5qrwik5bwkvffbxn2xrpa";
+    sha256 = "1l69aadh71gv3rww6ypjm9rgahhv93y04jxfvvsbpliys677m36n";
   };
 
   kernelPatches = pkgs.linux_4_13.kernelPatches ++ armbianPatches;
