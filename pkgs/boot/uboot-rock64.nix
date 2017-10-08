@@ -4,8 +4,8 @@ pkgs.buildUBoot rec {
   src = pkgs.fetchFromGitHub {
     owner = "ayufan-rock64";
     repo = "linux-u-boot";
-    rev = "22993de62028712e51b11bbd5a4a0ccba70354eb";
-    sha256 = "0ikp9wxsrngf46mz6jfgbqcfmp4kfanizihw1jvn4kpyyd5csfv8";
+    rev = "5aef9f737b3138a2484a9141d4ce60ce534f3572";
+    sha256 = "16pzqvwffr5vx0rv8m18agshvvlfxg7f0m2p7499yg39cry8qgca";
   };
 
   nativeBuildInputs = with pkgs;
