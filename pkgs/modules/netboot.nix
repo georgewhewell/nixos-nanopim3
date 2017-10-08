@@ -73,13 +73,6 @@ with lib;
       storeContents = config.netboot.storeContents;
     };
 
-    # Create the initrd
-    system.build.netbootRamdisk = pkgs.makeInitrd {
-      inherit (config.boot.initrd) compressor;
-      prepend = [ "${config.system.build.initialRamdisk}/initrd" ];
-      contents = [ ];
-    };
-
     system.build.bootloader = pkgs.uboot-nanopi-duo;
     system.build.bootcmd = pkgs.writeText "boot.cmd" ''
       setenv bootargs init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}

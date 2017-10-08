@@ -29,7 +29,7 @@ let
             write 0x42000000 ${build.kernel}/Image \
             write 0x43000000 ${build.kernel}/dtbs/sun8i-h2-plus-nanopi-duo.dtb \
             write 0x43100000 ${build.bootcmd}/boot.cmd \
-            write 0x43300000 ${build.netbootRamdisk}/initrd
+            write 0x43300000 ${build.initialRamdisk}/initrd
       '';
   export-netboot = system: board:
   let build = (import <nixpkgs/nixos/lib/eval-config.nix> {
@@ -44,7 +44,7 @@ let
     pkgs.symlinkJoin {
       name="netboot";
       paths=[
-        build.netbootRamdisk
+        build.initialRamdisk
         build.kernel
         build.squashfsStore
         build.bootloader
