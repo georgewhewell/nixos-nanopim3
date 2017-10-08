@@ -7,8 +7,8 @@ pkgs.stdenv.mkDerivation rec {
   src = pkgs.fetchFromGitHub {
     owner = "rafaello7";
     repo = "nanopi-load";
-    rev = "38783ec3d35fb68c49892a18a04839a9bb285f3b";
-    sha256 = "0vz3mllnp1lv76shh80bc38kr2zh3p4p5icxknkqmkw9960n6xic";
+    rev = "001d2e36ff91e130c0ace5e152d224b05681b6e3";
+    sha256 = "187hgsa5rrw1f8q2zfhfr31p8didh5sgj051ddl1lq617wgj7798";
   };
 
   nativeBuildInputs = [ pkgs.libusb pkgs.pkgconfig pkgs.gcc ];
