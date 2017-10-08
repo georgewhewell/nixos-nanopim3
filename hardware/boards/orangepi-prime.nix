@@ -17,10 +17,10 @@ in
     dd if=${pkgs.uboot-orangepi-prime}/u-boot.itb of=$out bs=8k seek=5 conv=notrunc
   '';
 
-  boot.kernelPackages = pkgs.linuxPackages_sunxi;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi64;
   boot.extraTTYs = [ "ttyS0" ];
   nixpkgs.config.platform = platforms.aarch64-sunxi;
-  
+
   hardware.firmware = with pkgs; [
     rtl8723bs-firmware
   ];
