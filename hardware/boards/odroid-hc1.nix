@@ -17,7 +17,7 @@ in
 		dd if=${pkgs.uboot-odroid-xu4}/tzsw.bin.hardkernel of=$out seek=1503 conv=notrunc
   '';
 
-  boot.kernelPackages = pkgs.linuxPackages_xu4;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.extraTTYs = [ "ttySAC2" ];
   nixpkgs.config.platform = platforms.armv7l-hf-base;
 
