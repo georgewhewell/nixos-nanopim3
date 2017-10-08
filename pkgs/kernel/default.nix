@@ -16,7 +16,7 @@ rec {
   linuxPackages_nanopi-m3 = recurseIntoAttrs (linuxPackagesFor linux-nanopi-m3);
   linuxPackages_testing_local = recurseIntoAttrs (linuxPackagesFor linux-testing-local);
   linuxPackages_sunxi = recurseIntoAttrs (linuxPackagesFor linux-sunxi);
-  linuxPackages_sunxi64 = recurseIntoAttrs (linuxPackagesFor linux-sunxi);
+  linuxPackages_sunxi64 = recurseIntoAttrs (linuxPackagesFor linux-sunxi64);
   linuxPackages_rock64 = recurseIntoAttrs (linuxPackagesFor linux-rock64);
   linuxPackages_xu4 = recurseIntoAttrs (linuxPackagesFor linux-xu4);
   linuxPackages_fa = recurseIntoAttrs (linuxPackagesFor linux-fa);
