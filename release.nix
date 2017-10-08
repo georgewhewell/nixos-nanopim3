@@ -19,18 +19,18 @@ let
       system.nixosRevision = nixpkgs.rev or nixpkgs.shortRev;
     };
   export-fel-script = build:
-        pkgs.writeTextDir "fel-boot.sh" ''
-          # Attach device via USB
-          sunxi-fel -v
+    pkgs.writeTextDir "fel-boot.sh" ''
+      # Attach device via USB
+      sunxi-fel -v
 
-          # Load kernel
-          sunxi-fel \
-            uboot ${build.bootloader}/bin/uboot u-boot-sunxi-with-spl.bin \
-            write 0x42000000 ${build.kernel}/Image \
-            write 0x43000000 ${build.kernel}/dtbs/sun8i-h2-plus-nanopi-duo.dtb \
-            write 0x43100000 ${build.bootcmd}/boot.cmd \
-            write 0x43300000 ${build.initialRamdisk}/initrd
-      '';
+      # Load kernel
+      sunxi-fel \
+        uboot ${build.bootloader}/bin/uboot u-boot-sunxi-with-spl.bin \
+        write 0x42000000 ${build.kernel}/Image \
+        write 0x43000000 ${build.kernel}/dtbs/sun8i-h2-plus-nanopi-duo.dtb \
+        write 0x43100000 ${build.bootcmd}/boot.cmd \
+        write 0x43300000 ${build.initialRamdisk}/initrd
+  '';
   export-netboot = system: board:
   let build = (import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system;
@@ -51,9 +51,10 @@ let
         (export-fel-script build)
       ];
       postBuild = ''
+        ${ubootTools}/bin/mkimage -A arm -O linux -T kernel -C lz4 -d Image $out/uImage
         mkdir -p $out/nix-support
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
-        echo "file Image $out/Image" >> $out/nix-support/hydra-build-products
+        echo "file uImage $out/uImage" >> $out/nix-support/hydra-build-products
         echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
         echo "file ipxe $out/netboot.ipxe" >> $out/nix-support/hydra-build-products
         find $outdtbs -name 'sun8i-h3-nanopi*.dtb' -exec echo "file $(basename {}) $out/$(basename {})" >> $out/nix-support/hydra-build-products \;

@@ -27,7 +27,7 @@ with lib;
     boot.loader.grub.enable = false;
 
     # !!! Hack - attributes expected by other modules.
-    system.boot.loader.kernelFile = "Image";
+    system.boot.loader.kernelFile = "zImage";
     boot.initrd.network.enable = true;
 
     environment.systemPackages = [ ];

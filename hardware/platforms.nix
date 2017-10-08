@@ -78,7 +78,7 @@ in {
   inherit aarch64-multiplatform;
   inherit armv7l-hf-multiplatform;
   armv7l-hf-base = armv7l-hf-multiplatform // { kernelBaseConfig = "defconfig"; };
-  armv7l-sunxi = armv7l-hf-multiplatform // { kernelBaseConfig = "sunxi_defconfig"; };
+  armv7l-sunxi = armv7l-hf-multiplatform // { kernelBaseConfig = "sunxi_defconfig"; kernelTarget = "zImage"; };
   aarch64-sunxi = aarch64-multiplatform // { kernelBaseConfig = "defconfig"; };
   aarch64-nanopi-m3 = aarch64-multiplatform // { kernelBaseConfig = "nanopim3_defconfig"; };
 }
