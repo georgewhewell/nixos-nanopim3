@@ -46,15 +46,12 @@ let
       paths=[
         build.initialRamdisk
         build.kernel
-        build.squashfsStore
         build.bootloader
         build.bootcmd
         (export-fel-script build)
       ];
       postBuild = ''
         mkdir -p $out/nix-support
-        echo "file squashfs.img $out/squashfs.img" >> $out/nix-support/hydra-build-products
-        echo "file squashfs.img $out/squashfs.img" >> $out/nix-support/hydra-build-products
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
         echo "file Image $out/Image" >> $out/nix-support/hydra-build-products
         echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
