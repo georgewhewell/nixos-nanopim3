@@ -9,6 +9,7 @@ apt-get update && apt-get install -y \
 
 # installer does not support aarch64, so compile nix from source
 git clone https://github.com/NixOS/nix.git
+mkdir nix/nlohmann && curl -o nix/nlohmann/json.hpp https://raw.githubusercontent.com/nlohmann/json/develop/src/json.hpp
 $(cd nix && ./bootstrap.sh && ./configure --enable-gc --disable-doc-gen && make install -j96)
 
 # create nixbld users
