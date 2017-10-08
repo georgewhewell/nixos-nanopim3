@@ -30,7 +30,7 @@ in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
     sha256 = "0nwdl12hcj2368hlwaax555mjz0w9vj5qrwik5bwkvffbxn2xrpa";
   };
 
-  kernelPatches = pkgs.linux_4_12.kernelPatches ++ armbianPatches ++ [
+  kernelPatches = pkgs.linux_4_13.kernelPatches ++ armbianPatches ++ [
     {   name = "add-sun50i-defconfig";
         patch = ../../patches/add-sun50i-defconfig.patch; }];
 
