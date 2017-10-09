@@ -78,7 +78,20 @@ in {
   inherit aarch64-multiplatform;
   inherit armv7l-hf-multiplatform;
   armv7l-hf-base = armv7l-hf-multiplatform // { kernelBaseConfig = "defconfig"; };
-  armv7l-sunxi = armv7l-hf-multiplatform // { kernelBaseConfig = "sunxi_defconfig"; kernelTarget = "zImage"; };
+  armv7l-sunxi = armv7l-hf-multiplatform // {
+    extraKernelConfig = ''
+      USB_MUSB_HDRC=y
+      USB_MUSB_DUAL_ROLE=y
+      USB_MUSB_SUNXI=y
+      MUSB_PIO_ONLY=y
+      USB_PHY=y
+      NOP_USB_XCEIV=y
+      ${wantedModules}
+      ${excludeModules}
+    '';
+    kernelBaseConfig = "sunxi_defconfig";
+    kernelTarget = "zImage";
+  };
   aarch64-sunxi = aarch64-multiplatform // { kernelBaseConfig = "defconfig"; };
   aarch64-pine64 = aarch64-multiplatform // {
     kernelExtraConfig = ''
