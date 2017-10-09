@@ -51,7 +51,7 @@ let
         (export-fel-script build)
       ];
       postBuild = ''
-        ${pkgs.ubootTools}/bin/mkimage -A arm -O linux -T kernel -C lz4 -d Image $out/uImage
+        ${pkgs.ubootTools}/bin/mkimage -A arm -O linux -T kernel -C lz4 -d ${pkgs.stdenv.platform.kernelTarget} $out/uImage
         mkdir -p $out/nix-support
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
         echo "file uImage $out/uImage" >> $out/nix-support/hydra-build-products
