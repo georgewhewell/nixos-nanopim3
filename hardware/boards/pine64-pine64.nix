@@ -15,10 +15,10 @@ in
     dd if=${pkgs.uboot-pine64}/u-boot.itb of=$out bs=8k seek=5 conv=notrunc
   '';
 
-  boot.kernelPackages = pkgs.linuxPackages_pine64;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi64;
   boot.extraTTYs = [ "ttyS0" ];
-  nixpkgs.config.platform = platforms.aarch64-pine64;
-  system.build.bootloader = pkgs.uboot-pine64-pine64;
+  nixpkgs.config.platform = platforms.aarch64-sunxi;
+  system.build.bootloader = pkgs.uboot-pine64;
 
   networking.hostName = "pine64-pine64";
 

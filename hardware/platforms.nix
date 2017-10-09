@@ -93,13 +93,5 @@ in {
     kernelTarget = "zImage";
   };
   aarch64-sunxi = aarch64-multiplatform // { kernelBaseConfig = "defconfig"; };
-  aarch64-pine64 = aarch64-multiplatform // {
-    kernelExtraConfig = ''
-      NR_CPUS 4
-      RTL_BT_LPM n
-      BCM_BT_LPM n
-    '';
-    kernelBaseConfig = "sun50iw1p1smp_linux_defconfig";
-  };
   aarch64-nanopi-m3 = aarch64-multiplatform // { kernelBaseConfig = "nanopim3_defconfig"; };
 }
