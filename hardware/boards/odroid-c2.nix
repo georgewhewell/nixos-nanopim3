@@ -34,7 +34,7 @@ in
     dd if=u-boot.img of=$out conv=notrunc bs=512 skip=96 seek=97
   '';
 
-  boot.kernelPackages = pkgs.linuxPackages_amlogic;
+  boot.kernelPackages = pkgs.linuxPackages_4_12;
   boot.extraTTYs = [ "ttyAML0" ];
 
   nixpkgs.config.platform = platforms.aarch64-sunxi;

@@ -37,7 +37,7 @@
     atf-rockchip;
 
   inherit (pkgs.callPackages ./kernel/default.nix { })
-    linuxPackages_testing_local
+    linuxPackages_4_12
     linuxPackages_amlogic
     linuxPackages_nanopi-m3
     linuxPackages_sunxi

@@ -8,7 +8,7 @@ rec {
   linux-sunxi = callPackage ./linux-sunxi.nix { };
   linux-sunxi-next = callPackage ./linux-sunxi-next.nix { };
   linux-sunxi64 = callPackage ./linux-sunxi64.nix { };
-  linux-testing-local = callPackage ./linux-testing.nix { };
+  linux-4-12 = callPackage ./linux-4_12.nix { };
   linux-pine64 = callPackage ./linux-pine64.nix { };
   linux-rock64 = callPackage ./linux-rock64.nix { };
   linux-xu4 = callPackage ./linux-xu4.nix { };
@@ -17,7 +17,7 @@ rec {
   linuxPackages_sunxi-next = recurseIntoAttrs (linuxPackagesFor linux-sunxi-next);
   linuxPackages_amlogic = recurseIntoAttrs (linuxPackagesFor linux-amlogic);
   linuxPackages_nanopi-m3 = recurseIntoAttrs (linuxPackagesFor linux-nanopi-m3);
-  linuxPackages_testing_local = recurseIntoAttrs (linuxPackagesFor linux-testing-local);
+  linuxPackages_4_12 = recurseIntoAttrs (linuxPackagesFor linux-4-12);
   linuxPackages_sunxi = recurseIntoAttrs (linuxPackagesFor linux-sunxi);
   linuxPackages_sunxi64 = recurseIntoAttrs (linuxPackagesFor linux-sunxi64);
   linuxPackages_pine64 = recurseIntoAttrs (linuxPackagesFor linux-pine64);
