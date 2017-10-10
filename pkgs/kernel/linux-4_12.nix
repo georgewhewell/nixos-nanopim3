@@ -7,7 +7,7 @@ import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
 
   src = fetchurl {
     url = "mirror://kernel/linux/kernel/v4.x/linux-${version}.tar.xz";
-    sha256 = "1156ly1lmsr3l8ad8z80agsl026yk86nyypw67ksc66mznvzgyy0";
+    sha256 = "1d254yxn46ydp0x3s5cpyg4p74zvdwiqfiaaim1m3g6rwjmlkjpa";
   };
 
   kernelPatches = pkgs.linux_4_13.kernelPatches;
