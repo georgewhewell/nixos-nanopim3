@@ -1,10 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [
-    ./prometheus.nix
-  ];
-
   services.disnix-small.enable = true;
 
   nix.buildCores = lib.mkDefault 0;

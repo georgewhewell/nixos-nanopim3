@@ -35,6 +35,8 @@ let
   let build = (import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system;
       modules = [
+        ./profiles/minimal.nix
+        ./profiles/buildfarm.nix
         ./pkgs/modules/netboot.nix
         board
         versionModule
@@ -51,10 +53,10 @@ let
         (export-fel-script build)
       ];
       postBuild = ''
-        if [ -f Image ]; then
-        	KERNEL_IMAGE=Image
+        if [ -f $out/Image ]; then
+        	KERNEL_IMAGE=$out/Image
         else
-        	KERNEL_IMAGE=zImage
+        	KERNEL_IMAGE=$out/zImage
         fi
         ${pkgs.ubootTools}/bin/mkimage -A arm -O linux -T kernel -C lz4 -d $KERNEL_IMAGE $out/uImage
         mkdir -p $out/nix-support
@@ -82,12 +84,12 @@ let
 
   armv7l-linux = board: exportXzImg (buildSystem {
     system = "armv7l-linux";
-    modules = [ board ./profiles/minimal.nix ./pkgs/modules/sd-image.nix versionModule ];
+    modules = [ board ./profiles/minimal.nix ./profiles/buildfarm.nix ./pkgs/modules/sd-image.nix versionModule ];
   });
 
   aarch64-linux = board: exportXzImg (buildSystem {
     system = "aarch64-linux";
-    modules = [ board ./profiles/minimal.nix ./pkgs/modules/sd-image.nix versionModule ];
+    modules = [ board ./profiles/minimal.nix ./profiles/buildfarm.nix ./pkgs/modules/sd-image.nix versionModule ];
   });
 
 in rec {
