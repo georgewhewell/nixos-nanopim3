@@ -16,7 +16,7 @@ in
     dd if=${pkgs.uboot-orangepi-zero}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
   '';
 
-  boot.kernelPackages = pkgs.linuxPackages_sunxi;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi-next;
   boot.initrd.kernelModules = [ "w1-sunxi" "w1-gpio" "w1-therm" "sunxi-cir" "xradio_wlan" "xradio_wlan" ];
   boot.extraTTYs = [ "ttyS0" ];
   system.build.bootloader = pkgs.uboot-orangepi-zero;

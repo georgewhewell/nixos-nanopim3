@@ -15,7 +15,7 @@ in {
   '';
 
   boot.extraTTYs = [ "ttyS0" ];
-  boot.kernelPackages = pkgs.linuxPackages_sunxi;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi-next;
   hardware.firmware = [ pkgs.ap6212-firmware ];
   system.build.bootloader = pkgs.uboot-nanopi-air;
 
