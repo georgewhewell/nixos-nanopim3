@@ -1,4 +1,4 @@
-{ config, lib, pkgs }:
+{ config, lib, pkgs, usbBoot ? false }:
 
 pkgs.stdenv.mkDerivation rec {
     version="master";
@@ -7,24 +7,26 @@ pkgs.stdenv.mkDerivation rec {
     src = pkgs.fetchFromGitHub {
       owner = "rafaello7";
       repo = "bl1-nanopi-m3";
-      rev = "d65910ab6c510dc47a23e21e99262f4d5b468cea";
-      sha256 = "0qhz2vpm3mcdf0n3z3gibqavhpghasiy8z6p6dd670l8ya69vhnm";
+      rev = "1c4d51ee2964d98844f2b74f2f47a97802aecf91";
+      sha256 = "0as9ss43lybaxlqn76jd7a6c8k9lj8hlh8wk34k8bpzdmrx4pdxp";
     };
 
     hardeningDisable = [ "all" ];
     nativeBuildInputs = [ pkgs.binutils ];
 
     patches = [
-     ../../patches/no-stack-protect.patch
-     ../../patches/undefined-stuff.patch
-     ../../patches/objcopy.patch
+      ../../patches/objcopy.patch
     ];
+
+    postPatch = lib.optional usbBoot ''
+      sed -i -e 's/0x03000000/0x00000000/g' src/startup_aarch64.S
+    '';
 
     buildPhase = ''
       make CROSS_TOOL=${pkgs.gcc}/bin/ OBJCOPY=${pkgs.binutils}/bin/objcopy
     '';
 
     installPhase = ''
-      cp out/bl1-drone.bin $out
+      cp out/bl1-nanopi.bin $out
     '';
 }

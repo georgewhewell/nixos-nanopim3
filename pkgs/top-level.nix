@@ -9,7 +9,7 @@
   uhubctl = pkgs.callPackage ./uhubctl.nix { };
 
   inherit (pkgs.callPackages ./boot/default.nix { })
-    bl1-nanopi-m3
+    bl1-nanopi-m3 bl1-nanopi-m3-usb
     bl1-odroid-c2
     bl31-a64
     bsp-h5-lichee

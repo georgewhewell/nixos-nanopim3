@@ -50,6 +50,7 @@ with pkgs;
   atf-rockchip = callPackage ./atf-rockchip.nix { };
   rkbin = callPackage ./rkbin.nix { };
   bl1-nanopi-m3 = callPackage ./bl1-nanopi-m3.nix { };
+  bl1-nanopi-m3-usb = callPackage ./bl1-nanopi-m3.nix { usbBoot = true; };
   nanopi-load = callPackage ./nanopi-load.nix { };
   nanopi-boot-tools = callPackage ./nanopi-boot-tools.nix { };
   meson-tools = callPackage ./meson-tools.nix { };

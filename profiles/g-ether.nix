@@ -1,11 +1,14 @@
 { config, lib, pkgs, ... }:
 
 {
+  systemd.services."getty@ttyGS0" = {
+    enable = true;
+    after = [ "start-g-ether.service" ];
+  };
   systemd.services."serial-getty@ttyGS0" = {
     enable = true;
     after = [ "start-g-ether.service" ];
   };
-
   systemd.services."serial-getty@ttyACM0".enable = true;
 
   systemd.services.start-g-ether = {

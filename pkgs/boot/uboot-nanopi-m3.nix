@@ -9,7 +9,6 @@ pkgs.buildUBoot rec {
     sha256 = "0mlq1ndvyncy48rhlpik972lp1za7715v0kkik99l6x3i8l7gxay";
   };
 
-  patches = [ ];
   defconfig = "nanopim3_defconfig";
   targetPlatforms = [ "aarch64-linux" ];
   filesToInstall = [ "u-boot.bin" ];

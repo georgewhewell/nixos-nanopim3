@@ -23,6 +23,21 @@ in
     dd conv=notrunc if=u-boot-nsih.bin of=$out seek=64
   '';
 
+  system.build.usb-loader = build:
+    pkgs.writeScriptBin "load-nanopi-m3.sh" ''
+
+    # Upload bl1
+    nanopi-load -f ${pkgs.bl1-nanopi-m3-usb}
+
+    # Add header
+    $(${pkgs.nanopi-load}/bin/nanopi-load \
+        -o u-boot-nsih.bin \
+        ${pkgs.uboot-nanopi-m3}/u-boot.bin 0x43bffe00)"
+
+    # Upload uboot
+    nanopi-load -f -x ${pkgs.uboot-nanopi-m3}/u-boot.bin 0x00000000
+  '';
+
   boot.kernelPackages = pkgs.linuxPackages_nanopi-m3;
   boot.extraTTYs = [ "ttySAC0" ];
   system.build.bootloader = pkgs.uboot-nanopi-m3;

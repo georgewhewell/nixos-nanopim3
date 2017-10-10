@@ -18,19 +18,6 @@ let
     { system.nixosVersionSuffix = versionSuffix;
       system.nixosRevision = nixpkgs.rev or nixpkgs.shortRev;
     };
-  export-fel-script = build:
-    pkgs.writeTextDir "fel-boot.sh" ''
-      # Attach device via USB
-      sunxi-fel -v
-
-      # Load kernel
-      sunxi-fel \
-        uboot ${build.bootloader}/bin/uboot u-boot-sunxi-with-spl.bin \
-        write 0x42000000 ${build.kernel}/Image \
-        write 0x43000000 ${build.kernel}/dtbs/sun8i-h2-plus-nanopi-duo.dtb \
-        write 0x43100000 ${build.bootcmd}/boot.cmd \
-        write 0x43300000 ${build.initialRamdisk}/initrd
-  '';
   export-netboot = system: board:
   let build = (import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system;
@@ -46,11 +33,11 @@ let
     pkgs.symlinkJoin {
       name="netboot";
       paths=[
+        (build.usb-loader build)
         build.initialRamdisk
         build.kernel
         build.bootloader
         build.bootcmd
-        (export-fel-script build)
       ];
       postBuild = ''
         if [ -f $out/Image ]; then
@@ -94,10 +81,8 @@ let
 
 in rec {
 
-  qemu-armv7l-netboot = export-netboot "armv7l-linux" hardware.boards.qemu;
-  qemu-aarch64 = export-netboot "aarch64-linux" hardware.boards.qemu;
-
   nanopi-duo-netboot = export-netboot "armv7l-linux" hardware.boards.nanopi-duo;
+  nanopi-zero-netboot = export-netboot "armv7l-linux" hardware.boards.nanopi-zero;
   nanopi-m3-netboot = export-netboot "aarch64-linux" hardware.boards.nanopi-m3;
 
   # armv7l
