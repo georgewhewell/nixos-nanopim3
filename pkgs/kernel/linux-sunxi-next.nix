@@ -42,9 +42,22 @@ let
     "sunxi-next/add-realtek-8189fs-driver.patch"
     "sunxi-next/add-sdio-wifi-orangepi-zero-plus2.patch"
     "sunxi-next/add-wifi-orangepiprime.patch"
+    /*
+    todo:
+    /tmp/nix-build-linux-4.14-rc3.drv-0/linux-4.14-rc3/drivers/net/wireless/xradio/sdio.c: In function 'xradio_probe_of':
+    /tmp/nix-build-linux-4.14-rc3.drv-0/linux-4.14-rc3/drivers/net/wireless/xradio/sdio.c:145:2: error: implicit declaration of function 'devm_request_irq' [-Werror=implicit-function-declaration]
+    devm_request_irq(dev, irq, sdio_irq_handler, 0, "xradio", func);
+    ^~~~~~~~~~~~~~~~
+    CC [M]  drivers/regulator/mc13xxx-regulator-core.o
+    cc1: some warnings being treated as errors
+    make[5]: *** [/tmp/nix-build-linux-4.14-rc3.drv-0/linux-4.14-rc3/scripts/Makefile.build:313: drivers/net/wireless/xradio/sdio.o] Error 1
+    make[4]: *** [/tmp/nix-build-linux-4.14-rc3.drv-0/linux-4.14-rc3/scripts/Makefile.build:572: drivers/net/wireless/xradio] Error 2
+    make[4]: *** Waiting for unfinished jobs....
+
     "sunxi-next/add-xradio-wireless-driver.patch"
-    "sunxi-next/axp20x-sysfs-interface.patch"
     "sunxi-next/fix-xradio-interrupt.patch"
+    */
+    "sunxi-next/axp20x-sysfs-interface.patch"
     "sunxi-next/set-DMA-coherent-pool-to-2M.patch"
     "sunxi-next/spidev-remove-warnings.patch"
  ];
