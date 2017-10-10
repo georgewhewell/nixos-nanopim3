@@ -9,15 +9,11 @@ in {
     ./include/otg-role.nix
   ];
 
-  nixpkgs.config.writeBootloader = ''
-    dd if=${pkgs.uboot-licheepi-zero}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
-  '';
-
   boot.kernelPackages = pkgs.linuxPackages_sunxi;
   boot.extraTTYs = [ "ttyS0" ];
   boot.initrd.kernelModules = [ ];
-  system.build.bootloader = pkgs.uboot-licheepi-zero;
 
+  system.build.bootloader = pkgs.uboot-ntc-chippro;
   networking.hostName = "licheepi-zero";
 
   system.build.usb-loader = build:

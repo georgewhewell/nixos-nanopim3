@@ -33,6 +33,8 @@
     uboot-nanopi-neo2
     uboot-raspberrypi-2b
     uboot-rock64
+    uboot-licheepi-zero
+    uboot-ntc-chippro
     rkbin
     atf-rockchip;
 

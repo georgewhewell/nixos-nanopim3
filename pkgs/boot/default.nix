@@ -60,6 +60,11 @@ with pkgs;
   uboot-orangepi-zero = uboot-32 { defconfig = "orangepi_zero_defconfig"; };
   uboot-orangepi-plus2e = uboot-32 { defconfig = "orangepi_plus2e_defconfig"; };
   uboot-nanopi-neo = uboot-32 { defconfig = "nanopi_neo_defconfig"; };
+  uboot-licheepi-zero = uboot-32 { defconfig = "LicheePi_Zero_defconfig"; };
+  uboot-ntc-chippro = uboot-32 {
+    defconfig = "CHIP_pro_defconfig";
+    filesToInstall = [ "spl/sunxi-spl.bin" "u-boot-dtb.bin" "spl/sunxi-spl-with-ecc.bin" ];
+  };
   uboot-nanopi-air = callPackage ./uboot-fa.nix { defconfig = "nanopi_neo_air_defconfig"; };
   uboot-raspberrypi-2b = uboot-32 {
     defconfig = "rpi_2_defconfig"; filesToInstall = [ "u-boot.bin" ]; };

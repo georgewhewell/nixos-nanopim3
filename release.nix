@@ -81,8 +81,9 @@ let
 
 in rec {
 
+  ntc-chippro = export-netboot "armv7l-linux" hardware.boards.ntc-chippro;
+  licheepi-zero-netboot = export-netboot "armv7l-linux" hardware.boards.licheepi-zero;
   nanopi-duo-netboot = export-netboot "armv7l-linux" hardware.boards.nanopi-duo;
-  nanopi-zero-netboot = export-netboot "armv7l-linux" hardware.boards.nanopi-zero;
   nanopi-m3-netboot = export-netboot "aarch64-linux" hardware.boards.nanopi-m3;
 
   # armv7l
