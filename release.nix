@@ -76,7 +76,7 @@ in rec {
   nanopi-duo-netboot = export-netboot "armv7l-linux" hardware.boards.nanopi-duo;
   nanopi-m3-netboot = export-netboot "aarch64-linux" hardware.boards.nanopi-m3;
 
-  booter-duo = (import ./pkgs/boot/usb-boot.nix {
+  booter-duo = (import ./pkgs/launcher {
     inherit pkgs; binaries = nanopi-duo-netboot; });
 
   # armv7l

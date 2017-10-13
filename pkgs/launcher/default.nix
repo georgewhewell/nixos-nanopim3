@@ -2,8 +2,11 @@
 
 pkgs.stdenv.mkDerivation {
   name = "usb-booter-${binaries.name}";
-  src = pkgs.writeScript "bootScript" ''
-    echo test
+  src = ./.;
+
+  installPhase = ''
+    mkdir -p $out/bin
+    cp $src/launcher.py $out/bin
   '';
 
   propagatedBuildInputs = with pkgs; [
