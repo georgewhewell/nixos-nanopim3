@@ -78,8 +78,32 @@ with lib;
       bootm 0x42000000 - 0x43000000
     '';
 
-    boot.loader.timeout = 10;
+    system.build.netboot-binaries = pkgs.symlinkJoin {
+      name = "netboot";
+      paths = with config.system; [
+        build.initialRamdisk
+        build.kernel
+        build.bootloader
+        build.bootcmd
+      ];
 
+      postBuild = ''
+        if [ -f Image ]; then
+        	KERNEL_IMAGE=Image
+        else
+        	KERNEL_IMAGE=zImage
+        fi
+        ${pkgs.ubootTools}/bin/mkimage -A arm -O linux -T kernel -C lz4 -d $KERNEL_IMAGE $out/uImage
+        mkdir -p $out/nix-support
+        echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
+        echo "file uImage $out/uImage" >> $out/nix-support/hydra-build-products
+        echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
+        echo "file ipxe $out/netboot.ipxe" >> $out/nix-support/hydra-build-products
+        find $outdtbs -name 'sun8i-h3-nanopi*.dtb' -exec echo "file $(basename {}) $out/$(basename {})" >> $out/nix-support/hydra-build-products \;
+      '';
+    };
+
+    boot.loader.timeout = 10;
     boot.postBootCommands =
       ''
         # After booting, register the contents of the Nix store
