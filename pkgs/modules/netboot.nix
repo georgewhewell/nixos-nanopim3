@@ -27,7 +27,6 @@ with lib;
     boot.loader.grub.enable = false;
 
     # !!! Hack - attributes expected by other modules.
-    system.boot.loader.kernelFile = pkgs.stdenv.platform.kernelTarget;
     boot.initrd.network.enable = true;
 
     environment.systemPackages = [ ];
