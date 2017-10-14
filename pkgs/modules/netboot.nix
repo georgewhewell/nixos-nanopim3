@@ -58,7 +58,7 @@ with lib;
       };
 
     boot.initrd.availableKernelModules = [ "musb" "squashfs" ];
-    boot.initrd.kernelModules = [ "g_multi" "g_serial" "g_ether" ];
+    boot.initrd.kernelModules = [ "musb-hdrc" "g_multi" "g_serial" "g_ether" ];
 
     # Closures to be copied to the Nix store, namely the init
     # script and the top-level system configuration directory.
