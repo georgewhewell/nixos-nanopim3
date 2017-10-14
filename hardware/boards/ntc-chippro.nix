@@ -9,7 +9,7 @@ in {
     ./include/otg-role.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_sunxi;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi-next;
   boot.extraTTYs = [ "ttyS0" ];
   boot.initrd.kernelModules = [ ];
 
