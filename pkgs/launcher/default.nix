@@ -2,27 +2,22 @@
 
 pkgs.stdenv.mkDerivation {
   name = "usb-booter-${binaries.name}";
-  /*src = ./.;*/
 
-  unpackPhase =
-    let script = pkgs.writeScript "boot.sh" ''
-      echo 'Looking for usb device..'
-      sunxi-fel ver
+  src = pkgs.writeTextDir "boot.sh" ''
+    # Attach device via USB
+    sunxi-fel -v
 
-      echo 'Loading u-boot'
-      sunxi-fel \
-        uboot ${binaries}/u-boot.img \
-        write 0x42000000 ${binaries}/initrd \
-        write 0x4200000 ${binaries}/uImage
-
-      echo 'Loaded'
-    '';
-    in ''
-      cp ${script} boot.sh
-    '';
+    # Load kernel
+    sunxi-fel \
+      uboot ${binaries} u-boot.bin \
+      write 0x42000000 ${binaries}/Image \
+      write 0x43000000 ${binaries}/dtbs/sun8i-h2-plus-nanopi-duo.dtb \
+      write 0x43100000 ${binaries}/boot.cmd \
+      write 0x43300000 ${binaries}/initrd
+  '';
 
   installPhase = ''
-    cp boot.sh $out
+    cp -rv $src $out
   '';
 
   propagatedBuildInputs = with pkgs; [
