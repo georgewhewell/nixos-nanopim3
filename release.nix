@@ -8,8 +8,6 @@ let
     (self: super: import pkgs/overlay.nix { inherit self super; })
     (self: super: import pkgs/top-level.nix { pkgs = self; })
   ]; };
-  overlays = import ./pkgs/overlay.nix { };
-  forAllSystems = pkgs.lib.genAttrs supportedSystems;
   hardware = import ./hardware { inherit pkgs; };
   lib = pkgs.lib;
   versionSuffix =

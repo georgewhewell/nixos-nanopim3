@@ -59,7 +59,7 @@ with lib;
 
     boot.initrd.availableKernelModules = [ "squashfs" ];
 
-    boot.initrd.kernelModules = [ "loop" ];
+    boot.initrd.kernelModules = [ "loop" "g_serial" "g_ether" ];
 
     # Closures to be copied to the Nix store, namely the init
     # script and the top-level system configuration directory.
@@ -75,7 +75,7 @@ with lib;
     system.build.bootenv = pkgs.writeTextDir "bootenv.txt" ''
       #=uEnv
       bootargs=init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
-      bootcmd=bootm 0x42000000 - 0x43000000
+      bootcmd=bootz 0x42000000 - 0x43000000
     '';
 
     system.build.netboot-binaries = pkgs.symlinkJoin {
