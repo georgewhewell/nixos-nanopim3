@@ -61,10 +61,13 @@ in rec {
   ntc-chippro = export-netboot "armv7l-linux" hardware.boards.ntc-chippro;
   licheepi-zero-netboot = export-netboot "armv7l-linux" hardware.boards.licheepi-zero;
   nanopi-duo-netboot = export-netboot "armv7l-linux" hardware.boards.nanopi-duo;
+  orangepi-zero-netboot = export-netboot "armv7l-linux" hardware.boards.orangepi-zero;
   nanopi-m3-netboot = export-netboot "aarch64-linux" hardware.boards.nanopi-m3;
 
   booter-duo = (import ./pkgs/launcher {
     inherit pkgs; binaries = nanopi-duo-netboot; });
+  booter-zero = (import ./pkgs/launcher {
+    inherit pkgs; binaries = orangepi-zero-netboot; });
 
   # armv7l
   nanopi-duo = armv7l-linux hardware.boards.nanopi-duo;
