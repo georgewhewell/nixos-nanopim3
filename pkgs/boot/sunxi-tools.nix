@@ -7,8 +7,8 @@ pkgs.stdenv.mkDerivation rec {
     src = pkgs.fetchFromGitHub {
       owner = "linux-sunxi";
       repo = "sunxi-tools";
-      rev = "d9b1d7e7dff1e70fea91a3f259e9e8ac9508de35";
-      sha256 = "073s7psjqgvpv8lybjfqicmbwlq9kkznkyivsd0m25v099la5fy0";
+      rev = "cd9e6099e8668f4aa25d3ffc71283c0b138af1b7";
+      sha256 = "12sp4qrhqpch8ijlikjmxnjvisbss90r1wd7q3sdm64wwwsyxd9s";
     };
     buildPhase = "make";
     hardeningDisable = [ "all" ];
