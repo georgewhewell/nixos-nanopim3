@@ -57,7 +57,7 @@ with lib;
         options = [ "allow_other" "cow" "nonempty" "chroot=/mnt-root" "max_files=32768" "hide_meta_files" "dirs=/nix/.rw-store=rw:/nix/.ro-store=ro" ];
       };
 
-    boot.initrd.availableKernelModules = [ "sunxi" "wire" "squashfs" "musb_hdrc" ];
+    boot.initrd.availableKernelModules = [ "u_ether" "u_serial" "libcomposite" "sunxi" "wire" "squashfs" "musb_hdrc" ];
     boot.initrd.kernelModules = [ "loop" "g_serial" "g_ether" ];
     boot.extraKernelParams = [ "ignore_loglevel" ];
     # Closures to be copied to the Nix store, namely the init
