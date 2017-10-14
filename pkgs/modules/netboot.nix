@@ -59,7 +59,7 @@ with lib;
 
     boot.initrd.availableKernelModules = [ "musb" "squashfs" ];
     boot.initrd.kernelModules = [ "musb-hdrc" "g_multi" "g_serial" "g_ether" ];
-
+    boot.extraKernelParams = [ "ignore_loglevel" ];
     # Closures to be copied to the Nix store, namely the init
     # script and the top-level system configuration directory.
     netboot.storeContents =
