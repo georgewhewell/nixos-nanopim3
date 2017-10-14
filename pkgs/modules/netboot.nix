@@ -72,9 +72,10 @@ with lib;
       storeContents = config.netboot.storeContents;
     };
 
-    system.build.bootcmd = pkgs.writeTextDir "boot.cmd" ''
-      setenv bootargs init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
-      bootm 0x42000000 - 0x43000000
+    system.build.bootenv = pkgs.writeTextDir "bootenv.txt" ''
+      #=uEnv
+      bootargs=init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
+      bootcmd=bootm 0x42000000 - 0x43000000
     '';
 
     system.build.netboot-binaries = pkgs.symlinkJoin {
@@ -83,7 +84,7 @@ with lib;
         build.initialRamdisk
         build.kernel
         build.bootloader
-        build.bootcmd
+        build.bootenv
       ];
 
       postBuild = ''
@@ -97,8 +98,7 @@ with lib;
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
         echo "file uImage $out/uImage" >> $out/nix-support/hydra-build-products
         echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
-        echo "file ipxe $out/netboot.ipxe" >> $out/nix-support/hydra-build-products
-        find $outdtbs -name 'sun8i-h3-nanopi*.dtb' -exec echo "file $(basename {}) $out/$(basename {})" >> $out/nix-support/hydra-build-products \;
+        echo "file bootenv.txt $out/bootenv.txt" >> $out/nix-support/hydra-build-products
       '';
     };
 
