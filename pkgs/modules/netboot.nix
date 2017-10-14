@@ -57,7 +57,7 @@ with lib;
         options = [ "allow_other" "cow" "nonempty" "chroot=/mnt-root" "max_files=32768" "hide_meta_files" "dirs=/nix/.rw-store=rw:/nix/.ro-store=ro" ];
       };
 
-    boot.initrd.availableKernelModules = [ "u_ether" "u_serial" "libcomposite" "sunxi" "wire" "squashfs" "musb_hdrc" ];
+    boot.initrd.availableKernelModules = [ "u_ether" "u_serial" "sunxi" "wire" "squashfs" "musb_hdrc" ];
     boot.initrd.kernelModules = [ "loop" "libcomposite" ];
     boot.initrd.postDeviceCommands = ''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
@@ -85,8 +85,6 @@ with lib;
       ln -s functions/acm.usb0   configs/c.1/
 
       ls /sys/class/udc/ > UDC
-
-      ${pkgs.nettools}/bin/ifconfig usb0 up
     '';
     # Closures to be copied to the Nix store, namely the init
     # script and the top-level system configuration directory.
