@@ -3,7 +3,7 @@
 pkgs.stdenv.mkDerivation {
   name = "usb-booter-${binaries.name}";
 
-  src = pkgs.writeTextDir "boot.sh" ''
+  src = pkgs.writeScriptBin "boot.sh" ''
     # Load kernel
     ${pkgs.sunxi-tools}/bin/sunxi-fel -p \
       uboot ${binaries}/u-boot-sunxi-with-spl.bin \

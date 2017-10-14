@@ -92,7 +92,7 @@ with lib;
         else
         	KERNEL_IMAGE=zImage
         fi
-        ${pkgs.ubootTools}/bin/mkimage -A arm -O linux -T kernel -C lzma -d $out/$KERNEL_IMAGE $out/uImage
+        ${pkgs.ubootTools}/bin/mkimage -A arm -O linux -T kernel -C none -d $out/$KERNEL_IMAGE $out/uImage
         mkdir -p $out/nix-support
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
         echo "file uImage $out/uImage" >> $out/nix-support/hydra-build-products
