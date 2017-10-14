@@ -85,7 +85,6 @@ with lib;
       ln -s functions/rndis.usb0 configs/c.1/
       ln -s functions/acm.usb0   configs/c.1/
 
-      ${pkgs.udev}/bin/udevadm settle -t 5 || :
       ls /sys/class/udc/ > UDC
 
       ${pkgs.nettools}/bin/ifconfig usb0 up
