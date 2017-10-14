@@ -18,11 +18,11 @@ pkgs.stdenv.mkDerivation {
       echo 'Loaded'
     '';
     in ''
-      cp ${script} $src
+      cp ${script} boot.sh
     '';
 
   installPhase = ''
-    cp $src $out
+    cp boot.sh $out
   '';
 
   propagatedBuildInputs = with pkgs; [
