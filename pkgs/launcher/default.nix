@@ -2,18 +2,31 @@
 
 pkgs.stdenv.mkDerivation {
   name = "usb-booter-${binaries.name}";
-  src = ./.;
+  /*src = ./.;*/
+
+  unpackPhase =
+    let script = pkgs.writeScript "boot.sh" ''
+      echo 'Looking for usb device..'
+      sunxi-fel ver
+
+      echo 'Loading u-boot'
+      sunxi-fel \
+        uboot ${binaries}/u-boot.img \
+        write 0x42000000 ${binaries}/initrd \
+        write 0x4200000 ${binaries}/uImage
+
+      echo 'Loaded'
+    '';
+    in ''
+      cp ${script} $src
+    '';
 
   installPhase = ''
-    mkdir -p $out/bin
-    cp $src/launcher.py $out/bin
+    cp $src $out
   '';
 
   propagatedBuildInputs = with pkgs; [
-    sunxi-tools
-    nanopi-load
-    binaries
+    sunxi-tools binaries
   ];
-
 
 }
