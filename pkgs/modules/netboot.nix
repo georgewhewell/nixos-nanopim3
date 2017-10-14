@@ -74,12 +74,12 @@ with lib;
 
     system.build.bootenv =
       let initrdLen = pkgs.runCommand "get-initrd-len" {} ''
-        stat -c "%s" ${config.system.build.initialRamdisk}/initrd
+        echo \"$(stat -c %s ${config.system.build.initialRamdisk}/initrd)\" > $out
       '';
       in pkgs.writeTextDir "bootenv.txt" ''
-      #=uEnv
-      bootargs=init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
-      bootcmd=bootz 0x42000000 0x43300000:${initrdLen} 0x43000000
+        #=uEnv
+        bootargs=init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
+        bootcmd=bootz 0x42000000 0x43300000:${import initrdLen} 0x43000000
     '';
 
     system.build.netboot-binaries = pkgs.symlinkJoin {
