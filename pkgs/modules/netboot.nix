@@ -57,9 +57,8 @@ with lib;
         options = [ "allow_other" "cow" "nonempty" "chroot=/mnt-root" "max_files=32768" "hide_meta_files" "dirs=/nix/.rw-store=rw:/nix/.ro-store=ro" ];
       };
 
-    boot.initrd.availableKernelModules = [ "squashfs" ];
-
-    boot.initrd.kernelModules = [ "loop" "g_serial" "g_ether" ];
+    boot.initrd.availableKernelModules = [ "musb" "squashfs" ];
+    boot.initrd.kernelModules = [ "g_multi" "g_serial" "g_ether" ];
 
     # Closures to be copied to the Nix store, namely the init
     # script and the top-level system configuration directory.
