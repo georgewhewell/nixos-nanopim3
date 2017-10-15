@@ -31,6 +31,11 @@ with lib;
 
     environment.systemPackages = [ ];
 
+    networking.interfaces."usb0" = {
+      ipAddress = "10.10.10.2";
+      prefixLength = 24;
+    };
+
     fileSystems."/" =
       { fsType = "tmpfs";
         options = [ "mode=0755" ];
@@ -40,7 +45,7 @@ with lib;
     # image) to make this a live CD.
     fileSystems."/nix/.ro-store" =
       { fsType = "nfs";
-        device = "hydra.4a:/store";
+        device = "10.10.10.1:/store";
         options = [ "ro" ];
         neededForBoot = true;
       };
@@ -116,7 +121,7 @@ with lib;
     system.build.netboot-binaries = pkgs.symlinkJoin {
       name = "netboot";
       paths = with config.system; [
-        build.squashfsStore
+        /*build.squashfsStore*/
         build.initialRamdisk
         build.kernel
         build.bootloader
