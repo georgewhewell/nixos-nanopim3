@@ -98,7 +98,9 @@ with lib;
       ls /sys/class/udc/ > UDC
 
       # todo: nix this
-      ${pkgs.iproute}/bin/ip addr add 10.10.10.2 dev usb0
+      ${pkgs.iproute}/bin/ip link set dev usb0 up
+      ${pkgs.iproute}/bin/ip addr add 10.10.10.2/24 dev usb0
+      ${pkgs.iproute}/bin/ip route add default via 10.10.10.1
     '';
 
     # Closures to be copied to the Nix store, namely the init
