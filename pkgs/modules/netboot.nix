@@ -59,6 +59,8 @@ with lib;
 
     boot.initrd.availableKernelModules = [ "u_ether" "u_serial" "sunxi" "wire" "squashfs" "musb_hdrc" ];
     boot.initrd.kernelModules = [ "loop" "libcomposite" ];
+    boot.extraKernelParams = [ "ignore_loglevel" ];
+
     boot.initrd.postDeviceCommands = ''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       set -e
