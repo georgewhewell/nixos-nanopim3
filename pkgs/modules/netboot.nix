@@ -93,8 +93,7 @@ with lib;
     '';
 
     boot.initrd.postDeviceCommands = ''
-      sleep 1
-      ls /sys/class/udc/ > /sys/kernel/config/usb_gadget/UDC
+      ls /sys/class/udc/ > /sys/kernel/config/usb_gadget/g/UDC
     '';
 
     # Closures to be copied to the Nix store, namely the init
