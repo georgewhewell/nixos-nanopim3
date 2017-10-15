@@ -96,6 +96,9 @@ with lib;
       ln -s functions/rndis.usb0 configs/c.1/
       ln -s functions/acm.usb0   configs/c.1/
       ls /sys/class/udc/ > UDC
+
+      # todo: nix this
+      ${pkgs.iproute}/bin/ip addr add 10.10.10.2 dev usb0
     '';
 
     # Closures to be copied to the Nix store, namely the init
