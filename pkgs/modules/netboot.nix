@@ -93,6 +93,7 @@ with lib;
     '';
 
     boot.initrd.postDeviceCommands = ''
+      sleep 1
       ls /sys/class/udc/ > /sys/kernel/config/usb_gadget/UDC
     '';
 
@@ -116,6 +117,7 @@ with lib;
     system.build.netboot-binaries = pkgs.symlinkJoin {
       name = "netboot";
       paths = with config.system; [
+        build.squashfsStore
         build.initialRamdisk
         build.kernel
         build.bootloader
