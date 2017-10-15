@@ -122,7 +122,7 @@ with lib;
         else
         	KERNEL_IMAGE=zImage
         fi
-        ${pkgs.ubootTools}/bin/mkimage -A arm -T ramdisk -C none -d $out/uInitrd $out/initrd
+        ${pkgs.ubootTools}/bin/mkimage -A arm -T ramdisk -C none -d $out/initrd $out/uInitrd
         mkdir -p $out/nix-support
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
         echo "file $KERNEL_IMAGE $out/$KERNEL_IMAGE" >> $out/nix-support/hydra-build-products
