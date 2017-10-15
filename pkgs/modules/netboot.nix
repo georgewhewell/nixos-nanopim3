@@ -79,8 +79,8 @@ with lib;
       echo 0x0200 > bcdUSB    # USB 2.0
 
       mkdir -p strings/0x409
-      echo "deadbeef00115599" > strings/0x409/serialnumber
-      echo "NixOS-Embedded"        > strings/0x409/manufacturer
+      echo "deadbeef00115599"    > strings/0x409/serialnumber
+      echo "NixOS-Embedded"      > strings/0x409/manufacturer
       echo "Net/Serial Gadget"   > strings/0x409/product
 
       mkdir -p functions/acm.usb0    # serial
@@ -90,9 +90,12 @@ with lib;
       echo 250 > configs/c.1/MaxPower
       ln -s functions/rndis.usb0 configs/c.1/
       ln -s functions/acm.usb0   configs/c.1/
-
-      ls /sys/class/udc/ > UDC
     '';
+
+    boot.initrd.postDeviceCommands = ''
+      ls /sys/class/udc/ > /sys/kernel/config/usb_gadget/UDC
+    '';
+
     # Closures to be copied to the Nix store, namely the init
     # script and the top-level system configuration directory.
     netboot.storeContents =
