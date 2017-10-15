@@ -102,7 +102,7 @@ with lib;
     system.build.bootenv = pkgs.writeTextDir "bootenv.txt" ''
       #=uEnv
       bootargs=init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
-      bootcmd=bootz 0x42000000 0x43300000: 0x43000000
+      bootcmd=bootz 0x42000000 0x43300000 0x43000000
     '';
 
     system.build.netboot-binaries = pkgs.symlinkJoin {
@@ -120,11 +120,11 @@ with lib;
         else
         	KERNEL_IMAGE=zImage
         fi
-        ${pkgs.ubootTools}/bin/mkimage -A arm -O linux -T kernel -C none -d $out/$KERNEL_IMAGE $out/uImage
+        ${pkgs.ubootTools}/bin/mkimage -A arm -T ramdisk -C none -d $out/uInitrd $out/initrd
         mkdir -p $out/nix-support
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
-        echo "file uImage $out/uImage" >> $out/nix-support/hydra-build-products
-        echo "file initrd $out/initrd" >> $out/nix-support/hydra-build-products
+        echo "file $KERNEL_IMAGE $out/$KERNEL_IMAGE" >> $out/nix-support/hydra-build-products
+        echo "file uInitrd $out/uInitrd" >> $out/nix-support/hydra-build-products
         echo "file bootenv.txt $out/bootenv.txt" >> $out/nix-support/hydra-build-products
       '';
     };

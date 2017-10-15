@@ -10,7 +10,7 @@ pkgs.stdenv.mkDerivation {
       write 0x42000000 ${binaries}/zImage \
       write 0x43000000 ${binaries}/dtbs/sun8i-h2-plus-orangepi-zero.dtb \
       write 0x43100000 ${binaries}/bootenv.txt \
-      write 0x43300000 ${binaries}/initrd
+      write 0x43300000 ${binaries}/uInitrd
   '';
 
   installPhase = ''
