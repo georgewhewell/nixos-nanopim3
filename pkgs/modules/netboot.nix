@@ -57,13 +57,15 @@ with lib;
         options = [ "allow_other" "cow" "nonempty" "chroot=/mnt-root" "max_files=32768" "hide_meta_files" "dirs=/nix/.rw-store=rw:/nix/.ro-store=ro" ];
       };
 
-    boot.initrd.availableKernelModules = [ "u_ether" "u_serial" "sunxi" "wire" "squashfs" "musb_hdrc" ];
-    boot.initrd.kernelModules = [ "loop" "libcomposite" ];
+    boot.initrd.availableKernelModules = [ "libcomposite" "usb_f_rndis" "usb_f_acm" "u_ether" "u_serial" "sunxi" "wire" "squashfs" "musb_hdrc" ];
+    boot.initrd.kernelModules = [ "loop"];
     boot.extraKernelParams = [ "ignore_loglevel" ];
 
     boot.initrd.postDeviceCommands = ''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       set -e
+
+      ${pkgs.kmod}/bin/modprobe libcomposite
 
       cd /sys/kernel/config/usb_gadget/
       mkdir g && cd g
