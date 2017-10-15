@@ -71,7 +71,7 @@ with lib;
       device = "none";
     };
 
-    boot.initrd.preDeviceCommands = ''
+    boot.initrd.postDeviceCommands = ''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       set -e
 
@@ -95,10 +95,7 @@ with lib;
       echo 250 > configs/c.1/MaxPower
       ln -s functions/rndis.usb0 configs/c.1/
       ln -s functions/acm.usb0   configs/c.1/
-    '';
-
-    boot.initrd.postDeviceCommands = ''
-      ls /sys/class/udc/ > /sys/kernel/config/usb_gadget/g/UDC
+      ls /sys/class/udc/ > UDC
     '';
 
     # Closures to be copied to the Nix store, namely the init
