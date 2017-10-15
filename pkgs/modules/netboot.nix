@@ -134,7 +134,8 @@ with lib;
         ${pkgs.ubootTools}/bin/mkimage -A arm -T ramdisk -C none -d $out/initrd $out/uInitrd
         mkdir -p $out/nix-support
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
-        echo "file $KERNEL_IMAGE $out/$KERNEL_IMAGE" >> $out/nix-support/hydra-build-products
+        echo "file Image $out/Image" >> $out/nix-support/hydra-build-products
+        echo "file zImage_IMAGE $out/zImage" >> $out/nix-support/hydra-build-products
         echo "file uInitrd $out/uInitrd" >> $out/nix-support/hydra-build-products
         echo "file bootenv.txt $out/bootenv.txt" >> $out/nix-support/hydra-build-products
       '';
