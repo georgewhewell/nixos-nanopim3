@@ -140,8 +140,12 @@ with lib;
       storeContents = config.netboot.storeContents;
     };
 
-    system.build.uInitrd = pkgs.runCommand "uInitrd" ''
-      ${pkgs.ubootTools}/bin/mkimage -A arm -T ramdisk -C none -d ${system.build.initialRamdisk}/initrd $out
+    system.build.uInitrd = pkgs.runCommand "uInitrd" {
+      buildInputs = [
+        pkgs.ubootTools
+      ];
+      } ''
+      mkimage -A arm -T ramdisk -C none -d "${config.system.build.initialRamdisk}/initrd" $out
     '';
 
     boot.loader.timeout = 10;
