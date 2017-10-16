@@ -101,6 +101,12 @@ with lib;
       ${pkgs.iproute}/bin/ip link set dev usb0 up
       ${pkgs.iproute}/bin/ip addr add 10.10.10.2/24 dev usb0
       ${pkgs.iproute}/bin/ip route add default via 10.10.10.1
+
+      echo "Set up USB eth"
+    '';
+
+    boot.initrd.postMountCommands = ''
+      echo "All mounts setup"
     '';
 
     # Closures to be copied to the Nix store, namely the init
