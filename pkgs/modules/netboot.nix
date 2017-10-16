@@ -155,7 +155,9 @@ with lib;
         	KERNEL_IMAGE=zImage
         fi
         ${pkgs.ubootTools}/bin/mkimage -A arm -T ramdisk -C none -d $out/initrd $out/uInitrd
+        cp ${config.system.build.squashfsStore} $out/squashfsStore.img
         mkdir -p $out/nix-support
+        echo "file squashfsStore $out/squashfsStore.img" >> $out/nix-support/hydra-build-products
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
         echo "file Image $out/Image" >> $out/nix-support/hydra-build-products
         echo "file zImage_IMAGE $out/zImage" >> $out/nix-support/hydra-build-products
