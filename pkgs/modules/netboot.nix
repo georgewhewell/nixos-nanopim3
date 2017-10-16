@@ -115,12 +115,17 @@ with lib;
 
       ls /sys/class/udc/ > UDC
 
+      udevadm settle
+
       # todo: nix this
+      echo "Setting up usb0"
       ${pkgs.iproute}/bin/ip link set dev usb0 up
       ${pkgs.iproute}/bin/ip addr add 10.10.10.2/24 dev usb0
       ${pkgs.iproute}/bin/ip route add default via 10.10.10.1
 
-      echo "Set up USB eth"
+      echo "Starting console on ttyGS0"
+      @${pkgs.utillinux}/sbin/agetty --autologin root --noclear -s /dev/ttyGS0 115200 xterm
+
       cd $INITIAL_DIR
     '';
 
