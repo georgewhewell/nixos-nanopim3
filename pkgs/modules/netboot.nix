@@ -76,8 +76,8 @@ with lib;
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       set -e
 
-      cd /sys/kernel/config/usb_gadget/
-      mkdir g && cd g
+      pushd /sys/kernel/config/usb_gadget/
+      mkdir g && pushd g
 
       echo 0x1d6b > idVendor  # Linux Foundation
       echo 0x0104 > idProduct # Multifunction Composite Gadget
@@ -104,6 +104,8 @@ with lib;
       ${pkgs.iproute}/bin/ip route add default via 10.10.10.1
 
       echo "Set up USB eth"
+      popd
+      popd
     '';
 
     boot.initrd.postMountCommands = ''
