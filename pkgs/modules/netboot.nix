@@ -71,7 +71,7 @@ with lib;
 
     fileSystems."/zzzzzzzzzorg" =
       { fsType = "tmpfs";
-        options = [ "mode=0755" ];
+        options = [ "nofail" ];
         neededForBoot = true;
       };
 
@@ -119,10 +119,6 @@ with lib;
 
       echo "Set up USB eth"
       cd $initialdir
-    '';
-
-    boot.initrd.postMountCommands = ''
-      echo "All mounts setup"
     '';
 
     # Closures to be copied to the Nix store, namely the init
