@@ -9,22 +9,15 @@ in
     ./include/common.nix
     ./include/bluetooth.nix
     ./include/wireless.nix
-    ./include/otg-role.nix
+    ./include/h3.nix
   ];
 
-  nixpkgs.config.writeBootloader = ''
-    dd if=${pkgs.uboot-orangepi-zero}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
-  '';
-
-  system.boot.loader.kernelFile = "zImage";
-  boot.kernelPackages = pkgs.linuxPackages_sunxi-next;
-  boot.initrd.kernelModules = [ "w1-sunxi" "w1-gpio" "w1-therm" "sunxi-cir" "xradio_wlan" "xradio_wlan" ];
-  boot.extraTTYs = [ "ttyS0" ];
+  networking.hostName = "bananapi-m3";
+  system.build.dtbName = "sun8i-a83t-sinovoip-bpi-m3.dtb";
   system.build.bootloader = pkgs.uboot-bananapi-m3;
 
-  networking.hostName = "bananapi-m3";
-
-  system.build.usb = {
-    dtbName = "sun8i-a83t-sinovoip-bpi-m3.dtb";
+  meta = {
+    platforms = [ "armv7l-linux" ];
   };
+
 }
