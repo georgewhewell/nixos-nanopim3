@@ -1,25 +1,20 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 with lib;
 let
   platforms = (import ../platforms.nix);
 in
-{
+rec {
   imports = [
     ./include/common.nix
     ./include/otg-role.nix
+    ./include/h5.nix
   ];
 
-  nixpkgs.config.writeBootloader = ''
-    dd if=${pkgs.uboot-orangepi-pc2}/sunxi-spl.bin of=$out bs=8k seek=1 conv=notrunc
-    dd if=${pkgs.uboot-orangepi-pc2}/u-boot.itb of=$out bs=8k seek=5 conv=notrunc
-  '';
-
-  boot.kernelPackages = pkgs.linuxPackages_sunxi64;
-  boot.extraTTYs = [ "ttyS0" ];
-  nixpkgs.config.platform = platforms.aarch64-multiplatform;
+  networking.hostName = "orangepi-pc2";
   system.build.bootloader = pkgs.uboot-orangepi-pc2;
 
-  networking.hostName = "orangepi-pc2";
-
+  meta = {
+    platforms = [ "aarch64-linux" ];
+  };
 }

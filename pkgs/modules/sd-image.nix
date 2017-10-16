@@ -13,7 +13,7 @@
     in {
      populateBootCommands = ''
       # Write bootloaders to sd image
-      ${pkgs.config.writeBootloader}
+      ${config.system.build.sd.installBootloader}
 
       # Populate ./boot with extlinux
       ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot

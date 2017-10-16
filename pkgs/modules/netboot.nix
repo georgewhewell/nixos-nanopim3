@@ -88,7 +88,7 @@ with lib;
     boot.initrd.postDeviceCommands = ''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       set -e
-      initialdir=$(pwd)
+      INITIAL_DIR=$(pwd)
 
       cd /sys/kernel/config/usb_gadget/
       mkdir g && cd g
@@ -110,6 +110,9 @@ with lib;
       echo 250 > configs/c.1/MaxPower
       ln -s functions/rndis.usb0 configs/c.1/
       ln -s functions/acm.usb0   configs/c.1/
+
+      udevadm settle
+
       ls /sys/class/udc/ > UDC
 
       # todo: nix this
@@ -118,7 +121,7 @@ with lib;
       ${pkgs.iproute}/bin/ip route add default via 10.10.10.1
 
       echo "Set up USB eth"
-      cd $initialdir
+      cd $INITIAL_DIR
     '';
 
     # Closures to be copied to the Nix store, namely the init
@@ -130,40 +133,6 @@ with lib;
     system.build.squashfsStore = import <nixpkgs/nixos/lib/make-squashfs.nix> {
       inherit (pkgs) stdenv squashfsTools perl pathsFromGraph;
       storeContents = config.netboot.storeContents;
-    };
-
-    system.build.bootenv = pkgs.writeTextDir "bootenv.txt" ''
-      #=uEnv
-      bootargs=init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
-      bootcmd=bootz 0x42000000 0x43300000 0x43000000
-    '';
-
-    system.build.netboot-binaries = pkgs.symlinkJoin {
-      name = "netboot";
-      paths = with config.system; [
-        /*build.squashfsStore*/
-        build.initialRamdisk
-        build.kernel
-        build.bootloader
-        build.bootenv
-      ];
-
-      postBuild = ''
-        if [ -f Image ]; then
-        	KERNEL_IMAGE=Image
-        else
-        	KERNEL_IMAGE=zImage
-        fi
-        ${pkgs.ubootTools}/bin/mkimage -A arm -T ramdisk -C none -d $out/initrd $out/uInitrd
-        cp ${config.system.build.squashfsStore} $out/squashfsStore.img
-        mkdir -p $out/nix-support
-        echo "file squashfsStore $out/squashfsStore.img" >> $out/nix-support/hydra-build-products
-        echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
-        echo "file Image $out/Image" >> $out/nix-support/hydra-build-products
-        echo "file zImage_IMAGE $out/zImage" >> $out/nix-support/hydra-build-products
-        echo "file uInitrd $out/uInitrd" >> $out/nix-support/hydra-build-products
-        echo "file bootenv.txt $out/bootenv.txt" >> $out/nix-support/hydra-build-products
-      '';
     };
 
     boot.loader.timeout = 10;

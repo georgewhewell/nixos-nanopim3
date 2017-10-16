@@ -44,8 +44,8 @@ let
     inherit defconfig filesToInstall;
     targetPlatforms = [ "armv7l-linux" ];
   };
-  in
-with pkgs;
+in
+  with pkgs;
 {
   atf-rockchip = callPackage ./atf-rockchip.nix { };
   rkbin = callPackage ./rkbin.nix { };

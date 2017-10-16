@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 with lib;
 let
@@ -9,19 +9,12 @@ in
     ./include/common.nix
     ./include/bluetooth.nix
     ./include/wireless.nix
-    ./include/otg-role.nix
+    ./include/h3.nix
   ];
-
-  nixpkgs.config.writeBootloader = ''
-    dd if=${pkgs.uboot-orangepi-plus2e}/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
-  '';
 
   # clear less space to reduce churn
   nix.gc.options = ''--max-freed "$((5 * 1024**3 - 1024 * $(df -P -k /nix/store | tail -n 1 | ${pkgs.gawk}/bin/awk '{ print $4 }')))"'';
 
-  boot.kernelPackages = pkgs.linuxPackages_sunxi-next;
-  boot.initrd.kernelModules = [ "w1-sunxi" "w1-gpio" "w1-therm" "sunxi-cir" "xradio_wlan" "xradio_wlan" ];
-  boot.extraTTYs = [ "ttyS0" ];
   system.build.bootloader = pkgs.uboot-orangepi-plus2e;
 
   networking.hostName = "orangepi-plus2e";

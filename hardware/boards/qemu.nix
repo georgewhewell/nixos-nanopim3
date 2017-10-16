@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 with lib;
 let
@@ -14,5 +14,6 @@ in
   ];
 
   nixpkgs.config.writeBootloader = "echo fake bootloader!";
+  system.build.bootloader = pkgs.uboot-orangepi-pc2;
 
 }

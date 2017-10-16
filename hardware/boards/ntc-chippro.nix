@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 with lib;
 let
@@ -9,7 +9,7 @@ in {
     ./include/otg-role.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_sunxi-next;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi;
   boot.extraTTYs = [ "ttyS0" ];
   boot.initrd.kernelModules = [ ];
 

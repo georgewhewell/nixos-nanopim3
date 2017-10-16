@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 with lib;
 let
@@ -24,4 +24,7 @@ in
 
   networking.hostName = "bananapi-m3";
 
+  system.build.usb = {
+    dtbName = "sun8i-a83t-sinovoip-bpi-m3.dtb";
+  };
 }
