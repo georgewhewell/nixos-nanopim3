@@ -10,10 +10,10 @@ in {
   ];
 
   system.build.bootloader = pkgs.uboot-nanopi-neo;
-
   networking.hostName = "nanopi-neo";
 
   meta = {
     platforms = [ "armv7l-linux" ];
   };
+
 }

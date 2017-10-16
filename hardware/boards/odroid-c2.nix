@@ -42,4 +42,8 @@ in
   system.build.bootloader = pkgs.uboot-odroid-c2;
 
   hardware.enableAllFirmware = true;
+
+  meta = {
+    platforms = [ "aarch64-linux" ];
+  };
 }

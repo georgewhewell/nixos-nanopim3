@@ -19,4 +19,7 @@ in
 
   networking.hostName = "orangepi-plus2e";
 
+  meta = {
+    platforms = [ "armv7l-linux" ];
+  };
 }

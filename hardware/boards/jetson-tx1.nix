@@ -21,5 +21,7 @@ in
   system.build.bootloader = pkgs.uboot-jetson-tx1;
 
   networking.hostName = "jetson-tx1";
-
+  meta = {
+    platforms = [ "aarch64-linux" ];
+  };
 }

@@ -9,10 +9,9 @@ in
     ./include/common.nix
     ./include/bluetooth.nix
     ./include/wireless.nix
-    ./include/otg-role.nix
+    ./include/h5.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_sunxi64;
   boot.extraTTYs = [ "ttyS0" ];
   nixpkgs.config.platform = platforms.aarch64-sunxi;
   system.build.bootloader = pkgs.uboot-orangepi-prime;
@@ -22,5 +21,7 @@ in
   ];
 
   networking.hostName = "orangepi-prime";
-
+  meta = {
+    platforms = [ "aarch64-linux" ];
+  };
 }

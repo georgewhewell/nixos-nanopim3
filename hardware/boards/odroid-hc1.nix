@@ -14,11 +14,15 @@ in
     ${pkgs.odroid-xu3-bootloader}/bin/sd_fuse-xu3 $out
   '';
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.extraTTYs = [ "ttySAC2" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   nixpkgs.config.platform = platforms.armv7l-hf-base;
   system.build.bootloader = pkgs.odroid-xu3-bootloader;
 
   networking.hostName = "odroid-hc1";
+
+  meta = {
+    platforms = [ "armv7l-linux" ];
+  };
 
 }
