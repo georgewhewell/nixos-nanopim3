@@ -33,7 +33,7 @@ rec {
             write 0x42000000 ${build.kernel}/zImage \
             write 0x43000000 ${build.kernel}/dtbs/${build.dtbName} \
             write 0x43100000 ${bootEnv}/bootenv.txt \
-            write 0x43300000 ${build.initialRamdisk}/uInitrd
+            write 0x43300000 ${build.uInitrd}
       '';
 
   };
