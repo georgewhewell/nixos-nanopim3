@@ -65,6 +65,8 @@ with pkgs;
     defconfig = "CHIP_pro_defconfig";
     filesToInstall = [ "spl/sunxi-spl.bin" "u-boot-dtb.bin" "spl/sunxi-spl-with-ecc.bin" ];
   };
+  uboot-bananapi-m3 = uboot-32 {
+    defconfig = "Sinovoip_BPI_M3_defconfig"; };
   uboot-nanopi-air = callPackage ./uboot-fa.nix { defconfig = "nanopi_neo_air_defconfig"; };
   uboot-raspberrypi-2b = uboot-32 {
     defconfig = "rpi_2_defconfig"; filesToInstall = [ "u-boot.bin" ]; };

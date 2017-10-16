@@ -66,6 +66,8 @@ in rec {
     inherit pkgs; binaries = nanopi-duo-netboot; });
   booter-zero = (import ./pkgs/launcher {
     inherit pkgs; binaries = orangepi-zero-netboot; });
+  booter-bpim3 = (import ./pkgs/launcher {
+    inherit pkgs; binaries = (export-netboot "armv7l-linux" hardware.boards.bananapi-m3); });
 
   # armv7l
   nanopi-duo = armv7l-linux hardware.boards.nanopi-duo;

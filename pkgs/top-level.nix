@@ -18,6 +18,7 @@
     meson-tools
     sunxi-tools
     fip_create
+    uboot-bananapi-m3 
     uboot-jetson-tx1
     uboot-nanopi-air
     uboot-odroid-c2
