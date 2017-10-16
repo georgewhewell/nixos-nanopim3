@@ -45,7 +45,7 @@ with lib;
     # image) to make this a live CD.
     fileSystems."/nix/.ro-store" =
       { fsType = "nfs";
-        device = "10.10.10.1:/store";
+        device = "10.10.10.1:/export/store";
         options = [ "ro" ];
         neededForBoot = true;
       };
