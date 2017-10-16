@@ -46,7 +46,7 @@ with lib;
     fileSystems."/nix/.ro-store" =
       { fsType = "nfs";
         device = "10.10.10.1:/export/store";
-        options = [ "ro" ];
+        options = [ "ro" "nolock" ];
         neededForBoot = true;
       };
 
