@@ -13,6 +13,7 @@ in
 
   networking.hostName = "nanopi-neo2";
   system.build.bootloader = pkgs.uboot-nanopi-neo2;
+  system.build.dtbName = "sun50i-h5-nanopi-neo2.dtb";
 
   meta = {
     platforms = [ "aarch64-linux" ];

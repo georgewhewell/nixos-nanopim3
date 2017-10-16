@@ -12,6 +12,7 @@ in {
 
   hardware.firmware = [ pkgs.ap6212-firmware ];
   system.build.bootloader = pkgs.uboot-nanopi-air;
+  system.build.dtbName = "sun8i-h3-nanopi-neo-air.dtb";
 
   networking.hostName = "nanopi-air";
 
