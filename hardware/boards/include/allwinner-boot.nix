@@ -4,7 +4,7 @@ rec {
 
   system.build.sd = {
     installBootloader = ''
-      dd if=u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
+      dd if=$1/u-boot-sunxi-with-spl.bin conv=notrunc of=$out bs=1024 seek=8
     '';
   };
 

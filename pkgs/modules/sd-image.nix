@@ -11,12 +11,13 @@
         inherit pkgs;
     };
     in {
-     populateBootCommands = ''
+     populateBootCommands =
+      with config.system; ''
       # Write bootloaders to sd image
-      ${config.system.build.sd.installBootloader}
+      ${build.sd.installBootloader} ${build.bootloader}
 
       # Populate ./boot with extlinux
-      ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
+      ${extlinux-conf-builder} -t 3 -c ${build.toplevel} -d ./boot
     '';
   };
 }
