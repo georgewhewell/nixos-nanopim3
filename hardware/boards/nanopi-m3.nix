@@ -42,21 +42,16 @@ in rec {
         '';
       in
         pkgs.writeScriptBin "boot-${config.networking.hostName}.sh" ''
-
-          # include stuff
-          ${pkgs.sunxi-tools}/bin/sunxi-fel -p \
-            uboot ${build.bootloader}/u-boot-sunxi-with-spl.bin \
-            write 0x42000000 ${build.kernel}/zImage \
-            write 0x43000000 ${build.kernel}/dtbs/${build.dtbName} \
-            write 0x43100000 ${bootEnv}/bootenv.txt \
-            write 0x43300000 ${build.initialRamdisk}/uInitrd
-
+            # wrap uboot
             $(${pkgs.nanopi-load}/bin/nanopi-load \
-                -o u-boot-nsih.bin \
+                -o /tmp/u-boot-nsih.bin \
                 ${pkgs.uboot-nanopi-m3}/u-boot.bin 0x43bffe00)"
 
+            # load bl1
+            ${pkgs.nanopi-load}/bin/nanopi-load ${pkgs.bl1-nanopi-m3-usb}
+
             # Upload uboot
-            nanopi-load -f -x ${pkgs.uboot-nanopi-m3}/u-boot.bin 0x00000000
+            ${pkgs.nanopi-load}/bin/nanopi-load -f -x /tmp/u-boot-nsih.bin 0x00000000
 
       '';
 
