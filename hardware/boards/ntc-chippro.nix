@@ -14,5 +14,8 @@ in {
   system.build.bootloader = pkgs.uboot-ntc-chippro;
   networking.hostName = "CHIP_pro";
 
+  meta = {
+    platforms = [ "armv7l-linux" ];
+  };
 
 }
