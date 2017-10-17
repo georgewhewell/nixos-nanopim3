@@ -10,9 +10,11 @@ in
     ./include/otg-role.nix
   ];
 
-  nixpkgs.config.writeBootloader = ''
-    ${pkgs.odroid-xu3-bootloader}/bin/sd_fuse-xu3 $out
-  '';
+  system.build.sd = {
+    installBootloader = ''
+      ${pkgs.odroid-xu3-bootloader}/bin/sd_fuse-xu3 $out
+    '';
+  };
 
   boot.extraTTYs = [ "ttySAC2" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
