@@ -9,7 +9,7 @@ in {
     ./include/h3.nix
   ];
 
-  system.build.dtbName = "ntc-gr8-crumb.dtb";
+  system.build.dtbName = "sun5i-gr8-chip-pro.dtb";
   boot.kernelPackages = pkgs.linuxPackages_sunxi-next;
   system.build.bootloader = pkgs.uboot-ntc-chippro;
   networking.hostName = "CHIP_pro";
