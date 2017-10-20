@@ -21,8 +21,8 @@ in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
   src = pkgs.fetchFromGitHub {
     owner = "rafaello7";
     repo = "linux-nanopi-m3";
-    rev = "2aa1dead8a65cb19a706a210da1c9f50a6b17296";
-    sha256 = "1caq8fj2lsfswxi3k3vxyrlvy3wnx494vs5h7c6gdbsxnz32zxi8";
+    rev = "v4.11.6-8";
+    sha256 = "0q6yrf5c3ysxyyzwpsjf3gb1s11dcif9ggc911y0xiizd97n4mb0";
   };
 
   kernelPatches = [
