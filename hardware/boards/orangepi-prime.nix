@@ -15,6 +15,7 @@ in
   boot.extraTTYs = [ "ttyS0" ];
   nixpkgs.config.platform = platforms.aarch64-sunxi;
   system.build.bootloader = pkgs.uboot-orangepi-prime;
+  system.build.dtbName = "sun50i-h5-orangepi-prime.dtb";
 
   hardware.firmware = with pkgs; [
     rtl8723bs-firmware
