@@ -26,12 +26,6 @@ in rec {
 
   system.build.usb = {
 
-    copyBinaries = ''
-      echo "file bootenv.txt $out/bootenv.txt" >> $out/nix-support/hydra-build-products
-      echo "file zImage $out/zImage" >> $out/nix-support/hydra-build-products
-      echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
-    '';
-
     loader = { pkgs, config }:
       with config.system;
       let
