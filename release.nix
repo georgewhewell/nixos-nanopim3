@@ -60,6 +60,7 @@ in lib.genAttrs board_names (board_name:
     let
       board = board_conf board_name;
       installer-config = (buildInstallerConfig board platform);
+      netboot-binaries = (buildNetbootConfig board platform).build.netboot-binaries;
       netboot-config = (buildNetbootConfig board platform);
     in {
       sd-image = xzImage installer-config;

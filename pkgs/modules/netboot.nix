@@ -78,7 +78,7 @@ with lib;
       device = "none";
     };
 
-    boot.initrd.postDeviceCommands = ''
+    /*boot.initrd.postDeviceCommands = ''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       set -e
       INITIAL_DIR=$(pwd)
@@ -120,7 +120,7 @@ with lib;
       @${pkgs.utillinux}/sbin/agetty --autologin root --noclear -s /dev/ttyGS0 115200 xterm
 
       cd $INITIAL_DIR
-    '';
+    '';*/
 
     # Closures to be copied to the Nix store, namely the init
     # script and the top-level system configuration directory.
@@ -132,12 +132,6 @@ with lib;
       inherit (pkgs) stdenv squashfsTools perl pathsFromGraph;
       storeContents = config.netboot.storeContents;
     };
-
-    system.build.uInitrd = with config.system;
-      pkgs.runCommand "uInitrd" { buildInputs = [ pkgs.ubootTools ]; } ''
-      mkimage -A arm -T ramdisk -C none -d \
-        "${build.initialRamdisk}/initrd" $out
-    '';
 
     boot.loader.timeout = 10;
     boot.postBootCommands =
