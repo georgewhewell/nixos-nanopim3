@@ -6,54 +6,22 @@ let
 in rec {
   imports = [
     ./include/common.nix
+    ./include/nexell-boot.nix
     ./include/bluetooth.nix
     ./include/wireless.nix
   ];
 
-  system.build.sd = {
-    installBootloader = ''
-      # Add NISH header to u-boot
-      echo "Wrapping u-boot: \
-        $(${pkgs.nanopi-load}/bin/nanopi-load \
-            -o u-boot-nsih.bin \
-            ${system.build.bootloader}/u-boot.bin 0x43bffe00)"
-
-      # Write bootloaders to sd image
-      dd conv=notrunc if=${pkgs.bl1-nanopi-m3} of=$out seek=1
-      dd conv=notrunc if=u-boot-nsih.bin of=$out seek=64
-    '';
-  };
-
-  system.build.usb = {
-
-    loader = { pkgs, config }:
-      with config.system;
-      let
-        bootEnv = pkgs.writeTextDir "bootenv.txt" ''
-          #=uEnv
-          bootargs=init=${build.toplevel}/init ${toString config.boot.kernelParams}
-          bootcmd=bootz 0x42000000 0x43300000 0x43000000
-        '';
-      in
-        pkgs.writeScriptBin "boot-${config.networking.hostName}.sh" ''
-            # wrap uboot
-            $(${pkgs.nanopi-load}/bin/nanopi-load \
-                -o /tmp/u-boot-nsih.bin \
-                ${pkgs.uboot-nanopi-m3}/u-boot.bin 0x43bffe00)"
-
-            # load bl1
-            ${pkgs.nanopi-load}/bin/nanopi-load ${pkgs.bl1-nanopi-m3-usb}
-
-            # Upload uboot
-            ${pkgs.nanopi-load}/bin/nanopi-load -f -x /tmp/u-boot-nsih.bin 0x00000000
-
-      '';
-
-  };
-
   boot.extraTTYs = [ "ttySAC0" ];
   boot.kernelPackages = pkgs.linuxPackages_nanopi-m3;
-  system.build.bootloader = pkgs.uboot-nanopi-m3;
+
+  system.build.bootloader = pkgs.symlinkJoin {
+    name = "bootpackage";
+    paths = with pkgs; [
+      bl1-nanopi-m3
+      uboot-nanopi-m3
+    ];
+  };
+
   nixpkgs.config.platform = platforms.aarch64-nanopi-m3;
 
   hardware.firmware = [

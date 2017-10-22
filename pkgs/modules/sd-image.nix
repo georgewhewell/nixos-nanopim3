@@ -14,7 +14,7 @@
      populateBootCommands =
       with config.system; ''
       # Write bootloaders to sd image
-      ${build.sd.installBootloader} ${build.bootloader}
+      ${build.sd.installBootloader}
 
       # Populate ./boot with extlinux
       ${extlinux-conf-builder} -t 3 -c ${build.toplevel} -d ./boot

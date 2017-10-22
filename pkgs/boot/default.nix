@@ -49,8 +49,15 @@ in
 {
   atf-rockchip = callPackage ./atf-rockchip.nix { };
   rkbin = callPackage ./rkbin.nix { };
-  bl1-nanopi-m3 = callPackage ./bl1-nanopi-m3.nix { };
-  bl1-nanopi-m3-usb = callPackage ./bl1-nanopi-m3.nix { usbBoot = true; };
+  bl1-nanopi-m3 = let
+    bl1-sd = callPackage ./bl1-nanopi-m3.nix { };
+    bl1-usb = callPackage ./bl1-nanopi-m3.nix { usbBoot = true; };
+  in
+    pkgs.runCommand "combine-boot" { } ''
+      mkdir $out
+      cp ${bl1-sd} $out/bl1-sd.bin
+      cp ${bl1-usb} $out/bl1-usb.bin
+    '';
   nanopi-load = callPackage ./nanopi-load.nix { };
   nanopi-boot-tools = callPackage ./nanopi-boot-tools.nix { };
   meson-tools = callPackage ./meson-tools.nix { };

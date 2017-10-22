@@ -12,5 +12,14 @@ pkgs.buildUBoot rec {
   defconfig = "nanopim3_defconfig";
   targetPlatforms = [ "aarch64-linux" ];
   filesToInstall = [ "u-boot.bin" ];
+  buildFlags = "SPL=1";
+
+  postInstall = ''
+    ${pkgs.nanopi-load}/bin/nanopi-load \
+      -f \
+      -b SD \
+      -o $out/u-boot-sd.bin \
+        $out/u-boot.bin 0x43bffe00
+  '';
 
 }
