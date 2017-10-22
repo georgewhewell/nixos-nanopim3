@@ -10,6 +10,9 @@ rec {
 
   };
 
+  boot.kernelParams = [ "ignore_loglevel" "boot.shell_on_fail" "console=ttyS0,115200" ];
+  boot.initrd.availableKernelModules = [ "usb_f_rndis" "usb_f_acm" "u_ether" "u_serial" "sunxi" "wire" "squashfs" "musb_hdrc" ];
+
   system.build.usb = {
 
     netboot-binaries = pkgs.symlinkJoin {

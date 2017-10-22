@@ -58,10 +58,12 @@ with lib;
         neededForBoot = true;
       };
 
-    boot.initrd.availableKernelModules = [ "usb_f_rndis" "usb_f_acm" "u_ether" "u_serial" "sunxi" "wire" "squashfs" "musb_hdrc" ];
-    boot.initrd.kernelModules = [ "loop" "libcomposite" ];
+    fileSystems."/blkerggg" =
+      { fsType = "tmpfs";
+        options = [ "mode=0755" ];
+      };
 
-    boot.kernelParams = [ "ignore_loglevel" "boot.shell_on_fail" "console=ttyS0,115200" "cma=96M" ];
+    boot.initrd.kernelModules = [ "loop" "libcomposite" ];
 
     boot.specialFileSystems."/sys/kernel/config" = {
       fsType = "configfs";
