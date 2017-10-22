@@ -13,7 +13,7 @@ in
 
   system.build.bootloader = pkgs.uboot-nanopi-duo;
   system.build.dtbName = "sun8i-h2-plus-nanopi-duo.dtb";
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_fa;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_sunxi-next;
   networking.hostName = "nanopi-duo";
 
   meta = {

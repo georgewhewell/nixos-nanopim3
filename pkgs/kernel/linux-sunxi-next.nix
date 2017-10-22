@@ -71,7 +71,11 @@ in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
     sha256 = "1y383vw79jhpr15s919xwzxif2y8zbiwa64sg2aan075xfhzijp8";
   };
 
-  kernelPatches = pkgs.linux_4_13.kernelPatches ++ armbianPatches;
+  kernelPatches = pkgs.linux_4_13.kernelPatches ++ armbianPatches ++ [
+    {
+      name = "add-nanopi-duo-dts";
+      patch = ../../patches/add-nanopi-duo-dts.patch;
+    }];
 
   features.iwlwifi = false;
   features.efiBootStub = true;
