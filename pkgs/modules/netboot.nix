@@ -31,11 +31,6 @@ with lib;
 
     environment.systemPackages = [ ];
 
-    networking.interfaces."usb0" = {
-      ipAddress = "10.10.10.2";
-      prefixLength = 24;
-    };
-
     fileSystems."/" =
       { fsType = "tmpfs";
         options = [ "mode=0755" ];
@@ -45,7 +40,7 @@ with lib;
     # image) to make this a live CD.
     fileSystems."/nix/.ro-store" =
       { fsType = "nfs";
-        device = "10.10.10.1:/export/store";
+        device = "192.168.23.133:/export/home";
         options = [ "ro" "nolock" ];
         neededForBoot = true;
       };
@@ -66,22 +61,41 @@ with lib;
     boot.initrd.availableKernelModules = [ "usb_f_rndis" "usb_f_acm" "u_ether" "u_serial" "sunxi" "wire" "squashfs" "musb_hdrc" ];
     boot.initrd.kernelModules = [ "loop" "libcomposite" ];
 
-    boot.kernelParams = [
-      "ignore_loglevel"
-      "boot.shell_on_fail"
-      "console=ttyS0,115200"
-      "cma=96M"
-    ];
+    boot.kernelParams = [ "ignore_loglevel" "boot.shell_on_fail" "console=ttyS0,115200" "cma=96M" ];
 
     boot.specialFileSystems."/sys/kernel/config" = {
       fsType = "configfs";
       device = "none";
     };
 
-    /*boot.initrd.postDeviceCommands = ''
+    boot.initrd.extraUtilsCommands = ''
+      copy_bin_and_libs ${pkgs.busybox}/bin/nslookup
+      copy_bin_and_libs ${pkgs.mkinitcpio-nfs-utils}/bin/ipconfig
+    '';
+
+    boot.initrd.preLVMCommands = let
+      udhcpcScript = pkgs.writeScript "udhcp-script"
+      ''
+        #! /bin/sh
+        if [ "$1" = bound ]; then
+          ip address add "$ip/$mask" dev "$interface"
+          if [ -n "$router" ]; then
+            ip route add default via "$router" dev "$interface"
+          fi
+          if [ -n "$dns" ]; then
+            rm -f /etc/resolv.conf
+            for i in $dns; do
+              echo "nameserver $dns" >> /etc/resolv.conf
+            done
+          fi
+        fi
+      ''; in (''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       set -e
-      INITIAL_DIR=$(pwd)
+
+      INITIALDIR=$(pwd)
+
+      echo "Setting up USB gadget"
 
       cd /sys/kernel/config/usb_gadget/
       mkdir g && cd g
@@ -104,23 +118,44 @@ with lib;
       ln -s functions/rndis.usb0 configs/c.1/
       ln -s functions/acm.usb0   configs/c.1/
 
+      # make sure udc is created..
       udevadm settle
 
       ls /sys/class/udc/ > UDC
 
+      # make sure interface exists before continue
       udevadm settle
 
-      # todo: nix this
-      echo "Setting up usb0"
-      ${pkgs.iproute}/bin/ip link set dev usb0 up
-      ${pkgs.iproute}/bin/ip addr add 10.10.10.2/24 dev usb0
-      ${pkgs.iproute}/bin/ip route add default via 10.10.10.1
+      echo "Gadget created"
 
-      echo "Starting console on ttyGS0"
-      @${pkgs.utillinux}/sbin/agetty --autologin root --noclear -s /dev/ttyGS0 115200 xterm
+      cd $INITIALDIR
+    '' + ''
+      for o in $(cat /proc/cmdline); do
+        case $o in
+          ip=*)
+            ipconfig $o && hasNetwork=1
+            ;;
+        esac
+      done
+      '' + ''
+      if [ -z "$hasNetwork" ]; then
 
-      cd $INITIAL_DIR
-    '';*/
+        # Bring up all interfaces.
+        for iface in $(cd /sys/class/net && ls); do
+          echo "bringing up network interface $iface..."
+          ip link set "$iface" up
+        done
+
+        # Acquire a DHCP lease.
+        echo "acquiring IP address via DHCP..."
+        udhcpc --quit --now -i usb0 --script ${udhcpcScript} && hasNetwork=1
+      fi
+    '' + ''
+        if [ -n "$hasNetwork" ]; then
+
+          echo "networking is up!"
+        fi
+    '');
 
     # Closures to be copied to the Nix store, namely the init
     # script and the top-level system configuration directory.
