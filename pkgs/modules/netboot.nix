@@ -45,7 +45,7 @@ with lib;
     # image) to make this a live CD.
     fileSystems."/nix/.ro-store" =
       { fsType = "nfs";
-        device = "10.10.10.1:/export/store";
+        device = "192.168.23.133:/home";
         options = [ "ro" "nolock" ];
         neededForBoot = true;
       };
@@ -56,22 +56,10 @@ with lib;
         neededForBoot = true;
       };
 
-    fileSystems."/blarg" =
-      { fsType = "tmpfs";
-        options = [ "mode=0755" ];
-        neededForBoot = true;
-      };
-
     fileSystems."/nix/store" =
       { fsType = "unionfs-fuse";
         device = "unionfs";
         options = [ "allow_other" "cow" "nonempty" "chroot=/mnt-root" "max_files=32768" "hide_meta_files" "dirs=/nix/.rw-store=rw:/nix/.ro-store=ro" ];
-        neededForBoot = true;
-      };
-
-    fileSystems."/zzzzzzzzzorg" =
-      { fsType = "tmpfs";
-        options = [ "nofail" ];
         neededForBoot = true;
       };
 
@@ -85,10 +73,13 @@ with lib;
       device = "none";
     };
 
-    boot.initrd.postDeviceCommands = ''
+    boot.initrd.preLVMCommands = lib.mkBefore ''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       set -e
-      initialdir=$(pwd)
+
+      INITIALDIR=$(pwd)
+
+      echo "Setting up USB gadget"
 
       cd /sys/kernel/config/usb_gadget/
       mkdir g && cd g
@@ -110,15 +101,18 @@ with lib;
       echo 250 > configs/c.1/MaxPower
       ln -s functions/rndis.usb0 configs/c.1/
       ln -s functions/acm.usb0   configs/c.1/
+
+      # make sure udc is created..
+      udevadm settle
+
       ls /sys/class/udc/ > UDC
 
-      # todo: nix this
-      ${pkgs.iproute}/bin/ip link set dev usb0 up
-      ${pkgs.iproute}/bin/ip addr add 10.10.10.2/24 dev usb0
-      ${pkgs.iproute}/bin/ip route add default via 10.10.10.1
+      # make sure interface exists before continue
+      udevadm settle
 
-      echo "Set up USB eth"
-      cd $initialdir
+      echo "Gadget created"
+
+      cd $INITIALDIR
     '';
 
     # Closures to be copied to the Nix store, namely the init
@@ -155,7 +149,6 @@ with lib;
         	KERNEL_IMAGE=zImage
         fi
         ${pkgs.ubootTools}/bin/mkimage -A arm -T ramdisk -C none -d $out/initrd $out/uInitrd
-        cp ${config.system.build.squashfsStore} $out/squashfsStore.img
         mkdir -p $out/nix-support
         echo "file squashfsStore $out/squashfsStore.img" >> $out/nix-support/hydra-build-products
         echo "file u-boot-sunxi-with-spl.bin $out/u-boot-sunxi-with-spl.bin" >> $out/nix-support/hydra-build-products
