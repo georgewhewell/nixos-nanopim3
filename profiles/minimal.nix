@@ -4,7 +4,7 @@
   imports = [
     <nixpkgs/nixos/modules/profiles/minimal.nix>
     ./base.nix
-    ./g-ether.nix
+    ./dev-utils.nix
   ];
 
   sound.enable = false;

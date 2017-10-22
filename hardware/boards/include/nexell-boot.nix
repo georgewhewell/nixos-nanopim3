@@ -27,7 +27,7 @@ rec {
         build.bootloader
       ];
       postBuild = ''
-        ${pkgs.ubootTools}/bin/mkimage -A arm64 -T ramdisk -C none -d $out/initrd $out/uInitrd
+        ${pkgs.ubootTools}/bin/mkimage -A arm64 -O linux -T ramdisk -C none -d $out/initrd $out/uInitrd
         ${pkgs.ubootTools}/bin/mkimage -A arm64 -T kernel -C none -d $out/Image $out/uImage
         ${pkgs.nanopi-load}/bin/nanopi-load -b USB -o $out/u-boot-nsih.bin $out/u-boot.bin 0x00000000
       '';

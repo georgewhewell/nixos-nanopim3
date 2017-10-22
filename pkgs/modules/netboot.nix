@@ -40,7 +40,7 @@ with lib;
     # image) to make this a live CD.
     fileSystems."/nix/.ro-store" =
       { fsType = "nfs";
-        device = "192.168.23.133:/export/home";
+        device = "192.168.23.213:/export/store";
         options = [ "ro" "nolock" ];
         neededForBoot = true;
       };
@@ -58,22 +58,12 @@ with lib;
         neededForBoot = true;
       };
 
-    fileSystems."/blkerggg" =
-      { fsType = "tmpfs";
-        options = [ "mode=0755" ];
-      };
-
-    boot.initrd.kernelModules = [ "loop" "libcomposite" ];
+    boot.initrd.kernelModules = [ "libcomposite" ];
 
     boot.specialFileSystems."/sys/kernel/config" = {
       fsType = "configfs";
       device = "none";
     };
-
-    boot.initrd.extraUtilsCommands = ''
-      copy_bin_and_libs ${pkgs.busybox}/bin/nslookup
-      copy_bin_and_libs ${pkgs.mkinitcpio-nfs-utils}/bin/ipconfig
-    '';
 
     boot.initrd.preLVMCommands = let
       udhcpcScript = pkgs.writeScript "udhcp-script"
@@ -91,10 +81,9 @@ with lib;
             done
           fi
         fi
-      ''; in (''
+      '';
+    in (''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
-      set -e
-
       INITIALDIR=$(pwd)
 
       echo "Setting up USB gadget"
@@ -131,7 +120,7 @@ with lib;
       echo "Gadget created"
 
       cd $INITIALDIR
-    '' + ''
+
       for o in $(cat /proc/cmdline); do
         case $o in
           ip=*)
@@ -139,7 +128,7 @@ with lib;
             ;;
         esac
       done
-      '' + ''
+
       if [ -z "$hasNetwork" ]; then
 
         # Bring up all interfaces.
@@ -152,13 +141,21 @@ with lib;
         echo "acquiring IP address via DHCP..."
         udhcpc --quit --now -i usb0 --script ${udhcpcScript} && hasNetwork=1
       fi
-    '' + ''
-        if [ -n "$hasNetwork" ]; then
 
-          echo "networking is up!"
-        fi
+      if [ -n "$hasNetwork" ]; then
+        echo "networking is up!"
+      fi
     '');
 
+    systemd.services."getty@ttyGS0" = {
+      enable = true;
+      after = [ "start-g-ether.service" ];
+      wantedBy = [ "basic.target" ];
+    };
+
+    boot.initrd.postMountCommands = ''
+      echo postMount
+    '';
     # Closures to be copied to the Nix store, namely the init
     # script and the top-level system configuration directory.
     netboot.storeContents =
