@@ -28,6 +28,11 @@ let
       echo "file closure $out/closure/top-level.closure" >> $out/nix-support/hydra-build-products
     '';
 
+  vmLoader = config:
+    config.system.build.qemu.vmScript {
+      inherit pkgs config;
+    };
+
   usbLoader = config:
     config.system.build.usb.loader {
       inherit pkgs config;
@@ -37,6 +42,17 @@ let
     (import <nixpkgs/nixos/lib/eval-config.nix> {
       inherit system modules;
     }).config;
+
+  buildVMConfig = board: system: getConfig {
+    inherit system;
+    modules = [
+      board
+      versionModule
+      ./profiles/minimal.nix
+      ./profiles/buildfarm.nix
+      ./pkgs/modules/qemu-vm.nix
+    ];
+  };
 
   buildInstallerConfig = board: system: getConfig {
     inherit system;
@@ -60,11 +76,12 @@ in lib.genAttrs board_names (board_name:
     let
       board = board_conf board_name;
       installer-config = (buildInstallerConfig board platform);
-      netboot-binaries = (buildNetbootConfig board platform).build.netboot-binaries;
       netboot-config = (buildNetbootConfig board platform);
+      qemu-config = (buildVMConfig board platform);
     in {
       sd-image = xzImage installer-config;
       usb-loader = usbLoader netboot-config;
+      vm-script = vmLoader qemu-config;
     }
   )
 )
