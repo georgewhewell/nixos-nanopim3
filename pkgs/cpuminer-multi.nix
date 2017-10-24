@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
     };
 
     hardeningDisable = [ "all" ];
-    nativeBuildInputs = [ pkgs.autoreconfHook pkgs.jansson pkgs.curl ];
+    nativeBuildInputs = [ pkgs.autoreconfHook pkgs.jansson pkgs.curl pkgs.gcc7 ];
     enableParallelBuilding = true;
     configureFlags = "--with-crypto --with-curl";
 
