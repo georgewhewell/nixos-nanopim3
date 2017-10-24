@@ -5,15 +5,15 @@ stdenv.mkDerivation rec {
     name = "cpuminer-multi-${version}";
 
     src = fetchFromGitHub {
-      owner = "tpruvot";
-      repo = "cpuminer-multi";
-      rev = "7495361e34bb11e0c3e2c778312281071208eb55";
-      sha256 = "0vsj9hgz0i70icss3i65nybjm30kjq6dn6haidkrpilg1zvfrv78";
+      owner = "effectsToCause";
+      repo = "veriumMiner";
+      rev = "521c697c43de0e34f71331b3732d90781db93f53";
+      sha256 = "0gh9amsgia3ilzigcc07g78vp3q37ivb887dpq9sy85zjhmy0wvr";
     };
 
     hardeningDisable = [ "all" ];
-    nativeBuildInputs = [ pkgs.autoreconfHook pkgs.gcc7 pkgs.jansson pkgs.curl ];
-
+    nativeBuildInputs = [ pkgs.autoreconfHook pkgs.jansson pkgs.curl ];
+    enableParallelBuilding = true;
     configureFlags = "--with-crypto --with-curl";
 
     preConfigure = ''
@@ -31,6 +31,10 @@ stdenv.mkDerivation rec {
     meta = {
       description = "cpuminer-multi";
       maintainers = [ stdenv.lib.maintainers.georgewhewell ];
+      platforms = [
+        "armv7l-linux"
+        /*"aarch64-linux"*/
+      ];
     };
 
 }

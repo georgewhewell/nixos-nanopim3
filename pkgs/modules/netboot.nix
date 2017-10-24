@@ -20,16 +20,8 @@ with lib;
 
   config = rec {
 
-    boot.loader.grub.version = 2;
-
-    # Don't build the GRUB menu builder script, since we don't need it
-    # here and it causes a cyclic dependency.
+    /*boot.loader.grub.version = 2;*/
     boot.loader.grub.enable = false;
-
-    # !!! Hack - attributes expected by other modules.
-    boot.initrd.network.enable = true;
-
-    environment.systemPackages = [ ];
 
     fileSystems."/" =
       { fsType = "tmpfs";

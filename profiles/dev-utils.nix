@@ -5,6 +5,9 @@
     tmux
     htop
     stress
-    
+    cpuburn-arm
+    tinymembench
+    /*lima-memtester*/
+    cpuminer-multi
   ];
 }

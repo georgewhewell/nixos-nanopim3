@@ -7,9 +7,12 @@
   cpuminer-multi = pkgs.callPackage ./cpuminer-multi.nix { };
   ap6212-firmware = pkgs.callPackage ./ap6212-firmware.nix { };
   uhubctl = pkgs.callPackage ./uhubctl.nix { };
+  cpuburn-arm = pkgs.callPackage ./cpuburn-arm.nix { };
+  tinymembench = pkgs.callPackage ./tinymembench.nix { };
+  lima-memtester = pkgs.callPackage ./lima-memtester.nix { };
 
   inherit (pkgs.callPackages ./boot/default.nix { })
-    bl1-nanopi-m3 bl1-nanopi-m3-usb
+    bl1-nanopi-m3
     bl1-odroid-c2
     bl31-a64
     bsp-h5-lichee
