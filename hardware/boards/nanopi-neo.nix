@@ -9,7 +9,7 @@ in {
     ./include/h3.nix
   ];
 
-  system.build.dtbName = "sun8i-h3-nanopi-neo.dtb";
+  system.build.dtbName = "sun8i-h2-plus-orangepi-zero.dtb";
   system.build.bootloader = pkgs.uboot-nanopi-neo;
   networking.hostName = "nanopi-neo";
 
