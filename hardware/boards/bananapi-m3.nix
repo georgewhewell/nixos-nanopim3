@@ -1,9 +1,5 @@
 { lib, pkgs, ... }:
 
-with lib;
-let
-  platforms = (import ../platforms.nix);
-in
 {
   imports = [
     ./include/common.nix
@@ -13,8 +9,11 @@ in
   ];
 
   networking.hostName = "bananapi-m3";
+
   system.build.dtbName = "sun8i-a83t-sinovoip-bpi-m3.dtb";
   system.build.bootloader = pkgs.uboot-bananapi-m3;
+
+  boot.kernelPackages = pkgs.linuxPackages_sunxi_a83t;
 
   meta = {
     platforms = [ "armv7l-linux" ];

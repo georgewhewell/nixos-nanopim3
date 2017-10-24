@@ -21,7 +21,7 @@
     meson-tools
     sunxi-tools
     fip_create
-    uboot-bananapi-m3 
+    uboot-bananapi-m3
     uboot-jetson-tx1
     uboot-nanopi-air
     uboot-odroid-c2
@@ -49,6 +49,7 @@
     linuxPackages_sunxi
     linuxPackages_sunxi-next
     linuxPackages_sunxi64
+    linuxPackages_sunxi_a83t
     linuxPackages_rock64
     linuxPackages_xu4
     linuxPackages_fa
