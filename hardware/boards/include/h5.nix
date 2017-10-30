@@ -4,14 +4,21 @@ with lib;
 let
   platforms = (import ../../platforms.nix);
 in
-{
-  imports = [
-    ./allwinner-boot.nix
-  ];
+rec {
 
   boot.kernelPackages = pkgs.linuxPackages_sunxi64;
   boot.extraTTYs = [ "ttyS0" ];
   nixpkgs.config.platform = platforms.aarch64-multiplatform;
+
+  system.build.sd =
+    with config.system; {
+
+    installBootloader = ''
+      dd if=${build.bootloader}/sunxi-spl.bin of=$out bs=8k seek=1 conv=notrunc
+      dd if=${build.bootloader}/u-boot.itb of=$out bs=8k seek=5 conv=notrunc
+    '';
+
+  };
 
   system.build.usb = {
 
@@ -25,9 +32,6 @@ in
       ];
 
       postBuild = ''
-        ${pkgs.ubootTools}/bin/mkimage -A arm64 -d $out/sunxi-spl.bin \
-          -f $out/u-boot.its $out/u-boot-sunxi-with-spl.bin
-        ${pkgs.ubootTools}/bin/mkimage -A arm64 -T ramdisk -C none -d $out/zImage $out/uImage
         ${pkgs.ubootTools}/bin/mkimage -A arm64 -T ramdisk -C none -d $out/initrd $out/uInitrd
       '';
 
@@ -50,8 +54,9 @@ in
 
           # include stuff
           ${pkgs.sunxi-tools}/bin/sunxi-fel -p \
-            uboot ${build.usb.netboot-binaries}/u-boot-sunxi-with-spl.bin \
-            write 0x42000000 ${build.usb.netboot-binaries}/uImage \
+            spl ${build.usb.netboot-binaries}/sunxi-spl.bin \
+            uboot ${build.usb.netboot-binaries}/u-boot.itb \
+            write 0x42000000 ${build.usb.netboot-binaries}/zImage \
             write 0x43000000 ${build.usb.netboot-binaries}/dtbs/${build.dtbName} \
             write 0x43300000 ${build.usb.netboot-binaries}/uInitrd \
             write 0x43100000 ${bootEnv}

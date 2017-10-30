@@ -8,6 +8,6 @@
     cpuburn-arm
     tinymembench
     /*lima-memtester*/
-    cpuminer-multi
+    /*cpuminer-multi*/
   ];
 }

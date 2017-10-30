@@ -33,7 +33,7 @@ stdenv.mkDerivation rec {
       maintainers = [ stdenv.lib.maintainers.georgewhewell ];
       platforms = [
         "armv7l-linux"
-        /*"aarch64-linux"*/
+        "aarch64-linux"
       ];
     };
 
