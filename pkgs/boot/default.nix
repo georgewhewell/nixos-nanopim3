@@ -36,7 +36,7 @@ let
     preBuild = pkgs.lib.optional pkgs.stdenv.isAarch64 "cp ${pkgs.bl31-a64} bl31.bin";
     inherit defconfig filesToInstall targetPlatforms;
   };
-  uboot-64 = { defconfig, filesToInstall ? [ "spl/sunxi-spl.bin" "u-boot.its" ] }: uboot {
+  uboot-64 = { defconfig, filesToInstall ? [ "spl/sunxi-spl.bin" "u-boot.itb" ] }: uboot {
     inherit defconfig filesToInstall;
     targetPlatforms = [ "aarch64-linux" ];
   };
@@ -81,8 +81,7 @@ in
   uboot-nanopi-m3 = callPackage ./uboot-nanopi-m3.nix { };
   uboot-pine64 = callPackage ./uboot-sunxi.nix { defconfig = "pine64_plus_defconfig"; };
   uboot-orangepi-pc2 = callPackages ./uboot-sunxi.nix { defconfig = "orangepi_pc2_defconfig"; };
-  uboot-orangepi-prime = uboot-64 {
-    defconfig = "orangepi_prime_defconfig"; filesToInstall = [ "spl/sunxi-spl.bin" "u-boot.itb" ]; };
+  uboot-orangepi-prime = uboot-64 { defconfig = "orangepi_prime_defconfig"; };
   uboot-nanopi-neo2 = uboot-64 { defconfig = "nanopi_neo2_defconfig"; };
   uboot-jetson-tx1 = uboot-64 {
     defconfig = "p2371-2180_defconfig"; filesToInstall = [ "u-boot.bin" ]; };
