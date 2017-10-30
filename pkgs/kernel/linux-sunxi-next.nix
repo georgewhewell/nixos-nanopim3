@@ -1,5 +1,7 @@
 { stdenv, hostPlatform, pkgs, perl, buildLinux, ... } @ args:
 
+with pkgs;
+
 let
   armbianPatches = map (path: {
     name = "armbian-${path}";
@@ -62,16 +64,16 @@ let
     "sunxi-next/spidev-remove-warnings.patch"
  ];
 in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
-  version = "4.14-rc5";
-  modDirVersion = "4.14.0-rc5";
+  version = "4.14-rc7";
+  modDirVersion = "4.14.0-rc7";
   extraMeta.branch = "4.14";
 
-  src = pkgs.fetchurl {
+  src = fetchurl {
     url = "https://git.kernel.org/torvalds/t/linux-${version}.tar.gz";
-    sha256 = "1y383vw79jhpr15s919xwzxif2y8zbiwa64sg2aan075xfhzijp8";
+    sha256 = "1w7b1sc5dsxcqywsdbwgs92i8jpj7hsnss67yzb58z3bz3hb73m3";
   };
 
-  kernelPatches = pkgs.linux_4_13.kernelPatches ++ armbianPatches ++ [
+  kernelPatches = linux_4_13.kernelPatches ++ armbianPatches ++ [
     {
       name = "add-nanopi-duo-dts";
       patch = ../../patches/add-nanopi-duo-dts.patch;
