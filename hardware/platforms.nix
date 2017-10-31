@@ -101,9 +101,5 @@ in {
   aarch64-sunxi = aarch64-multiplatform // { kernelBaseConfig = "defconfig"; };
   aarch64-nanopi-m3 = aarch64-multiplatform // {
     kernelBaseConfig = "nanopim3_defconfig";
-    gcc = {
-      arch = "armv8.1-a+crypto";
-      cpu = "cortex-a53";
-    };
   };
 }
