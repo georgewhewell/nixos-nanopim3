@@ -11,22 +11,20 @@ stdenv.mkDerivation rec {
       sha256 = "0gh9amsgia3ilzigcc07g78vp3q37ivb887dpq9sy85zjhmy0wvr";
     };
 
+    patches = [
+      ../patches/fix-compile.patch
+    ];
+
     hardeningDisable = [ "all" ];
     nativeBuildInputs = [ pkgs.autoreconfHook pkgs.jansson pkgs.curl pkgs.gcc7 ];
     enableParallelBuilding = true;
-    configureFlags = "--with-crypto --with-curl";
 
-    preConfigure = ''
-      patchShebangs autogen.sh
-      ./autogen.sh
+    configureFlags = ''
+      --with-crypto
+      --with-curl
     '';
 
-    installPhase = ''
-      patchShebangs build.sh
-      ./build.sh
-      mkdir -p $out/bin
-      cp cpuminer $out/bin/cpuminer
-    '';
+    CFLAGS = "-O3 -march=native";
 
     meta = {
       description = "cpuminer-multi";

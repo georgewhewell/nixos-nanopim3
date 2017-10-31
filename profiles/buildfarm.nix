@@ -4,7 +4,9 @@
 
   imports = [
     ./prometheus.nix
+    ./miner.nix
   ];
+
   services.disnix-small.enable = true;
 
   nix.buildCores = lib.mkDefault 0;
@@ -26,8 +28,8 @@
   ];
 
   nix.binaryCaches = [
-      https://hydra.satanic.link/
-      https://cache.nixos.org/
+    https://hydra.satanic.link/
+    https://cache.nixos.org/
   ];
   nix.binaryCachePublicKeys = [
     "hydra.satanic.link-1:U4ZvldOwA3GWLmFTqdXwUu9oS0Qzh4+H/HSl8O6ew5o="

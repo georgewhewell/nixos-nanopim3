@@ -1,0 +1,55 @@
+From 29d94e8dafa4f423f3f4d1a46ab67a455dd200a1 Mon Sep 17 00:00:00 2001
+From: AXKuhta <pi@raspberrypi>
+Date: Thu, 12 Oct 2017 11:39:14 +0000
+Subject: [PATCH] Fixed compilation on Pi64
+
+---
+ configure.ac | 3 +++
+ sysinfos.c   | 6 +++---
+ 3 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 0288f42..8c87919 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -46,6 +46,9 @@ case $MINGW_TARGET in
+   arm*-*-*)
+     have_arm=true
+     ;;
++  aarch64*-*-*)
++    have_arm=true
++    ;;
+   i*86-*-mingw*)
+     have_x86=true
+     have_win32=true
+diff --git a/sysinfos.c b/sysinfos.c
+index 9fd4d3f..3b12730 100644
+--- a/sysinfos.c
++++ b/sysinfos.c
+@@ -111,7 +111,7 @@ int cpu_fanpercent()
+ 	return 0;
+ }
+
+-#ifndef __arm__
++#if !defined(__arm__) || !defined(__aarch64__)
+ static inline void cpuid(int functionnumber, int output[4]) {
+ #if defined (_MSC_VER) || defined (__INTEL_COMPILER)
+ 	// Microsoft or Intel compiler, intrin.h included
+@@ -245,7 +245,7 @@ void cpu_getmodelid(char *outbuf, size_t maxsz)
+
+ bool has_aes_ni()
+ {
+-#ifdef __arm__
++#if defined(__arm__) || defined(__aarch64__)
+ 	return false;
+ #else
+ 	int cpu_info[4] = { 0 };
+@@ -256,7 +256,7 @@ bool has_aes_ni()
+
+ void cpu_bestfeature(char *outbuf, size_t maxsz)
+ {
+-#ifdef __arm__
++#if defined(__arm__) || defined(__aarch64__)
+ 	sprintf(outbuf, "ARM");
+ #else
+ 	int cpu_info[4] = { 0 };
