@@ -22,7 +22,6 @@ in
 
   boot.extraTTYs = [ "ttySAC2" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  nixpkgs.config.platform = platforms.armv7l-hf-base;
   system.build.bootloader = pkgs.uboot-odroid-xu4;
 
   networking.hostName = "odroid-hc1";
