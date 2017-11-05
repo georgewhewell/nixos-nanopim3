@@ -30,6 +30,10 @@ rec {
     old: { configureFlags = "--disable-thp"; }
   ) else super.jemalloc;
 
+  boost = super.boost.overrideAttrs (old: {
+    enableParallelBuilding = if super.stdenv.isArm then false else true; # OOM on octo boards
+  });
+
   collectd = super.collectd.override {
     libvirt = null;
     protobufc = null;
