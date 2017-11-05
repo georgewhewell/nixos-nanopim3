@@ -7,7 +7,9 @@
     stress
     cpuburn-arm
     tinymembench
+    usbutils
+    lshw
+    cpuminer-multi
     /*lima-memtester*/
-    /*cpuminer-multi*/
   ];
 }

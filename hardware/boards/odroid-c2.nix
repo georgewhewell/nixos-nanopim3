@@ -36,7 +36,7 @@ in
     '';
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_4_12;
+  boot.kernelPackages = pkgs.linuxPackages_sunxi64;
   boot.extraTTYs = [ "ttyAML0" ];
 
   nixpkgs.config.platform = platforms.aarch64-sunxi;

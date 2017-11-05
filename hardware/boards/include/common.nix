@@ -12,6 +12,12 @@ in {
     ../../../pkgs/modules/disnix-small.nix
   ];
 
+  boot.loader.grub.enable = false;
+  boot.loader.generic-extlinux-compatible.enable = true;
+
+  networking.useNetworkd = true;
+  services.resolved.dnssec = "false";
+
   nixpkgs.overlays = [
     (self: super: import ../../../pkgs/overlay.nix { inherit self super; })
     (self: super: import ../../../pkgs/top-level.nix { pkgs = self; })
