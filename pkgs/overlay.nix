@@ -8,7 +8,18 @@ rec {
        });
      };
   };
+
   python2Packages = python.pkgs;
+
+  DBDSQLite = with super; with perlPackages;
+    import ./DBD-SQLite.nix {
+      inherit stdenv fetchurl buildPerlPackage DBI;
+      inherit (pkgs) sqlite;
+  };
+
+  perlPackages = super.perlPackages // {
+    inherit DBDSQLite;
+  };
 
   gnome3 = super.gnome3 // {
     networkmanager_iodine = super.gnome3.networkmanager_iodine.overrideAttrs (
