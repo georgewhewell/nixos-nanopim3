@@ -9,8 +9,15 @@ rec {
      };
   };
 
-  go_1_9 = super.go_1_9.overrideAttrs(old: {
-    doCheck = super.stdenv.isAarch64;
+  go_1_9 = super.go_1_9.overrideAttrs(old:
+    with super.pkgs; {
+    installPhase = ''
+      cp -r . $GOROOT
+      ( cd $GOROOT/src && ./make.bash )
+
+      # (https://github.com/golang/go/wiki/GoGetTools)
+      wrapProgram $out/share/go/bin/go --prefix PATH ":" "${stdenv.lib.makeBinPath [ git subversion mercurial bazaar ]}"
+    '';
   });
 
   python2Packages = python.pkgs;
