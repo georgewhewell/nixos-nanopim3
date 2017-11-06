@@ -24,7 +24,6 @@ let
     kernelDTB = true;
     kernelAutoModules = false;
     kernelPreferBuiltin = true;
-    uboot = "upstream";
     kernelTarget = "Image";
     kernelExtraConfig = ''
       ${wantedModules}
@@ -67,7 +66,6 @@ let
       ${wantedModules}
       ${excludeModules}
     '';
-    uboot = "upstream";
     kernelTarget = "Image";
     gcc = {
       arch = "armv8-a";
@@ -97,7 +95,10 @@ in {
       float = "hard";
     };
   };
-  aarch64-sunxi = aarch64-multiplatform // { kernelBaseConfig = "defconfig"; };
+  aarch64-sunxi = aarch64-multiplatform // {
+    kernelBaseConfig = "defconfig";
+    kernelTarget = "uImage";
+  };
   aarch64-nanopi-m3 = aarch64-multiplatform // {
     kernelBaseConfig = "nanopim3_defconfig";
   };
