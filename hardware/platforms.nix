@@ -9,12 +9,11 @@ let
     CRYPTO_LZ4HC m
   '';
   excludeModules = ''
-     SND n
-     INFINIBAND n
-     DRM_NOUVEAU n
-     DRM_AMDGPU n
-     DRM_RADEON n
-     IWLWIFI n
+    INFINIBAND n
+    DRM_NOUVEAU n
+    DRM_AMDGPU n
+    DRM_RADEON n
+    IWLWIFI n
   '';
   armv7l-hf-multiplatform = {
     name = "armv7l-hf-multiplatform";

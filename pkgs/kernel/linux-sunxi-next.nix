@@ -64,13 +64,13 @@ let
     "sunxi-next/spidev-remove-warnings.patch"
  ];
 in import <nixpkgs/pkgs/os-specific/linux/kernel/generic.nix> (args // rec {
-  version = "4.14-rc7";
-  modDirVersion = "4.14.0-rc7";
+  version = "4.14-rc8";
+  modDirVersion = "4.14.0-rc8";
   extraMeta.branch = "4.14";
 
   src = fetchurl {
     url = "https://git.kernel.org/torvalds/t/linux-${version}.tar.gz";
-    sha256 = "1w7b1sc5dsxcqywsdbwgs92i8jpj7hsnss67yzb58z3bz3hb73m3";
+    sha256 = "0ir2ggflm1xjnn1kvv2c99m5zni5kg0ygzlpm588wnhkzd93nqjh";
   };
 
   kernelPatches = linux_4_13.kernelPatches ++ armbianPatches ++ [
