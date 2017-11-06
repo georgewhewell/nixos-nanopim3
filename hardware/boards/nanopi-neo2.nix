@@ -1,9 +1,5 @@
 { lib, pkgs, ... }:
 
-with lib;
-let
-  platforms = (import ../platforms.nix);
-in
 {
   imports = [
     ./include/common.nix
