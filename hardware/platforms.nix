@@ -101,4 +101,7 @@ in {
   aarch64-nanopi-m3 = aarch64-multiplatform // {
     kernelBaseConfig = "nanopim3_defconfig";
   };
+  aarch64-x3399 = aarch64-multiplatform // {
+    kernelBaseConfig = "x3399_defconfig";
+  };
 }

@@ -15,6 +15,7 @@ rec {
   linux-xu4 = callPackage ./linux-xu4.nix { };
   linux-fa = callPackage ./linux-fa.nix { };
   linux-meson = callPackage ./linux-meson-gx.nix { };
+  linux-x3399 = callPackage ./linux-x3399.nix { };
   linuxPackages_sunxi-next = recurseIntoAttrs (linuxPackagesFor linux-sunxi-next);
   linuxPackages_amlogic = recurseIntoAttrs (linuxPackagesFor linux-amlogic);
   linuxPackages_nanopi-m3 = recurseIntoAttrs (linuxPackagesFor linux-nanopi-m3);
@@ -27,4 +28,5 @@ rec {
   linuxPackages_xu4 = recurseIntoAttrs (linuxPackagesFor linux-xu4);
   linuxPackages_fa = recurseIntoAttrs (linuxPackagesFor linux-fa);
   linuxPackages_meson = recurseIntoAttrs (linuxPackagesFor linux-meson);
+  linuxPackages_x3399 = recurseIntoAttrs (linuxPackagesFor linux-x3399);
 }

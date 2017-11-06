@@ -20,6 +20,7 @@
     arch = "aarch64";
     withTLS = true;
     libc = "glibc";
+    openssl.system = "linux-generic64";
     platform = platforms.aarch64-multiplatform;
     inherit (platform) gcc;
   };

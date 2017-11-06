@@ -7,8 +7,8 @@ in
 rec {
 
   boot.kernelPackages = pkgs.linuxPackages_sunxi64;
-  boot.extraTTYs = [ "ttyS0" ];
   nixpkgs.config.platform = platforms.aarch64-multiplatform;
+  boot.extraTTYs = [ "ttyS0" ];
 
   system.build.sd =
     with config.system; {
@@ -32,6 +32,7 @@ rec {
       ];
 
       postBuild = ''
+        cp -v ${pkgs.bl31-a64} $out/bl31.bin
         ${pkgs.ubootTools}/bin/mkimage -A arm64 -T ramdisk -C none -d $out/initrd $out/uInitrd
       '';
 

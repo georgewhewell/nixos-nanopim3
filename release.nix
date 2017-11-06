@@ -82,6 +82,7 @@ in lib.genAttrs board_names (board_name:
       sd-image = xzImage installer-config;
       usb-loader = usbLoader netboot-config;
       vm-script = vmLoader qemu-config;
+      rootfs-image = installer-config.system.build.rootfsImage;
     }
   )
 )

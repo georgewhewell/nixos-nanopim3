@@ -5,7 +5,6 @@ let
   platforms = (import ../../platforms.nix);
 in
 {
-  /*nixpkgs.config.platform = platforms.armv7l-sunxi;*/
 
   system.build.sd = {
 
@@ -42,6 +41,9 @@ in
         ''; in
         pkgs.writeScriptBin "boot.sh" ''
 
+          echo "Checking ver"
+          ${pkgs.sunxi-tools}/bin/sunxi-fel ver
+
           # cycle usb hub
           if [[ $1 == "cycle" ]] ; then
             ${pkgs.uhubctl}/bin/uhubctl -a 0
@@ -50,10 +52,10 @@ in
           # include stuff
           ${pkgs.sunxi-tools}/bin/sunxi-fel -p \
             uboot ${build.usb.netboot-binaries}/u-boot-sunxi-with-spl.bin \
-            write 0x42000000 ${build.usb.netboot-binaries}/zImage \
-            write 0x43000000 ${build.usb.netboot-binaries}/dtbs/${build.dtbName} \
-            write 0x43300000 ${build.usb.netboot-binaries}/uInitrd \
-            write 0x43100000 ${bootEnv}
+            write-with-progress 0x42000000 ${build.usb.netboot-binaries}/zImage \
+            write-with-progress 0x43000000 ${build.usb.netboot-binaries}/dtbs/${build.dtbName} \
+            write-with-progress 0x43300000 ${build.usb.netboot-binaries}/uInitrd \
+            write-with-progress 0x43100000 ${bootEnv}
       '';
 
   };

@@ -55,10 +55,12 @@
     linuxPackages_fa
     linuxPackages_meson
     linuxPackages_pine64
+    linuxPackages_x3399
     linux-nanopi-m3
     linux-amlogic
     linux-sunxi64
     linux-sunxi
-    linux-sunxi-next;
+    linux-sunxi-next
+    linux-x3399;
 
 }
