@@ -8,6 +8,10 @@ rec {
        });
      };
   };
+  
+  go = super.go.override(old: {
+    doCheck = false;
+  });
 
   python2Packages = python.pkgs;
 
