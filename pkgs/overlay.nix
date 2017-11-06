@@ -8,9 +8,9 @@ rec {
        });
      };
   };
-  
-  go = super.go.override(old: {
-    doCheck = false;
+
+  go_1_9 = super.go_1_9.overrideAttrs(old: {
+    doCheck = super.stdenv.isAarch64;
   });
 
   python2Packages = python.pkgs;
