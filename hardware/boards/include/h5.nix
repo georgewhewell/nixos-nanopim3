@@ -7,7 +7,7 @@ in
 rec {
 
   boot.kernelPackages = pkgs.linuxPackages_sunxi64;
-  nixpkgs.config.platform = platforms.aarch64-multiplatform;
+  nixpkgs.config.platform = platforms.aarch64-sunxi;
   boot.extraTTYs = [ "ttyS0" ];
 
   system.build.sd =
