@@ -2,13 +2,15 @@
 
 with pkgs;
 
-rec {
+let
+  withUboot = pkg: pkg.overrideAttrs(old: { nativeBuildInputs = old.nativeBuildInputs ++ [ ubootTools ]; });
+in rec{
   linux-amlogic = callPackage ./linux-amlogic.nix { };
   linux-nanopi-m3 = callPackage ./linux-nanopi-m3.nix { };
   linux-sunxi = callPackage ./linux-sunxi.nix { };
   linux-sunxi-next = callPackage ./linux-sunxi-next.nix { };
   linux-sunxi-a83t = callPackage ./linux-sunxi-a83t.nix { };
-  linux-sunxi64 = callPackage ./linux-sunxi64.nix { };
+  linux-sunxi64 = withUboot(callPackage ./linux-sunxi64.nix { });
   linux-4-12 = callPackage ./linux-4_12.nix { };
   linux-pine64 = callPackage ./linux-pine64.nix { };
   linux-rock64 = callPackage ./linux-rock64.nix { };
