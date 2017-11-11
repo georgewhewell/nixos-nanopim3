@@ -1,5 +1,10 @@
 let
   wantedModules = ''
+    USB_G_SERIAL m
+    USB_GADGETFS m
+    USB_FUNCTIONFS m
+    USB_CDC_COMPOSITE m
+    NFS_FS y
     CLEANCACHE y
     FRONTSWAP y
     ZPOOL y

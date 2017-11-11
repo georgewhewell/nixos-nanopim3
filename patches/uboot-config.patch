@@ -1,118 +1,98 @@
-diff --git a/configs/s5p6818_nanopim3_defconfig b/configs/s5p6818_nanopim3_defconfig
-index 0e221eb..f60ebc8 100644
---- a/configs/s5p6818_nanopim3_defconfig
-+++ b/configs/s5p6818_nanopim3_defconfig
-@@ -17,3 +17,4 @@ CONFIG_CMD_EXT4_IMG_WRITE=y
+diff --git a/configs/nanopim3_defconfig b/configs/nanopim3_defconfig
+index 28a1cb1..528e451 100644
+--- a/configs/nanopim3_defconfig
++++ b/configs/nanopim3_defconfig
+@@ -11,12 +11,14 @@ CONFIG_FIT=y
+ # CONFIG_CMD_FLASH is not set
+ # CONFIG_CMD_FPGA is not set
+ # CONFIG_CMD_SETEXPR is not set
+-# CONFIG_CMD_NET is not set
+-# CONFIG_CMD_NFS is not set
++CONFIG_CMD_NET=y
++CONFIG_CMD_NFS=y
++CONFIG_CMD_PXE=y
+ CONFIG_CMD_FDISK=y
+ CONFIG_CMD_EXT4_IMG_WRITE=y
  CONFIG_CMD_SD_RECOVERY=y
  CONFIG_OF_CONTROL=y
  CONFIG_OF_EMBED=y
 +CONFIG_SPL=y
+ CONFIG_VIDEO_NX=y
+ CONFIG_VIDEO_NX_HDMI=y
+diff --git a/configs/s5p6818_drone_defconfig b/configs/s5p6818_drone_defconfig
+index 0858a25..b6b707c 100644
+--- a/configs/s5p6818_drone_defconfig
++++ b/configs/s5p6818_drone_defconfig
+@@ -12,6 +12,7 @@ CONFIG_FIT=y
+ # CONFIG_CMD_SETEXPR is not set
+ # CONFIG_CMD_NET is not set
+ # CONFIG_CMD_NFS is not set
++CONFIG_SPL=y
+ CONFIG_CMD_FDISK=y
+ CONFIG_CMD_EXT4_IMG_WRITE=y
+ CONFIG_CMD_SD_RECOVERY=y
 diff --git a/include/configs/s5p6818_nanopim3.h b/include/configs/s5p6818_nanopim3.h
-index d899d36..41335cf 100644
+index 11df7e7..f1d4735 100644
 --- a/include/configs/s5p6818_nanopim3.h
 +++ b/include/configs/s5p6818_nanopim3.h
-@@ -100,7 +100,6 @@
+@@ -100,7 +100,7 @@
   *	U-Boot Environments
   */
  /* refer to common/env_common.c	*/
--#define CONFIG_BOOTDELAY			3
-
+-#define CONFIG_BOOTDELAY			1
++#define CONFIG_BOOTDELAY			0
+ 
  /*-----------------------------------------------------------------------
   * Miscellaneous configurable options
-@@ -279,17 +278,82 @@
+@@ -289,19 +289,37 @@
  /*-----------------------------------------------------------------------
   * ENV
   */
--#define CONFIG_BOOTARGS \
--    "console=ttySAC0,115200n8 initrd=0x49000000,0x400000 root=/dev/mmcblk1p1 console=tty1"
--
 -#define CONFIG_EXTRA_ENV_SETTINGS	\
--			"fdt_high=0xffffffffffffffff"
+-			"fdt_high=0xffffffffffffffff\0" \
+-			"stdin=serial\0" \
+-			"stdout=serial,vga\0" \
+-			"stderr=serial,vga"
+-
+-#define CONFIG_BOOTARGS \
+-    "console=ttySAC0,115200n8 initrd=0x49000000,0x2000000"
 -
 -#define CONFIG_BOOTCOMMAND	\
--	"ext4load mmc 0:1 0x48000000 boot/Image; " \
--	"mw 0x49000000 0 0x400000; " \
--	"ext4load mmc 0:1 0x49000000 boot/initrd.img; " \
--	"ext4load mmc 0:1 0x4a000000 boot/s5p6818-nanopi-m3.dtb; " \
--	"booti 0x48000000 - 0x4a000000"
--
--#endif /* __CONFIG_H__ */
-+#define ENV_DEVICE_SETTINGS \
-+		"stdin=serial,lcd\0" \
-+	"stdout=serial,lcd\0" \
-+	"stderr=serial,lcd\0"
+-	"echo Waiting for environment...;" \
+-	"udown 0x48000000; " \
+-	"env import -t -r 0x48000000; " \
+-	"run bootcmd2"
++#include <config_distro_defaults.h>
++#define BOOT_TARGET_DEVICES(func) \
++	func(MMC, mmc, 1)
++#include <config_distro_bootcmd.h>
 +
-+#define ENV_MEM_LAYOUT_SETTINGS \
-+    "ramdisk_addr_r=0x49000000\0" \
-+    "kernel_addr_r=0x48000000\0" \
-+    "scriptaddr=0x47000000\0" \
-+    "fdtfile=nexell/s5p6818-nanopi-m3.dtb\0" \
-+    "fdt_addr_r=0x4a000000\0" \
-+    "fdt_high=0xffffffffffffffff"
++#define UDOWN_BOOT \
++	"udown_boot=\
++		echo Waiting for environment...;\
++		udown 0x48000000;\
++		env import -t -r 0x48000000;\
++		echo Running bootcmd2;\
++		run bootcmd2;\0"
 +
-+#define BOOTCMDS_MMC \
-+		"mmc_boot=" \
-+		"setenv devtype mmc; " \
-+		"if mmc dev ${devnum}; then " \
-+			"run scan_boot; " \
-+		"fi\0" \
-+	"bootcmd_mmc0=setenv devnum 0; run mmc_boot;\0"
-+#define BOOT_TARGETS_MMC "mmc0"
-+
-+#define BOOTCMDS_COMMON \
-+		"rootpart=1\0" \
-+	\
-+	"do_script_boot="                                                 \
-+		"load ${devtype} ${devnum}:${rootpart} "                  \
-+			"${scriptaddr} ${prefix}${script}; "              \
-+		"source ${scriptaddr}\0"                                  \
-+	\
-+	"script_boot="                                                    \
-+		"for script in ${boot_scripts}; do "                      \
-+			"if test -e ${devtype} ${devnum}:${rootpart} "    \
-+					"${prefix}${script}; then "       \
-+				"echo Found ${prefix}${script}; "         \
-+				"run do_script_boot; "                    \
-+				"echo SCRIPT FAILED: continuing...; "     \
-+			"fi; "                                            \
-+		"done\0"                                                  \
-+	\
-+	"do_sysboot_boot="                                                \
-+		"sysboot ${devtype} ${devnum}:${rootpart} any "           \
-+			"${scriptaddr} ${prefix}extlinux/extlinux.conf\0" \
-+	\
-+	"sysboot_boot="                                                   \
-+		"if test -e ${devtype} ${devnum}:${rootpart} "            \
-+				"${prefix}extlinux/extlinux.conf; then "  \
-+			"echo Found ${prefix}extlinux/extlinux.conf; "    \
-+			"run do_sysboot_boot; "                           \
-+			"echo SCRIPT FAILED: continuing...; "             \
-+		"fi\0"                                                    \
-+	\
-+	"scan_boot="                                                      \
-+		"echo Scanning ${devtype} ${devnum}...; "                 \
-+		"for prefix in ${boot_prefixes}; do "                     \
-+			"run sysboot_boot; "                              \
-+			"run script_boot; "                               \
-+		"done\0"                                                  \
-+	\
-+	"boot_targets=" \
-+		BOOT_TARGETS_MMC " " \
-+		"\0" \
-+	\
-+	"boot_prefixes=/\0" \
-+	\
-+	"boot_scripts=boot.scr.uimg\0" \
-+	\
-+	BOOTCMDS_MMC
-+
-+#define CONFIG_BOOTCOMMAND \
-+		"for target in ${boot_targets}; do run bootcmd_${target}; done"
++#define MEM_LAYOUT_ENV_SETTINGS \
++	"ramdisk_addr_r=0x49000000\0" \
++	"kernel_addr_r=0x48000000\0" \
++	"scriptaddr=0x47000000\0" \
++	"pxefile_addr_r=0x00000000\0" \
++	"fdt_addr_r=0x4a000000\0" \
++	"fdt_high=0xffffffffffffffff\0"
 +
 +#define CONFIG_EXTRA_ENV_SETTINGS \
-+	ENV_DEVICE_SETTINGS \
-+	ENV_MEM_LAYOUT_SETTINGS \
-+	BOOTCMDS_COMMON
++	"fdtfile=nexell/s5p6818-nanopi-m3.dtb\0" \
++	"stdin=serial\0" \
++	"stdout=serial,vga\0" \
++	"stderr=serial,vga\0" \
++	MEM_LAYOUT_ENV_SETTINGS \
++	UDOWN_BOOT \
++  BOOTENV
 +
-+#include <config_distro_defaults.h>
-+#endif
++#define CONFIG_BOOTCOMMAND \
++	"run distro_bootcmd; echo MMC boot failed, loading from USB; run udown_boot"
+ 
+ #endif /* __CONFIG_H__ */

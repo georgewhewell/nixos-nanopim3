@@ -7,7 +7,6 @@ rec {
     "boot.shell_on_fail"
     "earlyprintk"
     "console=ttySAC0,115200"
-    "initrd=0x49000000,0x3000000"
   ];
 
   system.build.sd = rec {
@@ -66,7 +65,7 @@ rec {
             ${pkgs.nanopi-load}/bin/nanopi-load -f \
               ${build.usb.netboot-binaries}/u-boot.bin 0x43bffe00
 
-            sleep 2
+            sleep 3
 
             echo "uploading environment"
             ${pkgs.nanopi-load}/bin/nanopi-load \

@@ -12,7 +12,10 @@ pkgs.buildUBoot rec {
   defconfig = "nanopim3_defconfig";
   targetPlatforms = [ "aarch64-linux" ];
   filesToInstall = [ "u-boot.bin" ];
-  buildFlags = "SPL=1";
+
+  patches = [
+    ../../patches/uboot-config.patch
+  ];
 
   postInstall = ''
     ${pkgs.nanopi-load}/bin/nanopi-load \
