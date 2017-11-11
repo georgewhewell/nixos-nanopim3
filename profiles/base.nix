@@ -16,6 +16,10 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
 
+  networking.interfaces.eth0 = {
+    useDHCP = true;
+  };
+
   powerManagement.enable = lib.mkDefault true;
   powerManagement.cpuFreqGovernor = "performance";
 

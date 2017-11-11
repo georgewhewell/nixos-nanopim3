@@ -5,8 +5,19 @@
 
 with lib;
 
+let
+  cfg = config.netboot;
+in
 {
   options = {
+
+    netboot.libcomposite.enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = ''
+        Create libcomposite gadgets from initrd
+      '';
+    };
 
     netboot.storeContents = mkOption {
       example = literalExample "[ pkgs.stdenv ]";
@@ -28,34 +39,47 @@ with lib;
         options = [ "mode=0755" ];
       };
 
+    fileSystems."/nix/.rw-store" =
+      { fsType = "nfs";
+      device = "192.168.23.133:/export/scratch";
+      options = [ "rw" "nolock" "rsize=1048576" "wsize=1048576" "timeo=5" "proto=udp"];
+      neededForBoot = true;
+    };
+
     # In stage 1, mount a tmpfs on top of /nix/store (the squashfs
     # image) to make this a live CD.
     fileSystems."/nix/.ro-store" =
       { fsType = "nfs";
         device = "192.168.23.213:/export/store";
-        options = [ "ro" "nolock" ];
-        neededForBoot = true;
-      };
-
-    fileSystems."/nix/.rw-store" =
-      { fsType = "tmpfs";
-        options = [ "mode=0755" ];
+        options = [
+          "ro" "nolock"
+          "rsize=1048576" "wsize=1048576"
+          "timeo=5" "proto=udp"
+        ];
         neededForBoot = true;
       };
 
     fileSystems."/nix/store" =
-      { fsType = "unionfs-fuse";
-        device = "unionfs";
-        options = [ "allow_other" "cow" "nonempty" "chroot=/mnt-root" "max_files=32768" "hide_meta_files" "dirs=/nix/.rw-store=rw:/nix/.ro-store=ro" ];
+      { fsType = "overlay";
+        device = "overlay";
+        options = [
+          "rw" "relatime"
+          "default_permissions"
+          "lowerdir=/nix/.ro-store"
+          "upperdir=/nix/.rw-store"
+          "workdir=/nix/.rw-store"
+        ];
         neededForBoot = true;
       };
 
-    boot.initrd.kernelModules = [ "libcomposite" ];
+    boot.initrd.kernelModules = [ "nbd" "overlay" "libcomposite" ];
 
     boot.specialFileSystems."/sys/kernel/config" = {
       fsType = "configfs";
       device = "none";
     };
+
+    networking.useNetworkd = true;
 
     boot.initrd.preLVMCommands = let
       udhcpcScript = pkgs.writeScript "udhcp-script"
@@ -74,7 +98,10 @@ with lib;
           fi
         fi
       '';
-    in (''
+      mountnbd = ''
+        ${pkgs.nbd}/bin/nbd-client 192.168.23.213 9000 /dev/nbd0 -persist
+      '';
+    in mkIf cfg.libcomposite.enable (''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
       INITIALDIR=$(pwd)
 
@@ -131,19 +158,18 @@ with lib;
 
         # Acquire a DHCP lease.
         echo "acquiring IP address via DHCP..."
-        udhcpc --quit --now -i usb0 --script ${udhcpcScript} && hasNetwork=1
+    #   udhcpc --quit --now -i usb0 --script ${udhcpcScript} && hasNetwork=1
+        udhcpc --quit --now -i eth0 -T 10 --script ${udhcpcScript} && hasNetwork=1
       fi
 
       if [ -n "$hasNetwork" ]; then
         echo "networking is up!"
       fi
+
+      ${mountnbd}
     '');
 
-    systemd.services."getty@ttyGS0" = {
-      enable = true;
-      after = [ "start-g-ether.service" ];
-      wantedBy = [ "basic.target" ];
-    };
+    boot.initrd.network.enable = true;
 
     boot.initrd.postMountCommands = ''
       echo postMount

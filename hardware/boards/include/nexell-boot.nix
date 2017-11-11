@@ -54,6 +54,10 @@ rec {
         pkgs.writeScriptBin "boot-${config.networking.hostName}.sh" ''
             set -e
 
+            trap 'kill $(jobs -p)' EXIT
+
+            echo "starting nbd.."
+            ${pkgs.nbd}/bin/nbd-server 9000 ${build.squashfsStore} -r
 
             echo "uploading bl1"
             ${pkgs.nanopi-load}/bin/nanopi-load -f -x \
@@ -85,7 +89,6 @@ rec {
             echo "uploading dtb"
             ${pkgs.nanopi-load}/bin/nanopi-load \
               ${build.usb.netboot-binaries}/dtbs/nexell/s5p6818-nanopi-m3.dtb 0
-
       '';
 
   };
