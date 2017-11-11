@@ -4,6 +4,8 @@ let
     USB_GADGETFS m
     USB_FUNCTIONFS m
     USB_CDC_COMPOSITE m
+    OVERLAY_FS m
+    SQUASHFS m
     NFS_FS y
     CLEANCACHE y
     FRONTSWAP y
