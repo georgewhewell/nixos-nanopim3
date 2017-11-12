@@ -9,7 +9,6 @@ let
     };
     patches = [
       "${pkgs.armbian}/patch/u-boot/u-boot-sunxi/add-nanopi-duo.patch"
-      "${pkgs.armbian}/patch/u-boot/u-boot-sunxi/enable-thumb-build.patch"
     ];
     nativeBuildInputs = with pkgs;
       [ gcc bc dtc swig1 which python2 ];
