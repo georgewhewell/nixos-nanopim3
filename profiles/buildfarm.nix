@@ -4,7 +4,6 @@
 
   imports = [
     ./prometheus.nix
-    ./miner.nix
   ];
 
   services.disnix-small.enable = true;

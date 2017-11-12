@@ -56,28 +56,21 @@ in
         neededForBoot = true;
       };
 
-      fileSystems."/nix/.rw-store" =
-      { fsType = "bcachefs";
-        device = "/dev/nbd1";
-        options = [ "rw" ];
-        autoFormat = true;
-        noCheck = true;
-        neededForBoot = true;
-      };
-
     fileSystems."/nix/store" =
       { fsType = "overlay";
         device = "overlay";
         options = [
           "rw" "relatime"
           "default_permissions"
-          "lowerdir=/nix/.ro-store"
-          "upperdir=/nix/.rw-store"
-          "workdir=/nix/.rw-store"
+          "workdir=/mnt-root/nix/.rw-store"
+          "lowerdir=/mnt-root/nix/.ro-store"
+          "upperdir=/mnt-root/nix/store"
         ];
         neededForBoot = true;
       };
 
+    boot.initrd.availableKernelModules = [
+      "usb_f_rndis" "usb_f_acm" "u_ether" "u_serial" ];
     boot.initrd.kernelModules = [ "loop" "squashfs" "nbd" "overlay" "libcomposite" ];
 
     boot.specialFileSystems."/sys/kernel/config" = {
@@ -105,7 +98,6 @@ in
         fi
       '';
       mountnbd = ''
-        echo deadline > /sys/block/nbd0/queue/scheduler
         ${pkgs.nbd}/bin/nbd-client 192.168.23.213 9000 /dev/nbd0 -persist -systemd-mark -s
         ${pkgs.nbd}/bin/nbd-client 192.168.23.213 9001 /dev/nbd1 -persist -systemd-mark -s
       '';
@@ -175,6 +167,7 @@ in
       fi
 
       ${mountnbd}
+      mkdir -p /mnt-root/nix/.rw-store
     '');
 
     boot.initrd.network.enable = true;

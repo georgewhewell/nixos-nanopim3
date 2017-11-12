@@ -7,8 +7,8 @@ stdenv.mkDerivation rec {
   src = pkgs.fetchFromGitHub {
     owner = "armbian";
     repo = "build";
-    rev = "c37dce800a05e27530587d9e11901265ee0704f0";
-    sha256 = "a6b7508342b2467d6969378371e907055bd13048084022f6b3a04a495fc3802b";
+    rev = "37433ccc385337b1d02024464af89ad0d02c6f1d";
+    sha256 = "171ywhr672j8iw9n3nc99x4nc217n329qjl6zzjr0sj6bax6597r";
   };
 
   phases = [ "unpackPhase" "installPhase" ];
