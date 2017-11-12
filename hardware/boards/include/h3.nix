@@ -40,9 +40,13 @@ in
             bootcmd=bootz 0x42000000 0x43300000 0x43000000
         ''; in
         pkgs.writeScriptBin "boot.sh" ''
+          trap 'pkill -P $$' EXIT
+
+          echo "starting nbd.."
+          ${pkgs.nbd}/bin/nbd-server 9000 ${build.squashfsStore} -r
 
           echo "Checking ver"
-          ${pkgs.sunxi-tools}/bin/sunxi-fel ver
+         ${pkgs.sunxi-tools}/bin/sunxi-fel ver
 
           # cycle usb hub
           if [[ $1 == "cycle" ]] ; then
@@ -52,10 +56,13 @@ in
           # include stuff
           ${pkgs.sunxi-tools}/bin/sunxi-fel -p \
             uboot ${build.usb.netboot-binaries}/u-boot-sunxi-with-spl.bin \
-            write-with-progress 0x42000000 ${build.usb.netboot-binaries}/zImage \
-            write-with-progress 0x43000000 ${build.usb.netboot-binaries}/dtbs/${build.dtbName} \
-            write-with-progress 0x43300000 ${build.usb.netboot-binaries}/uInitrd \
-            write-with-progress 0x43100000 ${bootEnv}
+            write 0x42000000 ${build.usb.netboot-binaries}/zImage \
+            write 0x43000000 ${build.usb.netboot-binaries}/dtbs/${build.dtbName} \
+            write 0x43300000 ${build.usb.netboot-binaries}/uInitrd \
+            write 0x43100000 ${bootEnv}
+
+          # booted
+          cat
       '';
 
   };

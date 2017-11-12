@@ -22,10 +22,10 @@ let
     defconfig = "nanopi_duo_defconfig";
   };
   uboot = { defconfig, filesToInstall, targetPlatforms }: pkgs.buildUBoot rec {
-    version = "2017.11-rc3";
+    version = "2017.11-rc4";
     src = pkgs.fetchurl {
       url = "ftp://ftp.denx.de/pub/u-boot/u-boot-${version}.tar.bz2";
-      sha256 = "1r0i876gbfsvyqbhsrj7312d4icfgw1s7wyb0ws382j691kfc30m";
+      sha256 = "19ssxxy9cq8nm3p1gkcqyg4qy5f13pl38bfh484hckckbabyanx9";
     };
     nativeBuildInputs = with pkgs;
       [ gcc bc dtc swig1 which python2 ];

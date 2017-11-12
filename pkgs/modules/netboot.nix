@@ -39,23 +39,29 @@ in
         options = [ "mode=0755" ];
       };
 
-    fileSystems."/nix/.rw-store" =
-      { fsType = "nfs";
-      device = "192.168.23.133:/export/scratch";
-      options = [ "rw" "nolock" "rsize=1048576" "wsize=1048576" "timeo=5" "proto=udp"];
-      neededForBoot = true;
-    };
+    # image) to make this a live CD.
+    /*fileSystems."/nix/.ro-store" =
+      { fsType = "squashfs";
+        device = "./nix-store.squashfs";
+        options = [ "loop" ];
+        neededForBoot = true;
+      };*/
 
     # In stage 1, mount a tmpfs on top of /nix/store (the squashfs
     # image) to make this a live CD.
     fileSystems."/nix/.ro-store" =
-      { fsType = "nfs";
-        device = "192.168.23.213:/export/store";
-        options = [
-          "ro" "nolock"
-          "rsize=1048576" "wsize=1048576"
-          "timeo=5" "proto=udp"
-        ];
+      { fsType = "squashfs";
+        device = "/dev/nbd0";
+        options = [  ];
+        neededForBoot = true;
+      };
+
+      fileSystems."/nix/.rw-store" =
+      { fsType = "bcachefs";
+        device = "/dev/nbd1";
+        options = [ "rw" ];
+        autoFormat = true;
+        noCheck = true;
         neededForBoot = true;
       };
 
@@ -72,7 +78,7 @@ in
         neededForBoot = true;
       };
 
-    boot.initrd.kernelModules = [ "nbd" "overlay" "libcomposite" ];
+    boot.initrd.kernelModules = [ "loop" "squashfs" "nbd" "overlay" "libcomposite" ];
 
     boot.specialFileSystems."/sys/kernel/config" = {
       fsType = "configfs";
@@ -99,7 +105,9 @@ in
         fi
       '';
       mountnbd = ''
-        ${pkgs.nbd}/bin/nbd-client 192.168.23.213 9000 /dev/nbd0 -persist
+        echo deadline > /sys/block/nbd0/queue/scheduler
+        ${pkgs.nbd}/bin/nbd-client 192.168.23.213 9000 /dev/nbd0 -persist -systemd-mark -s
+        ${pkgs.nbd}/bin/nbd-client 192.168.23.213 9001 /dev/nbd1 -persist -systemd-mark -s
       '';
     in mkIf cfg.libcomposite.enable (''
       # from http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/
@@ -158,8 +166,8 @@ in
 
         # Acquire a DHCP lease.
         echo "acquiring IP address via DHCP..."
-    #   udhcpc --quit --now -i usb0 --script ${udhcpcScript} && hasNetwork=1
-        udhcpc --quit --now -i eth0 -T 10 --script ${udhcpcScript} && hasNetwork=1
+        udhcpc --quit --now -i usb0 -T 5 --script ${udhcpcScript} && hasNetwork=1
+        udhcpc --quit --now -i eth0 -T 5 --script ${udhcpcScript} && hasNetwork=1
       fi
 
       if [ -n "$hasNetwork" ]; then

@@ -32,7 +32,7 @@ let
     kernelArch = "arm";
     kernelDTB = true;
     kernelAutoModules = false;
-    kernelPreferBuiltin = true;
+    kernelPreferBuiltin = false;
     kernelTarget = "Image";
     kernelExtraConfig = ''
       ${wantedModules}
