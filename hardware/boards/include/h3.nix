@@ -43,7 +43,7 @@ in
           trap 'pkill -P $$' EXIT
 
           echo "starting nbd.."
-          ${pkgs.nbd}/bin/nbd-server 9000 ${build.squashfsStore} -r
+          ${pkgs.qemu}/bin/qemu-nbd -p 9000 ${build.squashfsStore} -r -f raw --verbose --fork
 
           echo "Checking ver"
          ${pkgs.sunxi-tools}/bin/sunxi-fel ver
