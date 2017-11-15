@@ -1,0 +1,233 @@
+From b1bbc431c33652ba670a6b23d773f220a7b5765f Mon Sep 17 00:00:00 2001
+From: Maxime Ripard <maxime.ripard@free-electrons.com>
+Date: Mon, 6 Nov 2017 11:37:38 +0100
+Subject: [PATCH 1/3] fel: Use U-Boot's header structure
+
+The U-Boot image parsing code so far has been relying on hardcoded offsets
+directly into the image's buffer.
+
+While that works, it's a bit obscure and isn't practical to understand and
+modify.
+
+Let's add the structure definition, and convert the code to use it.
+
+Signed-off-by: Maxime Ripard <maxime.ripard@free-electrons.com>
+---
+ fel.c | 39 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 30 insertions(+), 9 deletions(-)
+
+diff --git a/fel.c b/fel.c
+index f65b6bb..20ed3a3 100644
+--- a/fel.c
++++ b/fel.c
+@@ -48,8 +48,28 @@ static uint32_t uboot_size  = 0; /* size of U-Boot binary */
+ /* Additional error codes, newly introduced for get_image_type() */
+ #define IH_TYPE_ARCH_MISMATCH	-1
+
+-#define HEADER_NAME_OFFSET	32	/* offset of name field	*/
+-#define HEADER_SIZE		(HEADER_NAME_OFFSET + IH_NMLEN)
++/*
++ * Legacy format image U-Boot header,
++ * all data in network byte order (aka natural aka bigendian).
++ * Taken from ${U-BOOT}/include/image.h
++ */
++typedef struct image_header {
++	uint32_t	ih_magic;	/* Image Header Magic Number	*/
++	uint32_t	ih_hcrc;	/* Image Header CRC Checksum	*/
++	uint32_t	ih_time;	/* Image Creation Timestamp	*/
++	uint32_t	ih_size;	/* Image Data Size		*/
++	uint32_t	ih_load;	/* Data	 Load  Address		*/
++	uint32_t	ih_ep;		/* Entry Point Address		*/
++	uint32_t	ih_dcrc;	/* Image Data CRC Checksum	*/
++	uint8_t		ih_os;		/* Operating System		*/
++	uint8_t		ih_arch;	/* CPU architecture		*/
++	uint8_t		ih_type;	/* Image Type			*/
++	uint8_t		ih_comp;	/* Compression Type		*/
++	uint8_t		ih_name[IH_NMLEN];	/* Image Name		*/
++} image_header_t;
++
++#define HEADER_NAME_OFFSET	offsetof(image_header_t, ih_name)
++#define HEADER_SIZE		sizeof(image_header_t)
+
+ /*
+  * Utility function to determine the image type from a mkimage-compatible
+@@ -63,18 +83,19 @@ static uint32_t uboot_size  = 0; /* size of U-Boot binary */
+  */
+ int get_image_type(const uint8_t *buf, size_t len)
+ {
+-	uint32_t *buf32 = (uint32_t *)buf;
++	image_header_t *hdr = (image_header_t *)buf;
+
+ 	if (len <= HEADER_SIZE) /* insufficient length/size */
+ 		return IH_TYPE_INVALID;
+-	if (be32toh(buf32[0]) != IH_MAGIC) /* signature mismatch */
++
++	if (be32toh(hdr->ih_magic) != IH_MAGIC) /* signature mismatch */
+ 		return IH_TYPE_INVALID;
+ 	/* For sunxi, we always expect ARM architecture here */
+-	if (buf[29] != IH_ARCH_ARM)
++	if (hdr->ih_arch != IH_ARCH_ARM)
+ 		return IH_TYPE_ARCH_MISMATCH;
+
+ 	/* assume a valid header, and return ih_type */
+-	return buf[30];
++	return hdr->ih_type;
+ }
+
+ void aw_fel_print_version(feldev_handle *dev)
+@@ -740,7 +761,7 @@ void aw_fel_write_uboot_image(feldev_handle *dev, uint8_t *buf, size_t len)
+ 	if (len <= HEADER_SIZE)
+ 		return; /* Insufficient size (no actual data), just bail out */
+
+-	uint32_t *buf32 = (uint32_t *)buf;
++	image_header_t hdr = *(image_header_t *)buf;
+
+ 	/* Check for a valid mkimage header */
+ 	int image_type = get_image_type(buf, len);
+@@ -762,8 +783,8 @@ void aw_fel_write_uboot_image(feldev_handle *dev, uint8_t *buf, size_t len)
+ 		pr_fatal("U-Boot image type mismatch: "
+ 			 "expected IH_TYPE_FIRMWARE, got %02X\n", image_type);
+
+-	uint32_t data_size = be32toh(buf32[3]); /* Image Data Size */
+-	uint32_t load_addr = be32toh(buf32[4]); /* Data Load Address */
++	uint32_t data_size = be32toh(hdr.ih_size); /* Image Data Size */
++	uint32_t load_addr = be32toh(hdr.ih_load); /* Data Load Address */
+ 	if (data_size != len - HEADER_SIZE)
+ 		pr_fatal("U-Boot image data size mismatch: "
+ 			 "expected %zu, got %u\n", len - HEADER_SIZE, data_size);
+
+From e753821ea0d4dc0cd57b72fa1d4cba56545b7d3a Mon Sep 17 00:00:00 2001
+From: Maxime Ripard <maxime.ripard@free-electrons.com>
+Date: Mon, 6 Nov 2017 11:06:37 +0100
+Subject: [PATCH 2/3] fel: Check the U-Boot's CRC instead of its size
+
+The current code checks that the transferred size is matching the size
+reported in the image header.
+
+Unfortunately, the transferred image might be padded, which doesn't change
+anything at the functional level, but will make that check trigger since
+the actual image will be smaller than the transferred data.
+
+Change that logic to first check that the transferred size isn't less that
+the header image size, which will still be an error, and then check for the
+CRC of the image itself. This will prove to be an more robust integrity
+check than what we have right now anyway.
+
+The CRC used in the image header is the CRC32 algorithm, that is
+implemented in the zlib, which is installed on most devices on the planet,
+so we can just use that implementation instead of rolling our own.
+
+Tested-by: Frank Kunz <mailinglists@kunz-im-inter.net>
+Signed-off-by: Maxime Ripard <maxime.ripard@free-electrons.com>
+---
+ Makefile |  8 +++++++-
+ fel.c    | 26 +++++++++++---------------
+ 2 files changed, 18 insertions(+), 16 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 4e95726..b9de5d9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -118,6 +118,11 @@ sunxi-fexc: fexc.h script.h script.c \
+ LIBUSB = libusb-1.0
+ LIBUSB_CFLAGS ?= `pkg-config --cflags $(LIBUSB)`
+ LIBUSB_LIBS ?= `pkg-config --libs $(LIBUSB)`
++
++ZLIB = zlib
++ZLIB_CFLAGS ?= `pkg-config --cflags $(ZLIB)`
++ZLIB_LIBS ?= `pkg-config --libs $(ZLIB)`
++
+ ifeq ($(OS),Windows_NT)
+ 	# Windows lacks mman.h / mmap()
+ 	DEFAULT_CFLAGS += -DNO_MMAP
+@@ -132,7 +137,8 @@ SOC_INFO := soc_info.c soc_info.h
+ FEL_LIB  := fel_lib.c fel_lib.h
+
+ sunxi-fel: fel.c thunks/fel-to-spl-thunk.h $(PROGRESS) $(SOC_INFO) $(FEL_LIB)
+-	$(CC) $(HOST_CFLAGS) $(LIBUSB_CFLAGS) $(LDFLAGS) -o $@ $(filter %.c,$^) $(LIBS) $(LIBUSB_LIBS)
++	$(CC) $(HOST_CFLAGS) $(LIBUSB_CFLAGS) $(ZLIB_CFLAGS) $(LDFLAGS) -o $@ \
++		$(filter %.c,$^) $(LIBS) $(LIBUSB_LIBS) $(ZLIB_LIBS)
+
+ sunxi-nand-part: nand-part-main.c nand-part.c nand-part-a10.h nand-part-a20.h
+ 	$(CC) $(HOST_CFLAGS) -c -o nand-part-main.o nand-part-main.c
+diff --git a/fel.c b/fel.c
+index 20ed3a3..0fdefad 100644
+--- a/fel.c
++++ b/fel.c
+@@ -27,6 +27,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <time.h>
++#include <zlib.h>
+ #include <sys/stat.h>
+
+ static bool verbose = false; /* If set, makes the 'fel' tool more talkative */
+@@ -785,21 +786,16 @@ void aw_fel_write_uboot_image(feldev_handle *dev, uint8_t *buf, size_t len)
+
+ 	uint32_t data_size = be32toh(hdr.ih_size); /* Image Data Size */
+ 	uint32_t load_addr = be32toh(hdr.ih_load); /* Data Load Address */
+-	if (data_size != len - HEADER_SIZE)
+-		pr_fatal("U-Boot image data size mismatch: "
+-			 "expected %zu, got %u\n", len - HEADER_SIZE, data_size);
+-
+-	/* TODO: Verify image data integrity using the checksum field ih_dcrc,
+-	 * available from be32toh(buf32[6])
+-	 *
+-	 * However, this requires CRC routines that mimic their U-Boot
+-	 * counterparts, namely image_check_dcrc() in ${U-BOOT}/common/image.c
+-	 * and crc_wd() in ${U-BOOT}/lib/crc32.c
+-	 *
+-	 * It should be investigated if existing CRC routines in sunxi-tools
+-	 * could be factored out and reused for this purpose - e.g. calc_crc32()
+-	 * from nand-part-main.c
+-	 */
++	if (data_size > len - HEADER_SIZE)
++		pr_fatal("U-Boot image data trucated: "
++			 "expected %zu bytes, got %u\n",
++			 len - HEADER_SIZE, data_size);
++
++	uint32_t dcrc = be32toh(hdr.ih_dcrc);
++	uint32_t computed_dcrc = crc32(0, buf + HEADER_SIZE, data_size);
++	if (dcrc != computed_dcrc)
++		pr_fatal("U-Boot data CRC mismatch: expected %x, got %x\n",
++			 dcrc, computed_dcrc);
+
+ 	/* If we get here, we're "good to go" (i.e. actually write the data) */
+ 	pr_info("Writing image \"%.*s\", %u bytes @ 0x%08X.\n",
+
+From ef802e4952b2483ebc922bf243ea610962c14723 Mon Sep 17 00:00:00 2001
+From: Maxime Ripard <maxime.ripard@free-electrons.com>
+Date: Mon, 6 Nov 2017 11:39:53 +0100
+Subject: [PATCH 3/3] fel: Check for the U-Boot header CRC
+
+A U-Boot image has two CRCs, one to cover the data and that we already
+check, and one to cover the header.
+
+Since we're not checking the latter, let's make sure it's the case.
+
+Tested-by: Frank Kunz <mailinglists@kunz-im-inter.net>
+Signed-off-by: Maxime Ripard <maxime.ripard@free-electrons.com>
+---
+ fel.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/fel.c b/fel.c
+index 0fdefad..148e558 100644
+--- a/fel.c
++++ b/fel.c
+@@ -764,6 +764,15 @@ void aw_fel_write_uboot_image(feldev_handle *dev, uint8_t *buf, size_t len)
+
+ 	image_header_t hdr = *(image_header_t *)buf;
+
++	uint32_t hcrc = be32toh(hdr.ih_hcrc);
++
++	/* The CRC is calculated on the whole header but the CRC itself */
++	hdr.ih_hcrc = 0;
++	uint32_t computed_hcrc = crc32(0, (const uint8_t *) &hdr, HEADER_SIZE);
++	if (hcrc != computed_hcrc)
++		pr_fatal("U-Boot header CRC mismatch: expected %x, got %x\n",
++			 hcrc, computed_hcrc);
++
+ 	/* Check for a valid mkimage header */
+ 	int image_type = get_image_type(buf, len);
+ 	if (image_type <= IH_TYPE_INVALID) {
