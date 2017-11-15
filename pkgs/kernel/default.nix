@@ -3,7 +3,7 @@
 with pkgs;
 
 let
-  withUboot = pkg: pkg.overrideAttrs(old: { nativeBuildInputs = old.nativeBuildInputs ++ [ ubootTools ]; });
+  withUboot = pkg: pkg.override({ nativeBuildInputs = pkg.nativeBuildInputs ++ [ ubootTools ]; });
 in rec{
   linux-amlogic = callPackage ./linux-amlogic.nix { };
   linux-nanopi-m3 = callPackage ./linux-nanopi-m3.nix { };
