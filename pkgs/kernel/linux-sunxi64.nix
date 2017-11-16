@@ -15,7 +15,6 @@ let
     "sunxi64-dev/add-sun50i-ths.patch"
     "sunxi64-dev/add-sunxi64-overlays.patch"
     "sunxi64-dev/add-sy8106a-driver.patch"
-    "sunxi64-dev/add-ths-DT-h5.patch"
     "sunxi64-dev/arm64_increasing_DMA_block_memory_allocation_to_2048.patch"
     "sunxi64-dev/enable-fsl-timer-errata.patch"
     "sunxi64-dev/fix-i2c2-reg-property.patch"
